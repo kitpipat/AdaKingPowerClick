@@ -1,0 +1,45 @@
+.xWRptNavGroup{
+    padding: 12px 15px !important
+}
+
+.xWBTNRptPrintPreview {
+    width: 40%;
+    font-size: 20px;
+}
+
+#odvRvwMainMenu{
+    margin-top:70px;
+}
+
+#odvNavMenuReport {
+    height: 70px;
+}
+
+@media print {
+    #oliRptTitle {
+        display: none !important;
+    }
+
+    #odvRvwMainMenu{
+        margin-top: 0 !important;
+    }
+
+    .xWRptNavGroup{
+        padding: 0 !important;
+    }
+
+    #odvNavMenuReport {
+        height: 0 !important;
+    }
+
+    #odvContentPageRptViewer .xCNLayOutRptHtml{
+        padding-top: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        padding-bottom: 0 !important;
+    }
+    
+    #odvContentPageRptViewer .panel-body{
+        padding: 0 !important;
+    }
+}

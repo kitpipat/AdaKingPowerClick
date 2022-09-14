@@ -1,0 +1,48 @@
+.xCNPadding-20px{
+    padding: 20px !important;
+}
+.xCNInput-Text,.xCNInput-Text:focus{
+    border-color: #ccc !important;
+    box-shadow: none !important;
+    outline: 0;
+}
+.xCNDisplay-inline-block{
+    display: inline-block;
+}
+.xCNMargin-bottom-0px{
+    margin-bottom: 0px;
+}
+.xCNWidth-40per{
+    width: 40%;
+}
+.xCNWidth-100per{
+    width: 100%;
+}
+.xCNClearMarginRow{
+    margin-left: 0px;
+    margin-right: 0px;
+}
+.xCNMargin-top-30px{
+    margin-top: 30px;
+}
+.xCNPadding-bottom-20{
+    padding-bottom: 20px;
+} 
+.xCNPadding-bottom-10{
+    padding-bottom: 10px;
+} 
+.xCNFontSize-40px{
+    font-size: 40px !important;
+}
+.xCNHeight-400px{
+    height: 400px;
+}
+.xCNHeight-800px{
+    height: 800px;
+}
+.xCNMargin-bottom-30px{
+    margin-bottom: 30px !important;
+}
+.xCNMargin-bottom-20px{
+    margin-bottom: 20px !important;
+}

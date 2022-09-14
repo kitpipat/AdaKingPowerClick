@@ -1,0 +1,2234 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StiSerializer version="1.02" type="Net" application="StiReport">
+  <CalculationMode>Interpretation</CalculationMode>
+  <Culture isNull="true" />
+  <Dictionary Ref="1" type="Dictionary" isKey="true">
+    <BusinessObjects isList="true" count="0" />
+    <Databases isList="true" count="1">
+      <SaleInv Ref="2" type="Stimulsoft.Report.Dictionary.StiSqlDatabase" isKey="true">
+        <Alias>SaleInv</Alias>
+        <ConnectionStringEncrypted>9H7RSEYI053pR6FYTz2tP9F41c1FXNP16V/omeUd9kaLVoHJyF2pzUZaZY1hAekv1T6BicZXQ8XiablY6XGkXsbygY1aWdmZzBqEiWEEoHveMmljUFRa1XJBucxjGbEb2XT1SWVLcpnCFaWsZ4S0Pw==</ConnectionStringEncrypted>
+        <Name>SaleInv</Name>
+      </SaleInv>
+    </Databases>
+    <DataSources isList="true" count="6">
+      <TPSTSalHD Ref="3" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+        <Alias>TPSTSalHD</Alias>
+        <Columns isList="true" count="62">
+          <value>FTBchCode,System.String</value>
+          <value>FTXshRefExt,System.String</value>
+          <value>FTCstCode,System.String</value>
+          <value>FTCstName,System.String</value>
+          <value>FTCstTaxNo,System.String</value>
+          <value>FTBchName,System.String</value>
+          <value>FTCstTel,System.String</value>
+          <value>FTCstFax,System.String</value>
+          <value>FTXshDocNo,System.String</value>
+          <value>FDXshDocDate,System.DateTime</value>
+          <value>FTXshDocTime,System.String</value>
+          <value>FTXshRefInt,System.String</value>
+          <value>FTCreateBy,System.String</value>
+          <value>FTSpnCode,System.String</value>
+          <value>FTSpnName,System.String</value>
+          <value>FTUsrCode,System.String</value>
+          <value>FTUsrName,System.String</value>
+          <value>FTXshVATInOrEx,System.String</value>
+          <value>FTXshStaDoc,System.String</value>
+          <value>FTXshStaApv,System.String</value>
+          <value>FTXshStaPrcStk,System.String</value>
+          <value>FTXshApvCode,System.String</value>
+          <value>FTXshCtrName,System.String</value>
+          <value>FTXshRmk,System.String</value>
+          <value>FTAddRefNo,System.String</value>
+          <value>FTAddV1PvnCode,System.String</value>
+          <value>FTAddV1DstCode,System.String</value>
+          <value>FTAddV1SubDist,System.String</value>
+          <value>FTAddName,System.String</value>
+          <value>FTAddV1No,System.String</value>
+          <value>FTAddV1Village,System.String</value>
+          <value>FTAddV1Soi,System.String</value>
+          <value>FTAddV1Road,System.String</value>
+          <value>FTAddV1PostCode,System.String</value>
+          <value>FCXshTotal,System.Decimal</value>
+          <value>FCXshVat,System.Decimal</value>
+          <value>FCXshDiscount,System.Decimal</value>
+          <value>FCXshTotalAFDis,System.Decimal</value>
+          <value>FCXshGrandAmt,System.Decimal</value>
+          <value>FCXshGrand,System.Decimal</value>
+          <value>FTPosRegNo,System.String</value>
+          <value>FTXshRecorder,System.String</value>
+          <value>FCXshAmtV,System.Decimal</value>
+          <value>FTAddTel,System.String</value>
+          <value>FTAddFax,System.String</value>
+          <value>FTAddVersion,System.String</value>
+          <value>FTAddV2Desc1,System.String</value>
+          <value>FTAddV2Desc2,System.String</value>
+          <value>FTPvnName,System.String</value>
+          <value>FTDstName,System.String</value>
+          <value>FTSudName,System.String</value>
+          <value>FCXshVatAmt,System.Decimal</value>
+          <value>FCXshVatable,System.Decimal</value>
+          <value>FNXshDocPrint,System.Int32</value>
+          <value>FTXshGndText,System.String</value>
+          <value>FCXshGrandBFRnd,System.Decimal</value>
+          <value>FCXshRnd,System.Decimal</value>
+          <value>FTXshDocDate,System.String</value>
+          <value>FNXshDocType,System.Int32</value>
+          <value>FTXshStaETax,System.String</value>
+          <value>FTRsnCode,System.String</value>
+          <value>FTRsnName,System.String</value>
+        </Columns>
+        <CommandTimeout>5000</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Key>b12c4828c5e244d98b59516764e0c488</Key>
+        <Name>TPSTSalHD</Name>
+        <NameInSource>SaleInv</NameInSource>
+        <Parameters isList="true" count="3">
+          <value>ptDocNo,SP_tDocNo,22,20</value>
+          <value>pnLanguage,nLanguage,8,3</value>
+          <value>ptDocBch,SP_tDocBch,22,5</value>
+        </Parameters>
+        <SqlCommand>SELECT HD.FTBchCode,HD.FTXshRefExt,FNXshDocType,
+	Pos.FTPosRegNo,
+	HD.FTXshStaApv, 
+	HD.FTCstCode,CstAddr_L.FTAddName,
+	ISNULL(HDCst.FTXshCardID,'') AS FTCstTaxNo,	
+	CASE WHEN Cst.FTCstBusiness = '1' THEN CASE WHEN Cst.FTCstBchHQ = '1' THEN 'สำนักงานใหญ่ ' ELSE 'สาขา : ' + Cst.FTCstBchCode  END ELSE Cst.FTCstBchCode  END AS FTBchName,	
+	Cst.FTCstTel,Cst.FTCstFax,
+	HD.FTXshDocNo,FDXshDocDate,CONVERT(VARCHAR(10),FDXshDocDate,103) AS FTXshDocDate,CONVERT(VARCHAR(10),FDXshDocDate,8) AS FTXshDocTime,HD.FTXshRefInt,HD.FTCreateBy,
+	ISNULL(HD.FTSpnCode,'') AS FTSpnCode,Spn_L.FTSpnName,
+	ISNULL(HD.FTUsrCode,'') AS FTUsrCode,Usr_L.FTUsrName,
+    ISNULL(Red_L.FTUsrName,HD.FTLastUpdBy) AS FTXshRecorder,
+	ISNULL(HD.FTXshVATInOrEx,'') AS FTXshVATInOrEx,
+	ISNULL(FTXshStaDoc,'') AS FTXshStaDoc,
+	ISNULL(FTXshStaApv,'') AS FTXshStaApv,
+	ISNULL(FTXshStaPrcStk,'') AS FTXshStaPrcStk,
+	ISNULL(FTXshApvCode,'') AS FTXshApvCode,
+	ISNULL(HDCst.FTXshCtrName,'') AS FTXshCtrName,
+	ISNULL(FTXshRmk,'') AS FTXshRmk,
+
+	ISNULL(CstAddr_L.FTAddVersion,'') AS FTAddVersion,
+	ISNULL(CstAddr_L.FTAddV2Desc1,'') AS FTAddV2Desc1,
+	ISNULL(CstAddr_L.FTAddV2Desc2,'') AS FTAddV2Desc2,
+
+	ISNULL(CstAddr_L.FTAddRefNo,'') AS FTAddRefNo,
+	ISNULL(CstAddr_L.FTAddV1PvnCode,'') AS FTAddV1PvnCode, ISNULL(CstAddr_L.FTAddV1DstCode,'') AS FTAddV1DstCode,
+	ISNULL(CstAddr_L.FTAddV1SubDist,'') AS FTAddV1SubDist, 
+
+	ISNULL(Pro_L.FTPvnName,'') AS FTPvnName,
+	ISNULL(Dis_L.FTDstName,'') AS FTDstName,
+	ISNULL(SDis_L.FTSudName,'') AS FTSudName,
+
+	ISNULL(CstAddr_L.FTAddName,'') AS FTAddName, ISNULL(CstAddr_L.FTAddV1No, '') AS FTAddV1No,
+	ISNULL(CstAddr_L.FTAddV1Village, '') AS FTAddV1Village,
+	ISNULL(CstAddr_L.FTAddV1Soi, '') AS FTAddV1Soi,
+	ISNULL(CstAddr_L.FTAddV1Road, '') AS FTAddV1Road,
+	ISNULL(CstAddr_L.FTAddV1PostCode, '') AS FTAddV1PostCode,
+
+	ISNULL(FCXshTotal,0) AS FCXshTotal,ISNULL(FCXshVat,0) AS FCXshVat,ISNULL(FCXshChg,0) - ISNULL(FCXshDis,0) AS FCXshDiscount,
+    ISNULL(FCXshVatable,0) + ISNULL(FCXshVat,0) AS FCXshVatAmt,
+	ISNULL(FCXshVatable,0) AS FCXshVatable,
+	ISNULL(FCXshTotalAfDisChgV,0)+ISNULL(FCXshTotalAfDisChgNV,0) AS FCXshTotalAFDis,
+    ISNULL(FCXshGrand,0)-ISNULL(FCXshRnd,0) AS FCXshGrandBFRnd,
+	ISNULL(FCXshRnd,0) AS FCXshRnd,
+	ISNULL(FCXshGrand,0) AS FCXshGrandAmt,
+	ISNULL(FCXshAmtV,0) AS FCXshAmtV,
+	CASE WHEN HD.FTXshVATInOrEx='1' THEN ISNULL(FCXshTotal,0)+(ISNULL(FCXshChg,0) - ISNULL(FCXshDis,0)) ELSE (ISNULL(FCXshTotal,0)+(ISNULL(FCXshChg,0) - ISNULL(FCXshDis,0)))+HD.FCXshVat END AS FCXshGrand,
+    HD.FTXshGndText, 
+	HD.FNXshDocPrint,
+	ISNULL(HD.FTXshStaETax,'2') AS FTXshStaETax,
+	ISNULL(HD.FTRsnCode,'') AS FTRsnCode,ISNULL(FTRsnName,'') AS FTRsnName
+	FROM TPSTSalHD  HD WITH (NOLOCK)  LEFT JOIN 
+     TPSTSalHDCst HDCst WITH (NOLOCK) ON HD.FTBchCode = HDCst.FTBchCode AND HD.FTXshDocNo = HDCst.FTXshDocNo LEFT JOIN
+	 TCNMPos Pos WITH (NOLOCK) ON HD.FTPosCode = Pos.FTPosCode AND HD.FTBchCode = Pos.FTBchCode  LEFT JOIN 
+	 TCNMCst Cst WITH (NOLOCK) ON HD.FTCstCode = Cst.FTCstCode LEFT JOIN
+	 TCNMCst_L Cst_L WITH (NOLOCK) ON HD.FTCstCode = Cst_L.FTCstCode AND Cst_L.FNLngID = @pnLanguage LEFT JOIN
+     TCNMSpn_L Spn_L WITH (NOLOCK) ON  HD.FTSpnCode = Spn_L.FTSpnCode AND Spn_L.FNLngID = @pnLanguage LEFT JOIN
+	 TCNMUser_L Usr_L  WITH (NOLOCK) ON HD.FTUsrCode = Usr_L.FTUsrCode AND Usr_L.FNLngID = @pnLanguage LEFT JOIN
+	 TCNMUser_L Red_L   WITH (NOLOCK) ON HD.FTLastUpdBy = Red_L.FTUsrCode AND Red_L.FNLngID = @pnLanguage LEFT JOIN
+	 TCNMCstAddress_L CstAddr_L WITH (NoLock) ON HD.FTCstCode = CstAddr_L.FTCstCode AND CstAddr_L.FTAddGrpType = '1' AND CstAddr_L.FNLngID = @pnLanguage
+	 LEFT JOIN TCNMProvince_L Pro_L WITH (NoLock) ON CstAddr_L.FTAddV1PvnCode = Pro_L.FTPvnCode AND Pro_L.FNLngID = @pnLanguage
+	 LEFT JOIN TCNMDistrict_L Dis_L WITH (NoLock) ON CstAddr_L.FTAddV1DstCode = Dis_L.FTDstCode AND Dis_L.FNLngID = @pnLanguage
+	 LEFT JOIN TCNMSubDistrict_L SDis_L WITH (NoLock) ON CstAddr_L.FTAddV1SubDist = SDis_L.FTSudCode AND SDis_L.FNLngID = @pnLanguage
+	 LEFT JOIN TCNMRsn_L RsnL WITH (NoLock) ON HD.FTRsnCode = RsnL.FTRsnCode AND RsnL.FNLngID = @pnLanguage
+WHERE HD.FTXshStaDoc = '1' AND HD.FTXshDocNo = @ptDocNo AND HD.FTBchCode = @ptDocBch</SqlCommand>
+      </TPSTSalHD>
+      <Company Ref="4" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+        <Alias>Company</Alias>
+        <Columns isList="true" count="21">
+          <value>FTCompName,System.String</value>
+          <value>FTAddrType,System.String</value>
+          <value>FTAddName,System.String</value>
+          <value>FTBchName,System.String</value>
+          <value>FTAddV1No,System.String</value>
+          <value>FTAddV1Soi,System.String</value>
+          <value>FTAddV1Village,System.String</value>
+          <value>FTAddV1Road,System.String</value>
+          <value>FTAddV1SubDist,System.String</value>
+          <value>FTSudName,System.String</value>
+          <value>FTAddV1DstCode,System.String</value>
+          <value>FTDstName,System.String</value>
+          <value>FTAddV1PvnCode,System.String</value>
+          <value>FTPvnName,System.String</value>
+          <value>FTAddV1PostCode,System.String</value>
+          <value>FTAddV2Desc1,System.String</value>
+          <value>FTAddV2Desc2,System.String</value>
+          <value>FTAddTel,System.String</value>
+          <value>FTAddFax,System.String</value>
+          <value>FTAddWebsite,System.String</value>
+          <value>FTAddTaxNo,System.String</value>
+        </Columns>
+        <CommandTimeout>5000</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Key>924c7ea89aa54e84b85e0d6656c0f893</Key>
+        <Name>Company</Name>
+        <NameInSource>SaleInv</NameInSource>
+        <Parameters isList="true" count="4">
+          <value>ptCompCode,SP_tCompCode,22,5</value>
+          <value>pnLanguage,nLanguage,16,3</value>
+          <value>pnAddSeq,SP_nAddSeq,8,3</value>
+          <value>ptCmpBch,SP_tCmpBch,22,5</value>
+        </Parameters>
+        <SqlCommand>SELECT 
+	CASE WHEN FTAddRefCode = ISNULL(FTAddRefCodeMer,'') THEN FTMerName ELSE 
+	CASE WHEN FTAddRefCode = ISNULL(FTAddRefCodeAgn,'') THEN FTAgnName ELSE  
+		CASE WHEN FTAddRefCode = ISNULL(FTAddRefCodeBch,'') THEN FTCmpName ELSE 
+			CASE WHEN FTAddRefCode = ISNULL(FTAddRefCodeCmp,'') THEN FTCmpName ELSE 
+				''
+			END
+		END
+	END
+END
+AS 	FTCompName,
+FTAddrType,FTAddName,(SELECT FTBchName FROM TCNMBranch_L WHERE  FTBchCode = @ptCmpBch AND FNLngID = @pnLanguage ) AS FTBchName,
+FTAddV1No,FTAddV1Soi,FTAddV1Village,FTAddV1Road,FTAddV1SubDist,FTSudName,FTAddV1DstCode,FTDstName,FTAddV1PvnCode,FTPvnName,FTAddV1PostCode,FTAddV2Desc1,FTAddV2Desc2,
+FTAddTel,FTAddFax,FTAddWebsite  ,FTAddTaxNo
+FROM
+(SELECT AddrL.FTAddRefCode,FTAddRefCodeMer,Mer.FTMerName,Agn.FTAddRefCodeAgn,Agn.FTAgnName,Bch.FTAddRefCodeBch,Bch.FTCmpName AS FTCmpNameBch,FTAddRefCodeCmp,Cmp.FTCmpName,
+	FTAddVersion AS FTAddrType,AddrL.FTAddName,
+	FTAddV1No,FTAddV1Soi,FTAddV1Village,FTAddV1Road,FTAddV1SubDist,SDstL.FTSudName,FTAddV1DstCode,DstL.FTDstName,FTAddV1PvnCode,PvnL.FTPvnName,FTAddV1PostCode,FTAddV2Desc1,FTAddV2Desc2,
+	AddrL.FTAddTel,AddrL.FTAddFax,AddrL.FTAddWebsite ,FTAddTaxNo 
+	FROM TCNMAddress_L AddrL
+	 LEFT JOIN
+			 (
+SELECT FTBchCode,Bch.FTMerCode,FTMerName,FTAddRefCode AS FTAddRefCodeMer
+	FROM  TCNMBranch Bch WITH (NOLOCK) 
+				INNER JOIN TCNMAddress_L AddrL WITH (NOLOCK) ON Bch.FTMerCode = AddrL.FTAddRefCode 
+				LEFT JOIN TCNMMerChant_L MerL WITH (NOLOCK) ON Bch.FTMerCode = MerL.FTMerCode AND MerL.FNLngID = @pnLanguage
+				WHERE FTBchCode = @ptCmpBch  AND AddrL.FTAddGrpType = '7' AND AddrL.FTAddRefNo = '1'
+			 ) Mer ON AddrL.FTAddRefCode  = Mer.FTAddRefCodeMer 
+
+	 LEFT JOIN
+			
+(SELECT FTBchCode,Agn.FTAgnCode,AgnL.FTAgnName,FTAddRefCode AS FTAddRefCodeAgn
+	FROM  TCNMAgency Agn WITH (NOLOCK) 
+			 INNER JOIN TCNMAddress_L AddrL WITH (NOLOCK) ON Agn.FTBchCode = AddrL.FTAddRefCode 
+			 LEFT JOIN TCNMAgency_L AgnL WITH (NOLOCK) ON Agn.FTAgnCode = AgnL.FTAgnCode AND AgnL.FNLngID = @pnLanguage
+			 WHERE Agn.FTBchCode = @ptCmpBch  AND AddrL.FTAddRefNo = '1'
+			) Agn  ON AddrL.FTAddRefCode  = Agn.FTAddRefCodeAgn
+
+	 LEFT JOIN
+		
+(SELECT Bch.FTBchCode,CmpL.FTCmpName,FTAddRefCode AS FTAddRefCodeBch
+	FROM  TCNMBranch Bch WITH (NOLOCK) 
+			 LEFT JOIN TCNMComp Cmp WITH (NOLOCK) ON Cmp.FTBchCode = Bch.FTBchCode 
+			 INNER JOIN TCNMAddress_L AddrL WITH (NOLOCK) ON Bch.FTBchCode = AddrL.FTAddRefCode 
+			 LEFT JOIN TCNMComp_L CmpL WITH (NOLOCK) ON Cmp.FTCmpCode = CmpL.FTCmpCode AND CmpL.FNLngID = @pnLanguage
+			 WHERE Bch.FTBchCode = @ptCmpBch  AND AddrL.FTAddRefNo = '1'
+			) Bch ON  AddrL.FTAddRefCode  = Bch.FTAddRefCodeBch
+	 LEFT JOIN
+		
+(SELECT Cmp.FTBchCode,CmpL.FTCmpName,FTAddRefCode AS FTAddRefCodeCmp
+	FROM  TCNMComp Cmp WITH (NOLOCK) 
+			 INNER JOIN TCNMAddress_L AddrL WITH (NOLOCK) ON Cmp.FTBchCode = AddrL.FTAddRefCode 
+			 LEFT JOIN TCNMComp_L CmpL WITH (NOLOCK) ON Cmp.FTCmpCode = CmpL.FTCmpCode AND CmpL.FNLngID = @pnLanguage
+			 WHERE Cmp.FTBchCode = @ptCmpBch  AND AddrL.FTAddRefNo = '1'
+			) Cmp ON  AddrL.FTAddRefCode  = Cmp.FTAddRefCodeCmp
+	 LEFT JOIN TCNMProvince_L PvnL WITH (NoLock) ON  AddrL.FTAddV1PvnCode = PvnL.FTPvnCode AND PvnL.FNLngID = @pnLanguage
+	 LEFT JOIN TCNMDistrict_L DstL WITH (NoLock) ON  AddrL.FTAddV1DstCode = DstL.FTDstCode AND DstL.FNLngID = @pnLanguage		
+	 LEFT JOIN TCNMSubDistrict_L SDstL WITH (NoLock) ON  AddrL.FTAddV1SubDist = SDstL.FTSudCode AND SDstL.FNLngID = @pnLanguage		
+	 WHERE AddrL.FTAddRefNo = '1' AND (AddrL.FTAddRefCode = FTAddRefCodeMer OR (AddrL.FTAddRefCode = FTAddRefCodeAgn OR AddrL.FTAddRefCode = FTAddRefCodeBch OR AddrL.FTAddRefCode = FTAddRefCodeCmp))
+) AddrSum
+
+</SqlCommand>
+      </Company>
+      <TPSTSalDT Ref="5" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+        <Alias>TPSTSalDT</Alias>
+        <Columns isList="true" count="20">
+          <value>FTBchCode,System.String</value>
+          <value>FTXshDocNo,System.String</value>
+          <value>FTPdtCode,System.String</value>
+          <value>FTXsdBarCode,System.String</value>
+          <value>FTPdtName,System.String</value>
+          <value>FTPunCode,System.String</value>
+          <value>FTPunName,System.String</value>
+          <value>FCXsdQty,System.Decimal</value>
+          <value>FCXsdSetPrice,System.Decimal</value>
+          <value>FCXsdDiscount,System.Decimal</value>
+          <value>FCXsdNet,System.Decimal</value>
+          <value>FNXsdSeqNo,System.Int32</value>
+          <value>FCXddDisPmt,System.Decimal</value>
+          <value>FVXsdSumNet,System.Decimal</value>
+          <value>FVXsdSumGrand,System.Decimal</value>
+          <value>FCXsdSetPricePD,System.Decimal</value>
+          <value>FCXsdNetPD,System.Decimal</value>
+          <value>FCXsdSetPriceUse,System.Decimal</value>
+          <value>FCXsdNetUse,System.Decimal</value>
+          <value>FTXshShwVoid,System.String</value>
+        </Columns>
+        <CommandTimeout>5000</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Key>647abf96391c4f67a67fe2425572cfdc</Key>
+        <Name>TPSTSalDT</Name>
+        <NameInSource>SaleInv</NameInSource>
+        <Parameters isList="true" count="3">
+          <value>ptDocNo,SP_tDocNo,22,20</value>
+          <value>pnLanguage,nLanguage,8,3</value>
+          <value>ptDocBch,SP_tDocBch,22,5</value>
+        </Parameters>
+        <SqlCommand>SELECT  FTBchCode,FTXshDocNo,FTPdtCode,FTXsdBarCode,FTPdtName, FTPunCode,FTPunName,
+	SUM(FCXsdQty) AS FCXsdQty,
+	FCXsdSetPrice,
+	SUM(FCXsdDiscount) AS FCXsdDiscount,SUM(FCXddDisPmt) AS FCXddDisPmt ,
+	SUM(FCXsdNet) AS FCXsdNet,
+	FCXsdSetPricePD  ,SUM(FCXsdNetPD) AS FCXsdNetPD,
+	FCXsdSetPriceUse  ,
+	SUM(FCXsdNet) AS FCXsdNetUse,	
+	FVXsdSumNet,
+	FVXsdSumGrand,
+	FNXsdSeqNo,
+	SumAll.FTXsdStaPdt + (SELECT ISNULL(FTSysStaUsrValue,'0') AS FTSysStaUsrValue FROM TSysConfig WHERE FTSysStaDataType = '4' AND  FTSysCode = 'bPS_AlwPrnVoid') AS FTXshShwVoid
+	
+FROM
+  (
+SELECT DT.FTBchCode, DT.FTXshDocNo,
+	DT.FTPdtCode,DT.FTXsdBarCode, Pdt_L.FTPdtName, DT.FTPunCode,
+	Pun_L.FTPunName,
+	DT.FCXsdQty,
+	DT.FCXsdSetPrice,
+	FCXddValueDC AS FCXsdDiscount,ISNULL(FCXddValue,0)*-1 AS FCXddDisPmt,
+	(DT.FCXsdNet) AS FCXsdNet,
+	ISNULL(PD.FCXsdSetPrice,0) AS FCXsdSetPricePD  ,ISNULL(PD.FCXsdNet,0) AS FCXsdNetPD,
+	CASE WHEN ISNULL(PD.FCXsdSetPrice,0) = 0 THEN DT.FCXsdSetPrice ELSE ISNULL(PD.FCXsdSetPrice,0) END AS FCXsdSetPriceUse  ,
+	CASE WHEN ISNULL(PD.FCXsdNet,0) = 0 THEN DT.FCXsdNet ELSE ISNULL(PD.FCXsdNet,0) END AS FCXsdNetUse,	
+	DT.FNXsdSeqNo,
+	FVXsdSumNet,
+	FVXsdSumGrand,
+    FTXsdStaPdt
+	FROM TPSTSalDT DT WITH (NoLock)
+	LEFT JOIN 
+(SELECT FTBchCode,FTXshDocNo,FNXsdSeqNo,
+	ISNULL(FCXddNet,0) AS FCXddNet, 
+	SUM(ISNULL(FCXddValue,0)) AS FCXddValue,
+	SUM(CASE FTXddDisChgType
+		WHEN '1' THEN ISNULL(FCXddValue,0)*-1
+		WHEN '2' THEN ISNULL(FCXddValue,0)*-1
+		WHEN '3' THEN ISNULL(FCXddValue,0)
+		WHEN '4' THEN ISNULL(FCXddValue,0)
+	    END
+	) AS FCXddValueDC
+	FROM TPSTSalDTDis  WITH (NoLock) 
+	 WHERE FNXddStaDis IN (0,1) AND ISNULL(FTXddRefCode,'') &lt;&gt; ''
+	 GROUP BY  FTBchCode,FTXshDocNo,FNXsdSeqNo,
+	 ISNULL(FCXddNet,0) 
+	) DTDis ON DT.FTBchCode = DTDis.FTBchCode AND DT.FTXshDocNo = DTDis.FTXshDocNo AND DT.FNXsdSeqNo = DTDis.FNXsdSeqNo
+	
+	LEFT JOIN
+	( 
+SELECT FTBchCode,FTXshDocNo,SUM(FCXsdNet)  AS FVXsdSumNet 
+	FROM TPSTSalDT DT WITH (NOLOCK)
+	 WHERE DT.FTXshDocNo = @ptDocNo AND DT.FTBchCode = @ptDocBch 
+	 GROUP BY FTBchCode,FTXshDocNo
+	) SumDT ON  DT.FTBchCode = SumDT.FTBchCode AND DT.FTXshDocNo = SumDT.FTXshDocNo
+	LEFT JOIN
+	(
+SELECT FTBchCode,FTXshDocNo,SUM((FCXshGrand-FCXshRnd)+FCXshDis-FCXshChg)  AS FVXsdSumGrand 
+	FROM TPSTSalHD HD WITH (NOLOCK)
+  	 WHERE HD.FTXshStaDoc = '1' AND HD.FTXshDocNo = @ptDocNo AND HD.FTBchCode = @ptDocBch 
+	 GROUP BY FTBchCode,FTXshDocNo
+	 ) SumHD ON DT.FTBchCode = SumHD.FTBchCode AND DT.FTXshDocNo = SumHD.FTXshDocNo
+	
+	LEFT JOIN
+	(
+SELECT PD.FTBchCode,PD.FTXshDocNo,PD.FNXsdSeqNo,PD.FCXsdSetPrice ,PD.FCXsdNet
+	FROM TPSTSalPD PD WITH (NOLOCK) 
+	  WHERE FTXpdGetType = '4' AND  PD.FTXshDocNo = @ptDocNo AND PD.FTBchCode = @ptDocBch 
+	) PD ON DT.FTBchCode = PD.FTBchCode AND DT.FTXshDocNo = PD.FTXshDocNo AND Dt.FNXsdSeqNo = PD.FNXsdSeqNo
+	
+	
+	LEFT JOIN TCNMPdt_L Pdt_L WITH (NoLock) ON DT.FTPdtCode = Pdt_L.FTPdtCode AND Pdt_L.FNLngID = @pnLanguage
+	LEFT JOIN TCNMPdtUnit_L Pun_L WITH (NoLock) ON DT.FTPunCode = Pun_L.FTPunCode AND Pun_L.FNLngID = @pnLanguage
+	WHERE DT.FTXshDocNo = @ptDocNo AND DT.FTBchCode = @ptDocBch 
+   ) SumAll
+GROUP BY FTBchCode,FTXshDocNo,FTPdtCode,FTXsdBarCode,FTPdtName, FTPunCode,FTPunName,FCXsdSetPrice,FCXsdSetPricePD,FCXsdSetPriceUse,
+FVXsdSumNet,FVXsdSumGrand,FNXsdSeqNo,SumAll.FTXsdStaPdt </SqlCommand>
+      </TPSTSalDT>
+      <TPSTSalVat Ref="6" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+        <Alias>TPSTSalVat</Alias>
+        <Columns isList="true" count="4">
+          <value>FTBchCode,System.String</value>
+          <value>FTXshDocNo,System.String</value>
+          <value>FCXsdVatRate,System.Decimal</value>
+          <value>FCXsdVat,System.Decimal</value>
+        </Columns>
+        <CommandTimeout>5000</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Key>74da8584739b49e8bc6bb1e6ac6c5cc5</Key>
+        <Name>TPSTSalVat</Name>
+        <NameInSource>SaleInv</NameInSource>
+        <Parameters isList="true" count="2">
+          <value>ptDocNo,SP_tDocNo,22,20</value>
+          <value>ptDocBch,SP_tDocBch,22,5</value>
+        </Parameters>
+        <SqlCommand>SELECT HD.FTBchCode,HD.FTXshDocNo,CAST(FCXsdVatRate AS DECIMAL(18,2))  AS FCXsdVatRate,
+SUM(FCXsdVat) AS FCXsdVat 
+FROM TPSTSalDT DT INNER JOIN TPSTSalHD HD ON DT.FTBchCode = HD.FTBchCode AND DT.FTXshDocNo = HD.FTXshDocNo
+WHERE HD.FTXshDocNo = @ptDocNo AND DT.FTXsdStaPdt &lt;&gt; '4' AND HD.FTBchCode = @ptDocBch 
+GROUP BY HD.FTBchCode,HD.FTXshDocNo,CAST(FCXsdVatRate AS DECIMAL(18,2))</SqlCommand>
+      </TPSTSalVat>
+      <TPSTSalRC Ref="7" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+        <Alias>TPSTSalRC</Alias>
+        <Columns isList="true" count="9">
+          <value>FTBchCode,System.String</value>
+          <value>FTXshDocNo,System.String</value>
+          <value>FTRcvCode,System.String</value>
+          <value>FTFmtCode,System.String</value>
+          <value>FTFmtName,System.String</value>
+          <value>FTXrcRefNo1,System.String</value>
+          <value>FTXrcRefNo2,System.String</value>
+          <value>FCXrcNet,System.Decimal</value>
+          <value>FTRcvName,System.String</value>
+        </Columns>
+        <CommandTimeout>5000</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Key>114d60dec7d9460d801b014373669a20</Key>
+        <Name>TPSTSalRC</Name>
+        <NameInSource>SaleInv</NameInSource>
+        <Parameters isList="true" count="3">
+          <value>ptDocNo,SP_tDocNo,22,20</value>
+          <value>pnLanguage,nLanguage,8,3</value>
+          <value>ptDocBch,SP_tDocBch,22,5</value>
+        </Parameters>
+        <SqlCommand>SELECT FTBchCode,FTXshDocNo,RC.FTRcvCode,RC.FTRcvName,Rcv.FTFmtCode,RvlL.FTFmtName,RC.FCXrcNet,RC.FTXrcRefNo1,RC.FTXrcRefNo2 
+	FROM TPSTSalRC RC
+LEFT JOIN TFNMRcv Rcv WITH (NOLOCK) ON RC.FTRcvCode = Rcv.FTRcvCode
+LEFT JOIN TSysRcvFmt_L RvlL WITH (NOLOCK) ON Rcv.FTFmtCode = RvlL.FTFmtCode AND RvlL.FNLngID = @pnLanguage
+WHERE FTXshDocNo = @ptDocNo AND RC.FTBchCode = @ptDocBch
+ORDER BY FTRcvCode</SqlCommand>
+      </TPSTSalRC>
+      <TPSTSalDTSN Ref="8" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+        <Alias>TPSTSalDTSN</Alias>
+        <Columns isList="true" count="5">
+          <value>FTBchCode,System.String</value>
+          <value>FTXshDocNo,System.String</value>
+          <value>FNXsdSeqNo,System.Int32</value>
+          <value>FTPdtSerial,System.String</value>
+          <value>FTXsdStaRet,System.String</value>
+        </Columns>
+        <CommandTimeout>2000</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Key>0da79fb495b143ac9c3139f9bda74b66</Key>
+        <Name>TPSTSalDTSN</Name>
+        <NameInSource>SaleInv</NameInSource>
+        <Parameters isList="true" count="3">
+          <value>ptDocNo,SP_tDocNo,22,20</value>
+          <value>ptDocBch,SP_tDocBch,22,5</value>
+          <value>pnSeq,TPSTSalDT.FNXsdSeqNo,8,5</value>
+        </Parameters>
+        <SqlCommand>SELECT  FTBchCode, FTXshDocNo, FNXsdSeqNo, FTPdtSerial, FTXsdStaRet
+FROM TPSTSalDTSN 
+WHERE FTBchCode = @ptDocBch AND FTXshDocNo = @ptDocNo</SqlCommand>
+      </TPSTSalDTSN>
+    </DataSources>
+    <Relations isList="true" count="2">
+      <PiHd_Relate Ref="9" type="DataRelation" isKey="true">
+        <Alias>PiHd_Relate</Alias>
+        <ChildColumns isList="true" count="2">
+          <value>FTBchCode</value>
+          <value>FTXshDocNo</value>
+        </ChildColumns>
+        <ChildSource isRef="5" />
+        <Dictionary isRef="1" />
+        <Name>PiHd_Relate</Name>
+        <NameInSource>PiHd_Relate</NameInSource>
+        <ParentColumns isList="true" count="2">
+          <value>FTBchCode</value>
+          <value>FTXshDocNo</value>
+        </ParentColumns>
+        <ParentSource isRef="3" />
+      </PiHd_Relate>
+      <Rc Ref="10" type="DataRelation" isKey="true">
+        <Alias>Rc</Alias>
+        <ChildColumns isList="true" count="2">
+          <value>FTBchCode</value>
+          <value>FTXshDocNo</value>
+        </ChildColumns>
+        <ChildSource isRef="3" />
+        <Dictionary isRef="1" />
+        <Name>Rc</Name>
+        <NameInSource>Rc</NameInSource>
+        <ParentColumns isList="true" count="2">
+          <value>FTBchCode</value>
+          <value>FTXshDocNo</value>
+        </ParentColumns>
+        <ParentSource isRef="7" />
+      </Rc>
+    </Relations>
+    <Report isRef="0" />
+    <Resources isList="true" count="0" />
+    <Variables isList="true" count="9">
+      <value>,SP_nLang,SP_nLang,,System.String,_x0031_,False,False,False,False,,,True</value>
+      <value>,nLanguage,nLanguage,,System.Int32,_x0031_,False,False,False,False,,,True</value>
+      <value>,SP_tCompCode,SP_tCompCode,,System.String,_x0030_0001,False,False,False,False,,,True</value>
+      <value>,SP_tCmpBch,SP_tCmpBch,,System.String,_x0030_0001,False,False,False,False,,,True</value>
+      <value>,SP_nAddSeq,SP_nAddSeq,,System.Int32,_x0033_,False,False,False,False,,,True</value>
+      <value>,SP_tDocNo,SP_tDocNo,,System.String,S2100000000010000110,False,False,False,False,,,True</value>
+      <value>,SP_tStaPrn,SP_tStaPrn,,System.String,_x0031_,False,False,False,False,,,True</value>
+      <value>,SP_tGrdStr,SP_tGrdStr,,System.String,สี่ร้อยห้าสิบบาทถ้วน,False,False,False,False,,,True</value>
+      <value>,SP_tDocBch,SP_tDocBch,,System.String,_x0030_0000,False,False,False,False,,,True</value>
+    </Variables>
+  </Dictionary>
+  <EngineVersion>EngineV2</EngineVersion>
+  <GlobalizationStrings isList="true" count="0" />
+  <MetaTags isList="true" count="0" />
+  <Pages isList="true" count="5">
+    <Frm_PSInvoiceSale_ABB_A5 Ref="11" type="Page" isKey="true">
+      <Alias>Frm_PSInvoiceSale_ABB_A5</Alias>
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="8">
+        <PageHeaderBand1 Ref="12" type="PageHeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,0.4,20.4,4.54</ClientRectangle>
+          <Components isList="true" count="5">
+            <Container3 Ref="13" type="Panel" isKey="true">
+              <Brush>Transparent</Brush>
+              <CanBreak>True</CanBreak>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>0.2,0,10.55,1.75</ClientRectangle>
+              <Components isList="true" count="4">
+                <Text30 Ref="14" type="Text" isKey="true">
+                  <Border>Bottom;Black;1;None;False;4;Black</Border>
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>0.2,0.28,10.1,0.6</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Enabled>False</Enabled>
+                  <Font>Tahoma,10,Bold</Font>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text30</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="13" />
+                  <Text>บริษัท โมซิ โมซิ เจแปน จำกัด (สำนักงานใหญ่)</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </Text30>
+                <CmpName Ref="15" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>0.05,0.28,9.8,0.5</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Enabled>False</Enabled>
+                  <Font>Tahoma,10,Bold</Font>
+                  <Guid>2ccfc95cd96246c282d364d080083edd</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>CmpName</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="13" />
+                  <Text>{Company.FTCompName}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </CmpName>
+                <Text32 Ref="16" type="Text" isKey="true">
+                  <Border>Bottom;Black;1;None;False;4;Black</Border>
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>0,0.18,10.2,0.5</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,7.5,Bold</Font>
+                  <Margins>0,0,3,0</Margins>
+                  <Name>Text32</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="13" />
+                  <Text>{Company.FTCompName}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </Text32>
+                <CmpAddr Ref="17" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <CanBreak>True</CanBreak>
+                  <CanGrow>True</CanGrow>
+                  <CanShrink>True</CanShrink>
+                  <ClientRectangle>0.05,0.63,10.2,0.4</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Editable>True</Editable>
+                  <Font>Microsoft Sans Serif,7.5</Font>
+                  <Guid>26feeac82375420ba87f805a87e67b58</Guid>
+                  <Margins>0,0,3,0</Margins>
+                  <Name>CmpAddr</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="13" />
+                  <Text>{IIF(Company.FTAddrType == "1",
+IIF(SP_nLang=="1","เลขที่ ","No. ") + Company.FTAddV1No +
+IIF(Company.FTAddV1Village =="",""," " + Company.FTAddV1Village + " ") +
+IIF(Company.FTAddV1Soi=="","",IIF(SP_nLang=="1","ซอย","Soi ") + Company.FTAddV1Soi + " ") +
+IIF(Company.FTAddV1Road=="","",IIF(SP_nLang=="1","ถนน","") + Company.FTAddV1Road + IIF(SP_nLang=="1",""," Rd.")+ " ")+ 
+IIF(Company.FTAddV1SubDist=="","",IIF(SP_nLang=="1","  " + Company.FTSudName," " + Company.FTSudName +"  SubDistrict ")  + " ") +
+IIF(Company.FTAddV1DstCode=="","",IIF(SP_nLang=="1","  " + Company.FTDstName," " + Company.FTDstName +"  District ")  + " ") +
+IIF(Company.FTAddV1PvnCode=="","",IIF(SP_nLang=="1","  " + Company.FTPvnName," " + Company.FTPvnName+ "  Provin") + " ") +
+IIF(Company.FTAddV1PostCode=="","",Company.FTAddV1PostCode)
+,Company.FTAddName)}
+{IIF(SP_nLang=="1","โทร","Tel")} :  {Company.FTAddTel}  {IIF(SP_nLang=="1","แฟกซ์","Fax")} :  {Company.FTAddFax}
+{IIF(SP_nLang=="1","สาขา","Branch")} :  {Company.FTBchName}
+{IIF(SP_nLang=="1","เลขประจำตัวผู้เสียภาษี : ","TAX ID : ")}{Company.FTAddTaxNo}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+                  <Type>Expression</Type>
+                </CmpAddr>
+              </Components>
+              <Conditions isList="true" count="0" />
+              <Name>Container3</Name>
+              <Page isRef="11" />
+              <Parent isRef="12" />
+            </Container3>
+            <Container2 Ref="18" type="Panel" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>10.9,0,9.39,1.75</ClientRectangle>
+              <Components isList="true" count="6">
+                <TotalPage Ref="19" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>7.6,0.95,1.5,0.35</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,8</Font>
+                  <Guid>3c56f809ff73400199a937fdb95b1555</Guid>
+                  <HorAlignment>Right</HorAlignment>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>TotalPage</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="18" />
+                  <Text>{PageNumber} / {TotalPageCount}</Text>
+                  <TextBrush>Black</TextBrush>
+                </TotalPage>
+                <tdBarcodeDoc Ref="20" type="Stimulsoft.Report.BarCodes.StiBarCode" isKey="true">
+                  <Alias>[Barcode]</Alias>
+                  <BackColor>Transparent</BackColor>
+                  <BarCodeType Ref="21" type="Stimulsoft.Report.BarCodes.StiCode93BarCodeType" isKey="true" />
+                  <ClientRectangle>0.25,1.29,8.9,0.4</ClientRectangle>
+                  <Code>TPSTSalHD.FTXphDocNo</Code>
+                  <Conditions isList="true" count="0" />
+                  <Font>Arial,8,Bold,Pixel</Font>
+                  <ForeColor>Black</ForeColor>
+                  <Guid>e6e6baf3abf8440698accac9550ce301</Guid>
+                  <HorAlignment>Center</HorAlignment>
+                  <Name>tdBarcodeDoc</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="18" />
+                </tdBarcodeDoc>
+                <tDatePrint Ref="22" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>0.08,0.95,7.5,0.35</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,7.5</Font>
+                  <Guid>4b0da77d823948cbab136bfe1f9c07f9</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>tDatePrint</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="18" />
+                  <Text>{IIF(SP_nLang=="1","วันที่พิมพ์ :","Print Date : ")} {Format("{0:dd/MM/yyyy}", Today)} {IIF(SP_nLang=="1","เวลา : ","Time : ")} {Format("{0:HH:mm:ss}", Time)}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                </tDatePrint>
+                <Header Ref="23" type="Text" isKey="true">
+                  <Alias>Header</Alias>
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>0.58,0.16,8.24,0.51</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,10,Bold</Font>
+                  <Guid>910ace6d2a1045b7a304fc0cefa5ecea</Guid>
+                  <HorAlignment>Center</HorAlignment>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Header</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="18" />
+                  <Text>{IIF(SP_tStaPrn == "1", IIF(SP_nLang=="1","ใบกำกับภาษีอย่างย่อ","Tax Invoice (ABB)"),"")}{IIF(SP_tStaPrn != "1", IIF(SP_nLang=="1","สำเนาใบส่งของชั่วคราว","Copy Temporary delivery order"),"")}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </Header>
+                <StartPointPrimitive1 Ref="24" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+                  <ClientRectangle>0.18,0.12,0,0</ClientRectangle>
+                  <Name>StartPointPrimitive1</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="18" />
+                  <ReferenceToGuid>342185224828433bb4ebf4fa70bbd65d</ReferenceToGuid>
+                </StartPointPrimitive1>
+                <EndPointPrimitive1 Ref="25" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+                  <ClientRectangle>9.16,0.71,0,0</ClientRectangle>
+                  <Name>EndPointPrimitive1</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="18" />
+                  <ReferenceToGuid>342185224828433bb4ebf4fa70bbd65d</ReferenceToGuid>
+                </EndPointPrimitive1>
+              </Components>
+              <Conditions isList="true" count="0" />
+              <Name>Container2</Name>
+              <Page isRef="11" />
+              <Parent isRef="12" />
+            </Container2>
+            <Panel4 Ref="26" type="Panel" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.2,3.9,20.1,0.5</ClientRectangle>
+              <Components isList="true" count="10">
+                <tPdtName Ref="27" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>4.5,0.11,6.2,0.4</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,7.5,Bold</Font>
+                  <Guid>f83ec2057ea54d4286c78d53267e6593</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>tPdtName</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="26" />
+                  <Text>{IIF(SP_nLang == "1","ชื่อสินค้า","Product Name")}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </tPdtName>
+                <tPdtCode Ref="28" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>1.2,0.11,3.27,0.4</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,7.5,Bold</Font>
+                  <Guid>e72f660cd3844e249552e03fa57e9a51</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>tPdtCode</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="26" />
+                  <Text>{IIF(SP_nLang == "1","บาร์โค้ด","Barcode")}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </tPdtCode>
+                <tNo Ref="29" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>0.2,0.11,0.9,0.4</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,7.5,Bold</Font>
+                  <Guid>c5b8b173ea47462da04f4d0bbb831e0d</Guid>
+                  <HorAlignment>Center</HorAlignment>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>tNo</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="26" />
+                  <Text>{IIF(SP_nLang == "1","ลำดับ","Line")}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </tNo>
+                <tUnit Ref="30" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>10.68,0.11,1.3,0.4</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,7.5,Bold</Font>
+                  <Guid>b7c05d2556864573933560d3c7f4a94c</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>tUnit</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="26" />
+                  <Text>{IIF(SP_nLang == "1","หน่วย","Unit")}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </tUnit>
+                <tQty Ref="31" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>11.98,0.11,1.7,0.4</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,7.5,Bold</Font>
+                  <Guid>1a23894b57ac45f09c3b41aa233cdc9c</Guid>
+                  <HorAlignment>Right</HorAlignment>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>tQty</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="26" />
+                  <Text>{IIF(SP_nLang == "1","จำนวน","Quantity")}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </tQty>
+                <tUnitPrice Ref="32" type="Text" isKey="true">
+                  <Alias>Price : Unit</Alias>
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>13.7,0.11,1.96,0.4</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,7.5,Bold</Font>
+                  <Guid>0b1da0dc857d4a4e806ef8674e7ad74e</Guid>
+                  <HorAlignment>Right</HorAlignment>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>tUnitPrice</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="26" />
+                  <Text>{IIF(SP_nLang == "1","ราคา /หน่วย","Price/Unit")}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </tUnitPrice>
+                <tDisc Ref="33" type="Text" isKey="true">
+                  <Alias>Discount</Alias>
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>15.68,0.11,1.6,0.4</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,7.5,Bold</Font>
+                  <Guid>b934791d76b44b5fb47e3cfb94520ed7</Guid>
+                  <HorAlignment>Right</HorAlignment>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>tDisc</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="26" />
+                  <Text>{IIF(SP_nLang == "1","ส่านลด","Discount")}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </tDisc>
+                <tAmount Ref="34" type="Text" isKey="true">
+                  <Alias>Amount</Alias>
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>17.3,0.09,2.32,0.4</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,7.5,Bold</Font>
+                  <Guid>af0890d51b604ba58398a749762ee5d2</Guid>
+                  <HorAlignment>Right</HorAlignment>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>tAmount</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="26" />
+                  <Text>{IIF(SP_nLang == "1","จำนวนเงิน","Amount")}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </tAmount>
+                <StartPointPrimitive5 Ref="35" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+                  <ClientRectangle>0.1,0.05,0,0</ClientRectangle>
+                  <Name>StartPointPrimitive5</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="26" />
+                  <ReferenceToGuid>f0995d634c2140b0b760906527e9feb0</ReferenceToGuid>
+                </StartPointPrimitive5>
+                <HorizontalLine2 Ref="36" type="HorizontalLinePrimitive" isKey="true">
+                  <ClientRectangle>0.11,0.48,19.73,0.0254</ClientRectangle>
+                  <Color>Black</Color>
+                  <EndCap Ref="37" type="Cap" isKey="true">
+                    <Color>Black</Color>
+                  </EndCap>
+                  <Guid>61bca70f740247c69f3af2a6507fb926</Guid>
+                  <Name>HorizontalLine2</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="26" />
+                  <StartCap Ref="38" type="Cap" isKey="true">
+                    <Color>Black</Color>
+                  </StartCap>
+                </HorizontalLine2>
+              </Components>
+              <Conditions isList="true" count="0" />
+              <Name>Panel4</Name>
+              <Page isRef="11" />
+              <Parent isRef="12" />
+            </Panel4>
+            <Panel1 Ref="39" type="Panel" isKey="true">
+              <Brush>Transparent</Brush>
+              <CanBreak>True</CanBreak>
+              <CanGrow>True</CanGrow>
+              <CanShrink>True</CanShrink>
+              <ClientRectangle>0.2,1.81,20.1,2.02</ClientRectangle>
+              <Components isList="true" count="11">
+                <tDocNo Ref="40" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>0.28,0.5,9.81,0.39</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,7.5</Font>
+                  <Guid>f23a3d15c7774e7a934fdcb2097fe935</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>tDocNo</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="39" />
+                  <Text>{IIF(SP_nLang=="1","เลขที่เอกสาร :","Document No. : ")}  {TPSTSalHD.FTXshDocNo}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </tDocNo>
+                <tDocDate Ref="41" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>0.28,0.89,9.76,0.39</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,7.5</Font>
+                  <Guid>4f70ede7ec4b445ea27ecc0011b8b3ef</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>tDocDate</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="39" />
+                  <Text>{IIF(SP_nLang=="1","วันที่เอกสาร :","Document Date :")}  {TPSTSalHD.FTXshDocDate}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </tDocDate>
+                <tDpt Ref="42" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>10.48,0.13,9.11,0.39</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,7.5</Font>
+                  <Guid>9fe39c52a4874c69b73290200bf02143</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>tDpt</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="39" />
+                  <Text>{IIF(SP_nLang=="1","แคชเชียร์ :","Cashier :")}  {IIF(TPSTSalHD.FTUsrCode=="MQAdaLink","MQAdaLink",TPSTSalHD.FTUsrName)}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </tDpt>
+                <tOperator Ref="43" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <CanBreak>True</CanBreak>
+                  <CanGrow>True</CanGrow>
+                  <ClientRectangle>10.46,1.24,9.16,0.64</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Editable>True</Editable>
+                  <Font>Microsoft Sans Serif,7.5</Font>
+                  <GrowToHeight>True</GrowToHeight>
+                  <Guid>b1176075251449058ed9a7eadcc143e7</Guid>
+                  <Margins>0,0,1,0</Margins>
+                  <Name>tOperator</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="39" />
+                  <Text>{IIF(SP_nLang=="1","ผู้บันทึก :","Recorder :")}         {TPSTSalDT.PiHd_Relate.FTXshRecorder} 
+{IIF(SP_nLang=="1","สถานะเอกสาร :","Document Sta. :")}   {IIF(TPSTSalDT.PiHd_Relate.FTXshStaApv =="1",IIF(SP_nLang=="1","อนุมมัติ","Approve") ,IIF(SP_nLang=="1","รออนุมัติ","Waiting for apprive"))}    </Text>
+                  <TextBrush>Black</TextBrush>
+                  <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+                  <TextQuality>Wysiwyg</TextQuality>
+                  <Type>Expression</Type>
+                </tOperator>
+                <tRef_PO Ref="44" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>10.48,0.5,9.16,0.4</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,7.5</Font>
+                  <Guid>af0160897e3c42338a10f28dbe4231aa</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>tRef.PO</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="39" />
+                  <Text>{IIF(SP_nLang=="1","เลขที่เอกสารอ้างอิง :","Document Refer :")} {IIF(TPSTSalHD.FNXshDocType=="1","",TPSTSalHD.FTXshRefInt)}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </tRef_PO>
+                <Text2 Ref="45" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>0.28,0.13,9.86,0.39</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,7.5</Font>
+                  <Guid>2ff99d1576ef456fa37e287019b662fd</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text2</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="39" />
+                  <Text>{IIF(SP_nLang=="1","หมายเลขเครื่อง :","Reg. No. :")}  {TPSTSalDT.PiHd_Relate.FTPosRegNo}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </Text2>
+                <Text5 Ref="46" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>0.28,1.24,9.76,0.39</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,7.5</Font>
+                  <Guid>c97b67ec2ab841f180a10b10f0806e97</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text5</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="39" />
+                  <Text>{IIF(SP_nLang=="1","เวลา :","Time :")}  {TPSTSalDT.PiHd_Relate.FTXshDocTime}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </Text5>
+                <Text1 Ref="47" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>17.42,0.29,2.15,0.5</ClientRectangle>
+                  <Conditions isList="true" count="1">
+                    <value>TPSTSalHD.FNXshDocType,EqualTo,_x0039_,,String,Red,Transparent,Tahoma_x002C_12_x002C_Bold_x002C_Point_x002C_False_x002C_0,True,False,,,None</value>
+                  </Conditions>
+                  <Font>Microsoft Sans Serif,11,Bold</Font>
+                  <HorAlignment>Center</HorAlignment>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text1</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="39" />
+                  <Text>{IIF(TPSTSalHD.FNXshDocType=="1","",IIF(SP_nLang == "1","คืนสินค้า","Refund"))}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </Text1>
+                <Text7 Ref="48" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>10.48,0.89,9.16,0.39</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,7.5</Font>
+                  <Guid>e2f7d58cff074c64933fe69157b9e495</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text7</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="39" />
+                  <Text>{IIF(SP_nLang=="1","เลขที่ใบสั่งขาย :","Sale Order :")}  {TPSTSalHD.FTXshRefExt}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </Text7>
+                <Text12 Ref="49" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <CanGrow>True</CanGrow>
+                  <CanShrink>True</CanShrink>
+                  <ClientRectangle>0.28,1.64,9.75,0.39</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Editable>True</Editable>
+                  <Font>Microsoft Sans Serif,7.5</Font>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text12</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="39" />
+                  <Text>{IIF(SP_nLang=="1","(ราคารวมภาษีมูลค่าเพิ่ม)","Vat Included")}     </Text>
+                  <TextBrush>Black</TextBrush>
+                  <VertAlignment>Center</VertAlignment>
+                </Text12>
+                <StartPointPrimitive3 Ref="50" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
+                  <ClientRectangle>0.1,0.06,0,0</ClientRectangle>
+                  <Name>StartPointPrimitive3</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="39" />
+                  <ReferenceToGuid>3bd0eafc39794d88a1eb95ca83a2d97a</ReferenceToGuid>
+                </StartPointPrimitive3>
+              </Components>
+              <Conditions isList="true" count="0" />
+              <Name>Panel1</Name>
+              <Page isRef="11" />
+              <Parent isRef="12" />
+            </Panel1>
+            <EndPointPrimitive4 Ref="51" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+              <ClientRectangle>20.05,3.87,0,0</ClientRectangle>
+              <Name>EndPointPrimitive4</Name>
+              <Page isRef="11" />
+              <Parent isRef="12" />
+              <ReferenceToGuid>3bd0eafc39794d88a1eb95ca83a2d97a</ReferenceToGuid>
+            </EndPointPrimitive4>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Name>PageHeaderBand1</Name>
+          <Page isRef="11" />
+          <Parent isRef="11" />
+        </PageHeaderBand1>
+        <PageFooterBand1 Ref="52" type="PageFooterBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,12.3,20.4,7.3</ClientRectangle>
+          <Components isList="true" count="2">
+            <Panel2 Ref="53" type="Panel" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.18,0,20.1,1.95</ClientRectangle>
+              <Components isList="true" count="16">
+                <GrossTotal Ref="54" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>16.84,0.04,2.76,0.35</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,7.5</Font>
+                  <Guid>0657304e216d456caf1325e4cda25c12</Guid>
+                  <HorAlignment>Right</HorAlignment>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>GrossTotal</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="53" />
+                  <PrintOn>OnlyLastPage</PrintOn>
+                  <Text>{TPSTSalHD.FCXshTotal}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <TextFormat Ref="55" type="NumberFormat" isKey="true">
+                    <GroupSeparator>,</GroupSeparator>
+                    <NegativePattern>1</NegativePattern>
+                    <UseLocalSetting>False</UseLocalSetting>
+                  </TextFormat>
+                  <Type>DataColumn</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </GrossTotal>
+                <DiscountHD Ref="56" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>16.84,0.39,2.76,0.4</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,8</Font>
+                  <Guid>351cff211200403cac65ca1bffc55b0e</Guid>
+                  <HorAlignment>Right</HorAlignment>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>DiscountHD</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="53" />
+                  <PrintOn>OnlyLastPage</PrintOn>
+                  <Text>{TPSTSalHD.FCXshDiscount}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <TextFormat Ref="57" type="NumberFormat" isKey="true">
+                    <GroupSeparator>,</GroupSeparator>
+                    <NegativePattern>1</NegativePattern>
+                    <UseLocalSetting>False</UseLocalSetting>
+                  </TextFormat>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </DiscountHD>
+                <NetAmt Ref="58" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>16.84,1.2,2.76,0.35</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,7.5</Font>
+                  <Guid>ac07872e25024c6580a5ac2db892e1e6</Guid>
+                  <HorAlignment>Right</HorAlignment>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>NetAmt</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="53" />
+                  <PrintOn>OnlyLastPage</PrintOn>
+                  <Text>{TPSTSalDT.PiHd_Relate.FCXshVatable}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <TextFormat Ref="59" type="NumberFormat" isKey="true">
+                    <GroupSeparator>,</GroupSeparator>
+                    <NegativePattern>1</NegativePattern>
+                    <UseLocalSetting>False</UseLocalSetting>
+                  </TextFormat>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </NetAmt>
+                <tDiscountHD Ref="60" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>12.84,0.39,4,0.4</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,7.5</Font>
+                  <Guid>3ac5f097b9ba44a18352e26b8b70245c</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>tDiscountHD</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="53" />
+                  <PrintOn>OnlyLastPage</PrintOn>
+                  <Text>{IIF(SP_nLang=="1","ส่วนลด","Discount")}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </tDiscountHD>
+                <tGrossTotal Ref="61" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>12.84,0.04,4,0.35</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,7.5</Font>
+                  <Guid>96fd1d1a2bbc445d91ebe111c40d5261</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>tGrossTotal</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="53" />
+                  <PrintOn>OnlyLastPage</PrintOn>
+                  <Text>{IIF(SP_nLang=="1","รวมจำนวนเงิน","Gross")}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </tGrossTotal>
+                <tNetAmt Ref="62" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>12.84,1.2,4,0.35</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,7.5</Font>
+                  <Guid>e666bbdf095443318e1b69ce68176e7b</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>tNetAmt</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="53" />
+                  <PrintOn>OnlyLastPage</PrintOn>
+                  <Text>{IIF(SP_nLang=="1","มูลค่าสินค้าก่อนภาษี","Amount BF. Vat")}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </tNetAmt>
+                <Text8 Ref="63" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>16.84,0.8,2.76,0.35</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,7.5</Font>
+                  <Guid>2dd8ce5a2f904ef98c22db0b2365d60f</Guid>
+                  <HorAlignment>Right</HorAlignment>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text8</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="53" />
+                  <PrintOn>OnlyLastPage</PrintOn>
+                  <Text>{TPSTSalHD.FCXshVatAmt}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <TextFormat Ref="64" type="NumberFormat" isKey="true">
+                    <GroupSeparator>,</GroupSeparator>
+                    <NegativePattern>1</NegativePattern>
+                    <UseLocalSetting>False</UseLocalSetting>
+                  </TextFormat>
+                  <Type>DataColumn</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </Text8>
+                <Text9 Ref="65" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>12.84,0.8,4,0.35</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,7.5</Font>
+                  <Guid>193684fa663c4e09a4700f6055535a42</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text9</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="53" />
+                  <PrintOn>OnlyLastPage</PrintOn>
+                  <Text>{IIF(SP_nLang=="1","มูลค่าสินค้ามีภาษี ","Values Of TAX. ")}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </Text9>
+                <SubReport1 Ref="66" type="SubReport" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>16.06,1.6,3.54,0.29</ClientRectangle>
+                  <Components isList="true" count="0" />
+                  <Guid>bf2c610a3c9b4e0a9250772d736d9262</Guid>
+                  <Name>SubReport1</Name>
+                  <Page isRef="11" />
+                  <Parameters isList="true" count="0" />
+                  <Parent isRef="53" />
+                  <PrintOn>OnlyLastPage</PrintOn>
+                  <SubReportPageGuid>1bf827643f9e4f5fb4a392bcb8e8179d</SubReportPageGuid>
+                  <SubReportUrl />
+                </SubReport1>
+                <tVat Ref="67" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>12.84,1.57,3.24,0.35</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,7.5</Font>
+                  <Guid>efe24700a303444d8f8d5a2aca215064</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>tVat</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="53" />
+                  <PrintOn>OnlyLastPage</PrintOn>
+                  <Text>{IIF(SP_nLang=="1","ภาษี","Vat")}   </Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </tVat>
+                <Text13 Ref="68" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>0.2,0.04,4.76,0.4</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,7.5</Font>
+                  <Guid>520c273151384889ba8983a2b886bdc7</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text13</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="53" />
+                  <PrintOn>OnlyLastPage</PrintOn>
+                  <Text>{IIF(SP_nLang=="1","จำนวนรายการ","Item ")}    {CountDistinct(TPSTSalDT.FTPdtCode)}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </Text13>
+                <SubReport2 Ref="69" type="SubReport" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>2.98,0.41,9.36,1.42</ClientRectangle>
+                  <Components isList="true" count="1">
+                    <SubReport3 Ref="70" type="SubReport" isKey="true">
+                      <Brush>Transparent</Brush>
+                      <ClientRectangle>4.92,0,4.86,1.42</ClientRectangle>
+                      <Components isList="true" count="0" />
+                      <Enabled>False</Enabled>
+                      <Name>SubReport3</Name>
+                      <Page isRef="11" />
+                      <Parameters isList="true" count="0" />
+                      <Parent isRef="69" />
+                      <PrintOn>OnlyLastPage</PrintOn>
+                      <SubReportPageGuid>a2b5500f1da84a6893335827fc294f17</SubReportPageGuid>
+                      <SubReportUrl />
+                    </SubReport3>
+                  </Components>
+                  <Name>SubReport2</Name>
+                  <Page isRef="11" />
+                  <Parameters isList="true" count="1">
+                    <ptDocNo Ref="71" type="Stimulsoft.Report.Components.StiParameter" isKey="true">
+                      <Expression>SP_tDocNo</Expression>
+                      <Name>ptDocNo</Name>
+                    </ptDocNo>
+                  </Parameters>
+                  <Parent isRef="53" />
+                  <PrintOn>OnlyLastPage</PrintOn>
+                  <SubReportPageGuid>af8ca4792e9a4eda9ebe060e643f37de</SubReportPageGuid>
+                  <SubReportUrl />
+                </SubReport2>
+                <Text21 Ref="72" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>0.2,0.44,2.58,0.35</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,7.5,Bold</Font>
+                  <Guid>179ac044816c41aa8565fc8b4744b0ba</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text21</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="53" />
+                  <PrintOn>OnlyLastPage</PrintOn>
+                  <Text>{IIF(SP_nLang=="1","การชำระเงิน","Pay")} :</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </Text21>
+                <Text28 Ref="73" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>5.1,0.04,7.68,0.4</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,7.5</Font>
+                  <Guid>c8dff2bfa3384087b30da5d769944f27</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text28</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="53" />
+                  <PrintOn>OnlyLastPage</PrintOn>
+                  <Text>{IIF(SP_nLang=="1","จำนวนชิ้น","Item ")}   {Sum(TPSTSalDT.FCXsdQty).ToString("#,###")}
+</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </Text28>
+                <Text29 Ref="74" type="Text" isKey="true">
+                  <Border>Bottom;Black;1;None;False;4;Black</Border>
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>0.9,1.26,1.42,0.38</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Enabled>False</Enabled>
+                  <Font>Tahoma,7</Font>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text29</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="53" />
+                  <Text>{Sum(TPSTSalDT.FCXsdQty)}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Totals</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </Text29>
+                <HorizontalLine3 Ref="75" type="HorizontalLinePrimitive" isKey="true">
+                  <ClientRectangle>0.11,0,19.75,0.0254</ClientRectangle>
+                  <Color>Black</Color>
+                  <EndCap Ref="76" type="Cap" isKey="true">
+                    <Color>Black</Color>
+                  </EndCap>
+                  <Guid>96f5c8e573bd45049ef9502f668e32c4</Guid>
+                  <Name>HorizontalLine3</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="53" />
+                  <StartCap Ref="77" type="Cap" isKey="true">
+                    <Color>Black</Color>
+                  </StartCap>
+                </HorizontalLine3>
+              </Components>
+              <Conditions isList="true" count="0" />
+              <Name>Panel2</Name>
+              <Page isRef="11" />
+              <Parent isRef="52" />
+            </Panel2>
+            <Panel6 Ref="78" type="Panel" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.18,1.98,20.1,0.7</ClientRectangle>
+              <Components isList="true" count="5">
+                <Text35 Ref="79" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>12.86,0.35,3.25,0.35</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,7.5</Font>
+                  <Guid>8e08ed4d4ede47c7a5e0a1b4ef63be96</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text35</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="78" />
+                  <PrintOn>OnlyLastPage</PrintOn>
+                  <Text>{IIF(SP_nLang=="1","รายได้ปัดเศษ","Rounding")}   </Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </Text35>
+                <Text37 Ref="80" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>16.84,0.35,2.75,0.35</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,7.5</Font>
+                  <Guid>549ae83a7d5a4fc78c50a205022d2ff2</Guid>
+                  <HorAlignment>Right</HorAlignment>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text37</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="78" />
+                  <PrintOn>OnlyLastPage</PrintOn>
+                  <Text>{TPSTSalHD.FCXshRnd}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <TextFormat Ref="81" type="NumberFormat" isKey="true">
+                    <GroupSeparator>,</GroupSeparator>
+                    <NegativePattern>1</NegativePattern>
+                    <UseLocalSetting>False</UseLocalSetting>
+                  </TextFormat>
+                  <Type>DataColumn</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </Text37>
+                <Text34 Ref="82" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>12.86,0,4,0.35</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,7.5</Font>
+                  <Guid>66e3ba15e6d849a382e056c22c5015c9</Guid>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text34</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="78" />
+                  <PrintOn>OnlyLastPage</PrintOn>
+                  <Text>{IIF(SP_nLang=="1","มูลค่าสินค้ารวมภาษี","Amount Inc. Vat")}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </Text34>
+                <Text36 Ref="83" type="Text" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>16.84,0,2.75,0.35</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <Font>Microsoft Sans Serif,7.5</Font>
+                  <Guid>9220f8db65a849e08784092db854168e</Guid>
+                  <HorAlignment>Right</HorAlignment>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Text36</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="78" />
+                  <PrintOn>OnlyLastPage</PrintOn>
+                  <Text>{TPSTSalHD.FCXshGrandBFRnd}</Text>
+                  <TextBrush>Black</TextBrush>
+                  <TextFormat Ref="84" type="NumberFormat" isKey="true">
+                    <GroupSeparator>,</GroupSeparator>
+                    <NegativePattern>1</NegativePattern>
+                    <UseLocalSetting>False</UseLocalSetting>
+                  </TextFormat>
+                  <Type>Expression</Type>
+                  <VertAlignment>Center</VertAlignment>
+                </Text36>
+                <Panel3 Ref="85" type="Panel" isKey="true">
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>0,0.68,20.1,1.02</ClientRectangle>
+                  <Components isList="true" count="5">
+                    <GranTotal Ref="86" type="Text" isKey="true">
+                      <Brush>Transparent</Brush>
+                      <ClientRectangle>16.86,0,2.74,0.4</ClientRectangle>
+                      <Conditions isList="true" count="0" />
+                      <Font>Microsoft Sans Serif,7.5</Font>
+                      <Guid>1272872e45bb42479da6bb738b084527</Guid>
+                      <HorAlignment>Right</HorAlignment>
+                      <Margins>0,0,0,0</Margins>
+                      <Name>GranTotal</Name>
+                      <Page isRef="11" />
+                      <Parent isRef="85" />
+                      <PrintOn>OnlyLastPage</PrintOn>
+                      <Text>{TPSTSalDT.PiHd_Relate.FCXshGrandAmt}</Text>
+                      <TextBrush>Black</TextBrush>
+                      <TextFormat Ref="87" type="NumberFormat" isKey="true">
+                        <GroupSeparator>,</GroupSeparator>
+                        <NegativePattern>1</NegativePattern>
+                        <UseLocalSetting>False</UseLocalSetting>
+                      </TextFormat>
+                      <Type>Expression</Type>
+                      <VertAlignment>Center</VertAlignment>
+                    </GranTotal>
+                    <Text4 Ref="88" type="Text" isKey="true">
+                      <Brush>Transparent</Brush>
+                      <ClientRectangle>0.17,0.47,19.3,0.45</ClientRectangle>
+                      <Conditions isList="true" count="1">
+                        <value>TPSTSalHD.FTXshStaETax,NotEqualTo,_x0031_,,String,Red,Transparent,Tahoma_x002C_9_x002C_Bold_x002C_Point_x002C_False_x002C_0,False,False,,,None</value>
+                      </Conditions>
+                      <Font>Microsoft Sans Serif,7.5</Font>
+                      <Guid>9aa01a36f9334b3b9e9e92fb7dc1e4ee</Guid>
+                      <Margins>0,0,0,0</Margins>
+                      <Name>Text4</Name>
+                      <Page isRef="11" />
+                      <Parent isRef="85" />
+                      <Text>{IIF(SP_nLang==1,"เอกสารนี้ได้จัดทำและนำส่งข้อมูลให้กรมสรรพากรด้วยวิธีการทางอิเล็กทรอนิกส์","This document has been prepared and submitted to the Revenue Department by electronic means.")}</Text>
+                      <TextBrush>Red</TextBrush>
+                      <Type>Expression</Type>
+                      <VertAlignment>Center</VertAlignment>
+                    </Text4>
+                    <tGranTotal Ref="89" type="Text" isKey="true">
+                      <Brush>Transparent</Brush>
+                      <ClientRectangle>12.86,0,4,0.4</ClientRectangle>
+                      <Conditions isList="true" count="0" />
+                      <Font>Microsoft Sans Serif,7.5</Font>
+                      <Guid>7dcfb4759f624e509a0cba2ca90ac4bf</Guid>
+                      <Margins>0,0,0,0</Margins>
+                      <Name>tGranTotal</Name>
+                      <Page isRef="11" />
+                      <Parent isRef="85" />
+                      <PrintOn>OnlyLastPage</PrintOn>
+                      <Text>{IIF(SP_nLang=="1","รวมจำนวนเงินทั้งสิ้น","Grand Total")}</Text>
+                      <TextBrush>Black</TextBrush>
+                      <Type>Expression</Type>
+                      <VertAlignment>Center</VertAlignment>
+                    </tGranTotal>
+                    <tGrandTxt Ref="90" type="Text" isKey="true">
+                      <Brush>Transparent</Brush>
+                      <ClientRectangle>0.38,0,12.32,0.4</ClientRectangle>
+                      <Conditions isList="true" count="0" />
+                      <Font>Microsoft Sans Serif,7.5</Font>
+                      <Guid>19e7c30f43cd4e03bfe016652255f0bb</Guid>
+                      <Margins>0,0,0,0</Margins>
+                      <Name>tGrandTxt</Name>
+                      <Page isRef="11" />
+                      <Parent isRef="85" />
+                      <PrintOn>OnlyLastPage</PrintOn>
+                      <Text>{SP_tGrdStr}</Text>
+                      <TextBrush>Black</TextBrush>
+                      <Type>Expression</Type>
+                      <VertAlignment>Center</VertAlignment>
+                    </tGrandTxt>
+                    <EndPointPrimitive5 Ref="91" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
+                      <ClientRectangle>19.87,0.43,0,0</ClientRectangle>
+                      <Name>EndPointPrimitive5</Name>
+                      <Page isRef="11" />
+                      <Parent isRef="85" />
+                      <ReferenceToGuid>f0995d634c2140b0b760906527e9feb0</ReferenceToGuid>
+                    </EndPointPrimitive5>
+                  </Components>
+                  <Conditions isList="true" count="0" />
+                  <GrowToHeight>True</GrowToHeight>
+                  <Name>Panel3</Name>
+                  <Page isRef="11" />
+                  <Parent isRef="78" />
+                </Panel3>
+              </Components>
+              <Conditions isList="true" count="0" />
+              <Name>Panel6</Name>
+              <Page isRef="11" />
+              <Parent isRef="52" />
+            </Panel6>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Name>PageFooterBand1</Name>
+          <Page isRef="11" />
+          <Parent isRef="11" />
+        </PageFooterBand1>
+        <GroupHeader1 Ref="92" type="GroupHeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <CanShrink>True</CanShrink>
+          <ClientRectangle>0,5.74,20.4,0.05</ClientRectangle>
+          <Components isList="true" count="0" />
+          <Condition>{TPSTSalHD.FTXshDocNo}</Condition>
+          <Conditions isList="true" count="0" />
+          <Enabled>False</Enabled>
+          <Guid>348c4273830e47b0827ff65d8a3777ab</Guid>
+          <Name>GroupHeader1</Name>
+          <Page isRef="11" />
+          <Parent isRef="11" />
+          <PrintOnAllPages>True</PrintOnAllPages>
+          <ResetPageNumber>True</ResetPageNumber>
+        </GroupHeader1>
+        <Data1 Ref="93" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <CanBreak>True</CanBreak>
+          <ClientRectangle>0,6.59,20.4,0.36</ClientRectangle>
+          <Components isList="true" count="9">
+            <tdPdtCode Ref="94" type="Text" isKey="true">
+              <Alias>[Product Code]</Alias>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.4,0,3.27,0.35</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Microsoft Sans Serif,7.5</Font>
+              <Guid>613a107e87594aa1972e897750140586</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>tdPdtCode</Name>
+              <Page isRef="11" />
+              <Parent isRef="93" />
+              <Text>{TPSTSalDT.FTXsdBarCode}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>DataColumn</Type>
+            </tdPdtCode>
+            <LineNo Ref="95" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.3,0,0.9,0.35</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Microsoft Sans Serif,7.5</Font>
+              <Guid>8f7e4c686fb04ad3bc381c5e17122272</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>LineNo</Name>
+              <Page isRef="11" />
+              <Parent isRef="93" />
+              <Text>{Line}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>SystemVariables</Type>
+            </LineNo>
+            <Qty Ref="96" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>12.2,0,1.7,0.35</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Microsoft Sans Serif,7.5</Font>
+              <Guid>6f4d8dcdfbb743c4b7b5de0a76758a51</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Qty</Name>
+              <Page isRef="11" />
+              <Parent isRef="93" />
+              <Text>{TPSTSalDT.FCXsdQty}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="97" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Qty>
+            <nSetPrice Ref="98" type="Text" isKey="true">
+              <Alias>SetPrice</Alias>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>13.9,0,1.96,0.35</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Microsoft Sans Serif,7.5</Font>
+              <Guid>d80e3dbf62a14f2289c06ec5ec3c7c87</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>nSetPrice</Name>
+              <Page isRef="11" />
+              <Parent isRef="93" />
+              <Text>{IIF(TPSTSalDT.FVXsdSumNet==TPSTSalDT.FVXsdSumGrand,TPSTSalDT.FCXsdSetPrice,TPSTSalDT.FCXsdSetPriceUse)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="99" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <State>DecimalDigits</State>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Expression</Type>
+            </nSetPrice>
+            <nDiscount Ref="100" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>15.85,0,1.65,0.35</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Microsoft Sans Serif,7.5</Font>
+              <Guid>c3f838f4fb7746b7be38719557d24f1c</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>nDiscount</Name>
+              <Page isRef="11" />
+              <Parent isRef="93" />
+              <Text>{TPSTSalDT.FCXsdDiscount}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="101" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <State>DecimalDigits</State>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Expression</Type>
+            </nDiscount>
+            <nAmount Ref="102" type="Text" isKey="true">
+              <Alias>Amount</Alias>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>17.5,0,2.3,0.35</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Microsoft Sans Serif,7.5</Font>
+              <Guid>d52c47d341b64bc88a8b00d3272dc63b</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>nAmount</Name>
+              <Page isRef="11" />
+              <Parent isRef="93" />
+              <Text>{TPSTSalDT.FCXsdNetUse}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="103" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <State>DecimalDigits, GroupSeparator, GroupSize</State>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>DataColumn</Type>
+            </nAmount>
+            <PdtUnit Ref="104" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>10.88,0,1.3,0.36</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Microsoft Sans Serif,7.5</Font>
+              <Guid>db71b7db192247abad85ea0f972d74f6</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>PdtUnit</Name>
+              <Page isRef="11" />
+              <Parent isRef="93" />
+              <Text>{TPSTSalDT.FTPunName}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>DataColumn</Type>
+            </PdtUnit>
+            <Text6 Ref="105" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <CanBreak>True</CanBreak>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>4.7,0.01,6.15,0.35</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Microsoft Sans Serif,7.5</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text6</Name>
+              <Page isRef="11" />
+              <Parent isRef="93" />
+              <Text>{IIF(TPSTSalDT.FTXshShwVoid =="41","***Void " + TPSTSalDT.FTPdtName,TPSTSalDT.FTPdtName)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text6>
+            <SubReport4 Ref="106" type="SubReport" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.55,0.35,6.2,0.25</ClientRectangle>
+              <Components isList="true" count="0" />
+              <KeepSubReportTogether>True</KeepSubReportTogether>
+              <Name>SubReport4</Name>
+              <Page isRef="11" />
+              <Parameters isList="true" count="0" />
+              <Parent isRef="93" />
+              <SubReportPageGuid>ea7211cfec1f45dd8635c9a1af3ab2da</SubReportPageGuid>
+              <SubReportUrl />
+              <UseParentStyles>True</UseParentStyles>
+            </SubReport4>
+          </Components>
+          <Conditions isList="true" count="1">
+            <value>TPSTSalDT.FTXshShwVoid,EqualTo,_x0034_0,,String,Red,Transparent,Arial_x002C_8,False,False,,,None</value>
+          </Conditions>
+          <DataRelationName isNull="true" />
+          <DataSourceName>TPSTSalDT</DataSourceName>
+          <FilterOn>False</FilterOn>
+          <Filters isList="true" count="0" />
+          <Guid>e76df48c7f33437ba41203f26558d114</Guid>
+          <KeepFooterTogether>False</KeepFooterTogether>
+          <KeepHeaderTogether>False</KeepHeaderTogether>
+          <Name>Data1</Name>
+          <Page isRef="11" />
+          <Parent isRef="11" />
+          <Sort isList="true" count="2">
+            <value>ASC</value>
+            <value>FNPtdSeqNo</value>
+          </Sort>
+        </Data1>
+        <GroupFooterBand1 Ref="107" type="GroupFooterBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <CanShrink>True</CanShrink>
+          <ClientRectangle>0,7.75,20.4,0.4</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text14 Ref="108" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <CanShrink>True</CanShrink>
+              <ClientRectangle>0.4,0,19.46,0.4</ClientRectangle>
+              <Conditions isList="true" count="1">
+                <value>Multi&lt;?xml version="1.0" encoding="utf-16" standalone="yes"?&gt;&lt;StiSerializer version="1.02" type="Net" application="State"&gt;&lt;Filters isList="true" count="2"&gt;&lt;value&gt;TPSTSalHD.FNXshDocType,EqualTo,_x0031_,,String&lt;/value&gt;&lt;value&gt;TPSTSalHD.FCXshRnd,EqualTo,,,String&lt;/value&gt;&lt;/Filters&gt;&lt;FilterMode&gt;Or&lt;/FilterMode&gt;&lt;Enabled&gt;False&lt;/Enabled&gt;&lt;TextColor&gt;Red&lt;/TextColor&gt;&lt;BackColor&gt;Transparent&lt;/BackColor&gt;&lt;Font&gt;Arial, 8pt&lt;/Font&gt;&lt;BorderSides&gt;None&lt;/BorderSides&gt;&lt;/StiSerializer&gt;</value>
+              </Conditions>
+              <Editable>True</Editable>
+              <Font>Microsoft Sans Serif,7.5</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>77c76f628df54b78ab1a466a4f09917c</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text14</Name>
+              <Page isRef="11" />
+              <Parent isRef="107" />
+              <PrintOn>OnlyLastPage</PrintOn>
+              <Text>{IIF(SP_nLang=="1","สาเหตุการคืนสืนค้า :","Reason for return")}   {TPSTSalHD.FTRsnName}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text14>
+          </Components>
+          <Conditions isList="true" count="1">
+            <value>TPSTSalDT.FTXshShwVoid,EqualTo,_x0034_2,,String,Red,Transparent,Arial_x002C_8,False,False,,,None</value>
+          </Conditions>
+          <Name>GroupFooterBand1</Name>
+          <Page isRef="11" />
+          <Parent isRef="11" />
+          <PrintAtBottom>True</PrintAtBottom>
+        </GroupFooterBand1>
+        <RoundedRectanglePrimitive1 Ref="109" type="Stimulsoft.Report.Components.StiRoundedRectanglePrimitive" isKey="true">
+          <ClientRectangle>11.08,0.52,8.98,0.59</ClientRectangle>
+          <Color>Black</Color>
+          <Guid>342185224828433bb4ebf4fa70bbd65d</Guid>
+          <Name>RoundedRectanglePrimitive1</Name>
+          <Page isRef="11" />
+          <Parent isRef="11" />
+          <Round>0.1</Round>
+        </RoundedRectanglePrimitive1>
+        <RoundedRectangle3 Ref="110" type="Stimulsoft.Report.Components.StiRoundedRectanglePrimitive" isKey="true">
+          <ClientRectangle>0.3,2.27,19.75,2</ClientRectangle>
+          <Color>Black</Color>
+          <Guid>3bd0eafc39794d88a1eb95ca83a2d97a</Guid>
+          <Name>RoundedRectangle3</Name>
+          <Page isRef="11" />
+          <Parent isRef="11" />
+          <Round>0.1</Round>
+        </RoundedRectangle3>
+        <RoundedRectangle1 Ref="111" type="Stimulsoft.Report.Components.StiRoundedRectanglePrimitive" isKey="true">
+          <ClientRectangle>0.3,4.35,19.75,11.04</ClientRectangle>
+          <Color>Black</Color>
+          <Guid>f0995d634c2140b0b760906527e9feb0</Guid>
+          <Name>RoundedRectangle1</Name>
+          <Page isRef="11" />
+          <Parent isRef="11" />
+          <Round>0.1</Round>
+        </RoundedRectangle1>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>1898b2c1f01141d2843ab2e021ff18a7</Guid>
+      <Margins>0.3,0.3,0.5,0.3</Margins>
+      <Name>Frm_PSInvoiceSale_ABB_A5</Name>
+      <Orientation>Landscape</Orientation>
+      <PageHeight>14.8</PageHeight>
+      <PageWidth>21</PageWidth>
+      <PaperSize>A5</PaperSize>
+      <Report isRef="0" />
+      <StretchToPrintArea>True</StretchToPrintArea>
+      <Watermark Ref="112" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Frm_PSInvoiceSale_ABB_A5>
+    <subVat Ref="113" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="1">
+        <DataBand1 Ref="114" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,0.4,3.54,0.31</ClientRectangle>
+          <Components isList="true" count="2">
+            <Text10 Ref="115" type="Text" isKey="true">
+              <Border>Bottom;Black;1;None;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.38,0,1.22,0.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Microsoft Sans Serif,7.5</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text10</Name>
+              <Page isRef="113" />
+              <Parent isRef="114" />
+              <Text>{TPSTSalVat.FCXsdVatRate}%</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text10>
+            <Text11 Ref="116" type="Text" isKey="true">
+              <Border>Bottom;Black;1;None;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.68,0,1.82,0.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Microsoft Sans Serif,7.5</Font>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text11</Name>
+              <Page isRef="113" />
+              <Parent isRef="114" />
+              <Text>{TPSTSalVat.FCXsdVat}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="117" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text11>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>TPSTSalVat</DataSourceName>
+          <Filters isList="true" count="0" />
+          <Name>DataBand1</Name>
+          <Page isRef="113" />
+          <Parent isRef="113" />
+          <Sort isList="true" count="0" />
+        </DataBand1>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>1bf827643f9e4f5fb4a392bcb8e8179d</Guid>
+      <Margins>1,1,1,1</Margins>
+      <Name>subVat</Name>
+      <PageHeight>29.7</PageHeight>
+      <PageWidth>5.54</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="118" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </subVat>
+    <subRcv Ref="119" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="3">
+        <PageHeaderBand2 Ref="120" type="PageHeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,0.4,9.36,0.4</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text38 Ref="121" type="Text" isKey="true">
+              <Alias>Amount</Alias>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>4.18,0,2.32,0.34</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Microsoft Sans Serif,7.5,Bold</Font>
+              <Guid>cf413914f5bb4036b5211020ae45dbf6</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text38</Name>
+              <Page isRef="119" />
+              <Parent isRef="120" />
+              <Text>{IIF(SP_nLang == "1","ยอดชำระ","Pay Amount")}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text38>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Guid>cbef18c32c1f4e1a85f25691b24ccc13</Guid>
+          <Name>PageHeaderBand2</Name>
+          <Page isRef="119" />
+          <Parent isRef="119" />
+        </PageHeaderBand2>
+        <GroupHeaderBand1 Ref="122" type="GroupHeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,1.6,9.36,0.36</ClientRectangle>
+          <Components isList="true" count="2">
+            <Text19 Ref="123" type="Text" isKey="true">
+              <Border>Bottom;Black;1;None;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.05,0.02,3.7,0.33</ClientRectangle>
+              <Conditions isList="true" count="1">
+                <value>TPSTSalRC.FTFmtCode,EqualTo,_x0030_20,,String,Red,Transparent,Arial_x002C_8,True,False,,,None,TextColor</value>
+              </Conditions>
+              <Font>Microsoft Sans Serif,7.5</Font>
+              <Guid>2a3b894bf6744a68b7dc702c8cede8b4</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text19</Name>
+              <Page isRef="119" />
+              <Parent isRef="122" />
+              <Text>{TPSTSalRC.FTRcvName}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text19>
+            <Text22 Ref="124" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>4,0.02,2.5,0.33</ClientRectangle>
+              <Conditions isList="true" count="1">
+                <value>TPSTSalRC.FTFmtCode,EqualTo,_x0030_20,,String,Red,Transparent,Arial_x002C_8,True,False,,,None,TextColor</value>
+              </Conditions>
+              <Font>Microsoft Sans Serif,7.5</Font>
+              <Guid>12575e36a8284cf4b856d3ce74445aec</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text22</Name>
+              <Page isRef="119" />
+              <Parent isRef="122" />
+              <Text>{Sum(GroupHeaderBand1,TPSTSalRC.FCXrcNet)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="125" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text22>
+          </Components>
+          <Condition>{TPSTSalRC.FTFmtCode}</Condition>
+          <Conditions isList="true" count="0" />
+          <Guid>33c4fedb4f674cda9af7a918d87fb51d</Guid>
+          <Name>GroupHeaderBand1</Name>
+          <Page isRef="119" />
+          <Parent isRef="119" />
+        </GroupHeaderBand1>
+        <DataBand2 Ref="126" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,2.76,9.36,0.38</ClientRectangle>
+          <Components isList="true" count="2">
+            <Text20 Ref="127" type="Text" isKey="true">
+              <Border>Bottom;Black;1;None;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.4,0,3.65,0.37</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Microsoft Sans Serif,7.5</Font>
+              <Guid>76185811af0948bebec4cd175d6f976c</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text20</Name>
+              <Page isRef="119" />
+              <Parent isRef="126" />
+              <Text>{TPSTSalRC.FTXrcRefNo1}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text20>
+            <Text23 Ref="128" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>4.05,0,2.45,0.37</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Microsoft Sans Serif,7.5</Font>
+              <Guid>14996808e83445fab3070c169e2a37cd</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text23</Name>
+              <Page isRef="119" />
+              <Parent isRef="126" />
+              <Text>{TPSTSalRC.FCXrcNet}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="129" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <VertAlignment>Center</VertAlignment>
+            </Text23>
+          </Components>
+          <Conditions isList="true" count="1">
+            <value>TPSTSalRC.FTFmtCode,EqualTo,_x0030_01,,String,Red,Transparent,Arial_x002C_8,False,False,,,None</value>
+          </Conditions>
+          <DataRelationName isNull="true" />
+          <DataSourceName>TPSTSalRC</DataSourceName>
+          <FilterEngine>SQLQuery</FilterEngine>
+          <Filters isList="true" count="0" />
+          <Guid>3354c0ea10724bcaab0c012655e850b6</Guid>
+          <Name>DataBand2</Name>
+          <Page isRef="119" />
+          <Parent isRef="119" />
+          <Sort isList="true" count="0" />
+        </DataBand2>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>af8ca4792e9a4eda9ebe060e643f37de</Guid>
+      <Margins>1,1,1,1</Margins>
+      <Name>subRcv</Name>
+      <PageHeight>29.7</PageHeight>
+      <PageWidth>11.36</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="130" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </subRcv>
+    <subRcv002 Ref="131" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="2">
+        <GroupHeaderBand2 Ref="132" type="GroupHeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,0.4,4.86,0.4</ClientRectangle>
+          <Components isList="true" count="2">
+            <Text24 Ref="133" type="Text" isKey="true">
+              <Border>Bottom;Black;1;None;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.04,0.02,2.84,0.38</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Microsoft Sans Serif,7.5</Font>
+              <Guid>926d9b556131452bbe6510c67a6cb1b0</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text24</Name>
+              <Page isRef="131" />
+              <Parent isRef="132" />
+              <Text>{TPSTSalRC.FTRcvName}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>DataColumn</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text24>
+            <Text25 Ref="134" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3.18,0.02,1.64,0.38</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Enabled>False</Enabled>
+              <Font>Microsoft Sans Serif,7.5</Font>
+              <Guid>9c8d29d2980f4d47a2291503f089bc14</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text25</Name>
+              <Page isRef="131" />
+              <Parent isRef="132" />
+              <Text>{IIF(TPSTSalRC.FTFmtCode == "002","",Sum(GroupHeaderBand1,TPSTSalRC.FCXrcNet))}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="135" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text25>
+          </Components>
+          <Condition>{TPSTSalRC.FTFmtCode}</Condition>
+          <Conditions isList="true" count="0" />
+          <Guid>f657d092653a4c489a2c8f9556183bfa</Guid>
+          <Name>GroupHeaderBand2</Name>
+          <Page isRef="131" />
+          <Parent isRef="131" />
+        </GroupHeaderBand2>
+        <DataBand3 Ref="136" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,1.6,4.86,0.4</ClientRectangle>
+          <Components isList="true" count="2">
+            <Text26 Ref="137" type="Text" isKey="true">
+              <Border>Bottom;Black;1;None;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.14,0,3.2,0.38</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Microsoft Sans Serif,7.5</Font>
+              <Guid>1746309881894c0694fae5c08a527f69</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text26</Name>
+              <Page isRef="131" />
+              <Parent isRef="136" />
+              <Text>{TPSTSalRC.FTXrcRefNo1}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text26>
+            <Text27 Ref="138" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3.42,0,1.4,0.38</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Microsoft Sans Serif,7.5</Font>
+              <Guid>6b1c6f7482fb4747880d9967b7ab94a3</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text27</Name>
+              <Page isRef="131" />
+              <Parent isRef="136" />
+              <Text>{TPSTSalRC.FCXrcNet}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="139" type="NumberFormat" isKey="true">
+                <GroupSeparator>,</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <VertAlignment>Center</VertAlignment>
+            </Text27>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>TPSTSalRC</DataSourceName>
+          <Filters isList="true" count="1">
+            <value>FTFmtCode,EqualTo,_x0030_02,,String</value>
+          </Filters>
+          <Guid>91f7b934bdac424990c3ce94d83987c4</Guid>
+          <Name>DataBand3</Name>
+          <Page isRef="131" />
+          <Parent isRef="131" />
+          <Sort isList="true" count="0" />
+        </DataBand3>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>a2b5500f1da84a6893335827fc294f17</Guid>
+      <Margins>1,1,1,1</Margins>
+      <Name>subRcv002</Name>
+      <PageHeight>29.7</PageHeight>
+      <PageWidth>6.86</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="140" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </subRcv002>
+    <subDTSerial Ref="141" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="1">
+        <DataBand4 Ref="142" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <CanBreak>True</CanBreak>
+          <ClientRectangle>0,0.4,6.2,0.26</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text3 Ref="143" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.05,0,5.85,0.25</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Microsoft Sans Serif,7</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text3</Name>
+              <Page isRef="141" />
+              <Parent isRef="142" />
+              <Text>SN : {TPSTSalDTSN.FTPdtSerial}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text3>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>TPSTSalDTSN</DataSourceName>
+          <FilterEngine>SQLQuery</FilterEngine>
+          <Filters isList="true" count="1">
+            <value>FNXsdSeqNo,EqualTo,TPSTSalDT.FNXsdSeqNo,,Numeric</value>
+          </Filters>
+          <MasterComponent isRef="93" />
+          <Name>DataBand4</Name>
+          <Page isRef="141" />
+          <Parent isRef="141" />
+          <Sort isList="true" count="0" />
+        </DataBand4>
+      </Components>
+      <Conditions isList="true" count="1">
+        <value>TPSTSalDTSN.FNXsdSeqNo,NotEqualTo,TPSTSalDT.FNXsdSeqNo,,String,Red,Transparent,Arial_x002C_8,True,False,,,None</value>
+      </Conditions>
+      <Enabled>False</Enabled>
+      <Guid>ea7211cfec1f45dd8635c9a1af3ab2da</Guid>
+      <Margins>1,1,1,1</Margins>
+      <Name>subDTSerial</Name>
+      <Orientation>Landscape</Orientation>
+      <PageHeight>8.2</PageHeight>
+      <PageWidth>8.2</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="144" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </subDTSerial>
+  </Pages>
+  <PreviewSettings>33501695</PreviewSettings>
+  <PrinterSettings Ref="145" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <ReferencedAssemblies isList="true" count="8">
+    <value>System.Dll</value>
+    <value>System.Drawing.Dll</value>
+    <value>System.Windows.Forms.Dll</value>
+    <value>System.Data.Dll</value>
+    <value>System.Xml.Dll</value>
+    <value>Stimulsoft.Controls.Dll</value>
+    <value>Stimulsoft.Base.Dll</value>
+    <value>Stimulsoft.Report.Dll</value>
+  </ReferencedAssemblies>
+  <ReportAlias>Frm_PSInvoiceSale_ABB(A5)</ReportAlias>
+  <ReportChanged>8/9/2021 11:47:51 AM</ReportChanged>
+  <ReportCreated>2/19/2020 12:10:04 PM</ReportCreated>
+  <ReportGuid>af380fb2b7834bde89e083233f976d8d</ReportGuid>
+  <ReportName>Frm_PSInvoiceSale_ABB_A5</ReportName>
+  <ReportUnit>Centimeters</ReportUnit>
+  <ReportVersion>2018.2.2.0</ReportVersion>
+  <Script>using System;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Data;
+using Stimulsoft.Controls;
+using Stimulsoft.Base.Drawing;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Dialogs;
+using Stimulsoft.Report.Components;
+
+namespace Reports
+{
+    public class Frm_PSInvoiceSale_ABB_ : Stimulsoft.Report.StiReport
+    {
+        public Frm_PSInvoiceSale_ABB_()        {
+            this.InitializeComponent();
+        }
+
+        #region StiReport Designer generated code - do not modify
+		#endregion StiReport Designer generated code - do not modify
+    }
+}
+</Script>
+  <ScriptLanguage>CSharp</ScriptLanguage>
+  <Styles isList="true" count="0" />
+</StiSerializer>

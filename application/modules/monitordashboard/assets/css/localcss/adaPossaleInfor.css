@@ -1,0 +1,86 @@
+.xWTopicMenu{
+    font-weight: bold;
+    font-size: 30px !important;
+}
+.xWTopicChoice-DateBox{
+    position: relative;
+}
+.xWTopicChoice-SelectBox{
+    width:100%
+}
+.xWFrameDivChoice{
+    border: 1px solid #ccc;
+    margin-top: 30px;
+}
+.xWSearchGraphBtn{
+    padding: 4px;
+    position: relative;
+}
+.xWSearchGraphBtn label{
+    font-size: 18px !important;
+    margin: 0px;
+}
+.xWSearchGraphBtn label:nth-child(1){
+    margin-left: 10px;
+    float: left;
+}
+.xWSearchGraphBtn label:nth-child(2){
+    margin-right: 10px;
+    float: right;
+}
+.xWBtnControlSearchActive{
+    color: #FFFFFF !important;
+    background-color: #179BFD !important;
+    border-color: #179BFD !important;
+}
+.xWSizeImgPdt{
+    height: 100px;
+    width: 100px;
+}
+.xWLeftBorderDiv-right{
+    border-right: 1px solid #ccc;
+}
+.xWMargin-30px-on-991px{
+    margin-bottom: 0px;
+}
+.xWMargin-10px-on-991px{
+    margin-bottom: 0px;
+}
+@media only screen and (max-width: 543px){
+    .xWLeftBorderDiv-right{
+        border-right: 0px;
+        border-bottom: 1px solid #ccc;
+    }
+    .xWMargin-30px-on-991px{
+        margin-bottom: 30px;
+    }
+    .xWMargin-10px-on-991px{
+        margin-bottom: 10px;
+    }
+}
+@media only screen and (min-width: 544px) and (max-width: 767px){
+    .xWLeftBorderDiv-right{
+        border-right: 0px;
+        border-bottom: 1px solid #ccc;
+    }
+    .xWMargin-30px-on-991px{
+        margin-bottom: 30px;
+    }
+    .xWMargin-10px-on-991px{
+        margin-bottom: 10px;
+    }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px){
+    .xWMargin-30px-on-991px{
+        margin-bottom: 30px;
+    }
+    .xWMargin-10px-on-991px{
+        margin-bottom: 10px;
+    }
+}
+@media only screen and (min-width: 992px) and (max-width: 1199px){
+    
+}
+@media only screen and (min-width: 1200px){
+    
+}

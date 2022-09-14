@@ -1,0 +1,40 @@
+<?php
+if (! defined ( 'BASEPATH' ))
+	exit ( 'No direct script access allowed' );
+
+$lang ['tProductInformation'] = 'ข้อมูลสินค้า';
+$lang ['tSearchProduct'] = 'ค้นหาสินค้า';
+$lang ['tProduct'] = 'สินค้า';
+$lang ['tProductInformation'] = 'ข้อมูลสินค้า';
+$lang ['tProducts'] = 'สินค้าทั่วไป';
+$lang ['tSelectGroupProduct'] = 'เลือกกลุ่มสินค้า';
+$lang ['tProductName'] = 'ชื่อสินค้า';
+$lang ['tSelectCategory'] = 'เลือกประเภท';
+$lang ['tTicket'] = 'ตั๋ว';
+$lang ['tRentalEquipment'] = 'อุปกรณ์ให้เช่า';
+$lang ['tAmount'] = 'จำนวนอุปกรณ์ให้เช่า';
+$lang ['tOpening'] = 'เปิดใช้งาน';
+$lang ['tAddProduct'] = 'เพิ่มสินค้า';
+$lang ['tEditProduct'] = 'แก้ไขสินค้า';
+$lang ['tClosing'] = 'ปิดใช้งาน';
+$lang ['tImageProduct'] = 'รูปสินค้า';
+$lang ['tStatus'] = 'สถานะ';
+$lang ['tGroupProduct'] = 'กลุ่มสินค้า';
+$lang ['tCategory'] = 'เลือกประเภท';
+$lang ['tCodeProduct'] = 'รหัสสินค้า';
+$lang ['tPackage'] = 'แพ็คเกจ';
+$lang ['tProductRepair'] = 'สินค้าปรับปรุง';
+$lang ['tImageGroup'] = 'รูปกลุ่ม';
+$lang ['tSelect'] = 'เลือก%s';
+$lang ['tEditGroupProduct'] = 'แก้ไขกลุ่มสินค้า';
+$lang ['tAddGroupProduct'] = 'เพิ่มกลุ่มสินค้า';
+$lang ['tGroupProductName'] = 'ชื่อกลุ่มสินค้า ';
+$lang ['tGroupProductInformation'] = 'ข้อมูลกลุ่มสินค้า';
+$lang ['tSearchProductInformation'] = 'ค้นหากลุ่มสินค้า';
+$lang ['tBranch'] = 'สาขา';
+$lang ['tCategory'] = 'ประเภท';
+$lang ['tPleaseEnterAGroupProductName'] = 'กรุณาใส่ชื่อกลุ่มสินค้า';
+$lang ['tSelectBranch'] = 'เลือกสาขา';
+$lang ['tPleaseEnterProductName'] = 'กรุณาใส่ชื่อสินค้า';
+$lang ['tPleaseEnterProductCode'] = 'กรุณาใส่รหัสสินค้า';
+$lang ['tAllBranches'] = 'ทุกสาขา';

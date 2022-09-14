@@ -1,0 +1,71 @@
+<?php
+if (! defined ( 'BASEPATH' ))
+	exit ( 'No direct script access allowed' );
+
+$lang ['tEventInformation'] = 'Event Information';
+$lang ['tSearchEvent'] = 'Search event';
+$lang ['tEventDate'] = 'Event date';
+$lang ['tExpire'] = 'Expire';
+$lang ['tShowTime'] = 'Show time';
+$lang ['tAccepted'] = 'Approved';
+$lang ['tAccept'] = 'approve';
+$lang ['tNotAccepted'] = 'Not approve';
+$lang ['tEventName'] = 'Event name';
+$lang ['tGlobal'] = 'Global';
+$lang ['tAddEvent'] = 'Add event';
+$lang ['tEditEvent'] = 'Edit event';
+$lang ['tDescription'] = 'Description';
+$lang ['tRecommendEvents'] = 'Recommend events';
+$lang ['tSuggestedDateRangeFrom'] = 'Suggested date range from';
+$lang ['tSuggestedDateRangeTo'] = 'Suggested date range to';
+$lang ['tStartDateOfSale'] = 'Start date of sale';
+$lang ['tEndDateOfSale'] = 'End date of sale';
+$lang ['tStartEventDate'] = 'Start event date';
+$lang ['tEventDateExpires'] = 'Event date expires';
+$lang ['tAddLocation'] = 'Add location';
+$lang ['tLocationShow'] = 'Location show';
+$lang ['tSelect'] = 'Select';
+$lang ['tSelectPackage'] = 'Select package';
+$lang ['tAddLocationShow'] = 'Add location show';
+$lang ['tNoShow'] = 'No show';
+$lang ['tPackageList'] = 'Package list';
+$lang ['tShowTime'] = 'Show time';
+$lang ['tAddPackage'] = 'Add package';
+$lang ['tDateFrom'] = 'Date from';
+$lang ['tDateTo'] = 'Date to';
+$lang ['tDoorOpeningPeriodBeforeShow'] = 'Door opening period before show';
+$lang ['tDuration'] = 'Duration';
+$lang ['tAddShowTime'] = 'Add show time';
+$lang ['tSelectShowTime'] = 'Select show time';
+$lang ['tDateShowTime'] = 'Date show time';
+$lang ['tHoliday'] = 'Holiday';
+$lang ['tDayOfWeek'] = 'Day of week';
+$lang ['tSearchShowTime'] = 'Search show time';
+$lang ['tEdit'] = 'Edit';
+$lang ['tAdd'] = 'Add';
+$lang ['tMonday'] = 'Monday';
+$lang ['tTuesday'] = 'Tuesday';
+$lang ['tWednesday'] = 'Wednesday';
+$lang ['tThursday'] = 'Thursday';
+$lang ['tFriday'] = 'Friday';
+$lang ['tSaturday'] = 'Saturday';
+$lang ['tSunday'] = 'Sunday';
+$lang ['tFromTime'] = 'From Time';
+$lang ['tToTime'] = 'To Time';
+$lang ['tPleaseSelectADateRangeFor2Days'] = 'Please select a date range for 2 days';
+$lang ['tEditShowTime'] = 'Edit show time';
+$lang ['tMinute'] = '(minute)';
+$lang ['tStartDate'] = 'Start date';
+$lang ['tEndDate'] = 'End date';
+$lang ['tManageEvents'] = 'Manage events';
+
+
+
+$lang ['tEnable'] = 'Enable';
+$lang ['tDisabled'] = 'Disabled';
+$lang ['tImage'] = 'Image';
+$lang ['tStatus'] = 'Status';
+$lang ['tPleaseEnterEventName'] = 'Please enter event name';
+$lang ['tPleaseEnterDate'] = 'Please enter date';
+$lang ['tNo'] = 'No.';
+$lang ['tName'] = 'Name';

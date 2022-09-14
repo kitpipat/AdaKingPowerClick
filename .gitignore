@@ -1,0 +1,96 @@
+
+# Created by https://www.gitignore.io/api/windows,codeigniter,visualstudiocode
+
+### CodeIgniter ###
+*/config/development
+*/logs/log-*.php
+!*/logs/index.html
+*/cache/*
+!*/cache/index.html
+!*/cache/.htaccess
+
+user_guide_src/build/*
+user_guide_src/cilexer/build/*
+user_guide_src/cilexer/dist/*
+user_guide_src/cilexer/pycilexer.egg-info/*
+
+#codeigniter 3
+!application/logs/*
+!application/logs/index.html
+!application/logs/.htaccess
+/vendor/
+
+### CodeIgniter Patch ###
+#codeigniter 3
+#application/config/database.php
+#application/config/config.php
+#application/config/rabbitmq.php
+web.config
+application/modules/document/document
+
+application/session
+
+### VisualStudioCode ###
+
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history
+
+### Windows ###
+# Windows thumbnail cache files
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows shortcuts
+*.lnk
+/.vscode/
+/doc_app/
+/application/modules/report/assets/exportexcel/
+/application/modules/report/assets/archive/
+
+/application/modules/monitordashboard/assets/koolreport/
+/application/modules/report/assets/koolreport/
+
+/application/libraries/PHPExcel/
+
+
+#Image
+/application/modules/common/assets/systemimg/systemimage/
+/application/modules/authen/assets/systemimg/
+/application/modules/company/assets/systemimg/
+/application/modules/courier/assets/systemimg/
+/application/modules/customer/assets/systemimg/
+/application/modules/payment/assets/systemimg/
+/application/modules/pos/assets/systemimg/
+/application/modules/product/assets/systemimg/
+/application/modules/supplier/assets/systemimg/
+
+#Excel File
+/application/modules/report/assets/exportexcel/
+
+/application/modules/monitordashboard/assets/systemtmp/dbtmp/
+/formreport/24-09-2019/
+/formreport/view/
+/config_deploy_backup.php
+/config_deploy.php
+
+/application/modules/sale/assets/koolreport/
+/application/modules/sale/assets/sysdshtemp/
+
+/application/logs/

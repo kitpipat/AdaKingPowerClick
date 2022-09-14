@@ -1,0 +1,70 @@
+.xCNLeft{
+	height:auto !important;
+}
+
+.xWlogo{
+	margin-top:0px !important;
+}
+
+/*--------------------------------Login---------------------------------*/
+
+@font-face {
+	font-family: THSarabunNew;
+	src: url(../../fonts/THSarabunNew.ttf);
+}
+
+@font-face {
+	font-family: THSarabunNew-Bold;
+	src: url(../../fonts/THSarabunNew-Bold.ttf);
+}
+
+@font-face {
+	font-family: THSarabunNew-BoldItalic;
+	src: url(../../fonts/THSarabunNew-BoldItalic.ttf);
+}
+
+@font-face {
+	font-family: THSarabunNew-Italic;
+	src: url(../../fonts/THSarabunNew-Italic.ttf);
+}
+
+html,body,p,a,li,label,span,div {
+	font-family: THSarabunNew !important;
+	font-size: 20px !important;
+	font-weight: 500 !important;
+}
+
+.xWCtlForm{
+    border-radius: 20px !important;
+}
+
+.xWCtlBtn{
+	border-radius: 20px !important;
+	background-color: #ffffff !important;
+	border-color: #0081c2 !important;
+	width: 100% !important;
+	height: 40px !important;
+}
+
+.xWCtlBtn :hover{
+	color : #0081c2 !important;
+}
+
+
+.form-control {
+    display: block !important;
+    width: 100% !important;
+    height: 34px !important;
+    padding: 6px 12px 2px !important;
+    font-size: 18px !important;
+}
+
+.auth-box .right {
+    float: right !important;
+    width: 58% !important;
+    height: 100% !important;
+    position: relative !important;
+    background-image: url("../../../assets/images/logo/Pandora_Disney_7.jpg") !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+}

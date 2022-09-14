@@ -1,0 +1,598 @@
+@media only screen and (max-width: 600px) {}
+
+@media only screen and (min-width:600px) {}
+
+@media only screen and (min-width: 768px) {}
+
+@media only screen and (min-width: 992px) {}
+
+@media only screen and (min-width: 1200px) {}
+
+@font-face {
+    font-family: THSarabunNew;
+    src: url(../../fonts/THSarabunNew.ttf);
+}
+
+@font-face {
+    font-family: THSarabunNew-Bold;
+    src: url(../../fonts/THSarabunNew-Bold.ttf);
+}
+
+@font-face {
+    font-family: THSarabunNew-BoldItalic;
+    src: url(../../fonts/THSarabunNew-BoldItalic.ttf);
+}
+
+@font-face {
+    font-family: THSarabunNew-Italic;
+    src: url(../../fonts/THSarabunNew-Italic.ttf);
+}
+
+html,
+body,
+p,
+a,
+li,
+label,
+span,
+div {
+    font-family: THSarabunNew;
+    font-size: 18px !important;
+    font-weight: 500;
+}
+
+input {
+    font-size: 18px !important;
+    color: #242a30 !important;
+    font-weight: 500 !important;
+}
+
+textarea {
+    font-size: 18px !important;
+    color: #242a30 !important;
+    font-weight: 500;
+}
+
+select {
+    font-size: 18px !important;
+    color: #242a30 !important;
+    font-weight: 500;
+}
+
+em {
+    font-size: 16px!important;
+    font-weight: normal;
+}
+
+.navbar-default .brand span {
+    font-size: 24px !important;
+    font-weight: 600px;
+    color: #FFFFFF;
+}
+
+.navbar-default .brand small {
+    font-size: 55%;
+    color: #ffffff;
+}
+
+
+.breadcrumb > li + li:nth-child(2):before {
+    padding: 0 5px;
+    color: red !important;
+    content: "" !important;
+
+}
+
+ol.breadcrumb li:nth-child(2) {
+    font-family: THSarabunNew-Bold;
+    font-size: 21px !important;
+    line-height: 32px;
+    font-weight: 500;
+    color: #179bfd !important;
+}
+
+ol.breadcrumb li.active a {
+    font-family: THSarabunNew-Bold;
+    font-size: 21px !important;
+    line-height: 32px;
+    font-weight: 500;
+    color: #aba9a9 !important;
+}
+
+.xCNLabelFrm {
+    font-family: THSarabunNew-Bold;
+    font-size: 17px !important;
+    font-weight: bold;
+    color: #232C3D !important;
+}
+
+.xCNLabelColorWhite {
+    font-family: THSarabunNew-Bold;
+    font-size: 17px !important;
+    font-weight: bold;
+    color: #ffffff !important;
+    margin-bottom: -5px;
+}
+
+.xCNMenuTab {
+    font-family: THSarabunNew-Bold;
+    font-size: 17px !important;
+    font-weight: bold;
+    color: #232C3D !important;
+}
+
+.table thead th,
+.table>thead>tr>th {
+    font-family: THSarabunNew-Bold;
+    color: #232C3D !important;
+    font-size: 17px !important;
+    font-weight: 500;
+}
+
+.table tbody tr,
+.table>tbody>tr>td {
+    color: #232C3D !important;
+    font-size: 16px !important;
+    font-weight: 400;
+}
+
+.xCNTDTextStatus {
+    font-size: 17px !important;
+    font-weight: 500;
+}
+
+.table>thead:first-child>tr:first-child>td,
+.table>thead:first-child>tr:first-child>th {
+    border-bottom: 2px solid #e2e7eb !important;
+}
+
+.pagination li a {
+    font-size: 18px !important;
+    color: #242a30 !important;
+}
+
+.pagination li.active a {
+    font-size: 18px !important;
+    color: #FFFFFF !important;
+}
+
+.xCNPanelHeadColor label {
+    font-family: THSarabunNew-Bold;
+    font-size: 18px !important;
+    font-weight: 500;
+    color: #FFFFFF !important;
+}
+
+.xCNBTNDefult {
+    font-size: 18px!important;
+    font-weight: normal !important;
+}
+
+.xWBtnGrpSaveLeft {
+    font-size: 18px!important;
+    font-weight: normal !important;
+}
+
+.xWBtnGrpSaveRight {
+    font-size: 18px!important;
+    font-weight: normal !important;
+}
+
+.xCNHeardModal {
+    font-family: THSarabunNew-Bold;
+    font-size: 22px!important;
+    font-weight: bold;
+    /*color: #242a30 !important;*/
+    color: #ffffff !important;
+}
+
+.xCNTextModal {
+    font-size: 18px!important;
+    font-weight: normal;
+    color: #242a30 !important;
+}
+
+.xCNDropDrownGroup ul li {
+    font-size: 18px!important;
+    font-weight: normal;
+}
+
+.xCNTextDetail {
+    font-family: THSarabunNew;
+    font-size: 18px !important;
+    font-weight: 500;
+    color: #666666 !important;
+}
+
+.xCNLinkClick {
+    color: #179bfd !important;
+    cursor: pointer !important;
+}
+
+
+/** ----------------- Font Report -------------------- */
+
+.xCNRptTitle {
+    font-family: THSarabunNew;
+    font-size: 22px !important;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.xCNRptCompany {
+    font-family: THSarabunNew;
+    font-size: 22px !important;
+    font-weight: 700;
+    line-height: 0.1 !important;
+}
+
+div.xCNRptAddress label{
+    font-family: THSarabunNew;
+    font-size: 20px !important;
+    font-weight: 500;
+    line-height: 1;
+}
+
+.xCNRptDetail {
+    font-family: THSarabunNew;
+    font-size: 20px !important;
+    font-weight: 500;
+    line-height: 1;
+}
+.table>tbody>tr>td.xCNRptDetail {
+    font-family: THSarabunNew;
+    color: #232C3D !important;
+    font-size: 20px !important;
+    font-weight: 400;
+}
+
+.xCNRptDataPrint {
+    font-family: THSarabunNew;
+    font-size: 20px !important;
+    font-weight: 500;
+}
+
+.xCNRptLabel {
+    font-family: THSarabunNew;
+    font-size: 16px !important;
+    font-weight: 500;
+}
+
+.xCNRptFilter {
+    font-family: THSarabunNew;
+    font-size: 20px !important;
+    font-weight: 500;
+    line-height: 1;
+}
+div.xCNRptFilter label{
+    font-family: THSarabunNew;
+    font-size: 20px !important;
+    font-weight: 500;
+    line-height: 1;
+}
+
+.xCNRptFilterTitle {
+    font-family: THSarabunNew-Bold;
+    color: #232C3D !important;
+    font-size: 20px !important;
+    font-weight: 900;
+}
+div.xCNRptFilterTitle label{
+    font-family: THSarabunNew-Bold;
+    color: #232C3D !important;
+    font-size: 20px !important;
+    font-weight: 900;
+}
+
+.xCNRptFilterHead {
+    font-family: THSarabunNew-Bold;
+    color: #232C3D !important;
+    font-size: 20px !important;
+    font-weight: 900;
+}
+div.xCNRptFilterHead label{
+    font-family: THSarabunNew-Bold;
+    color: #232C3D !important;
+    font-size: 20px !important;
+    font-weight: 900;
+}
+.xCNRptFilterBox{
+    float: left;
+    padding: 10px 20px 0px 0px;
+}
+
+.xCNRptDisplayBlock{
+    display: block;
+}
+
+/*.xCNRptColumnHeader {
+    font-family: THSarabunNew-Bold;
+    color: #232C3D !important;
+    font-size: 20px !important;
+    font-weight: 900;
+}*/
+.table thead th.xCNRptColumnHeader, .table>thead>tr>th.xCNRptColumnHeader {
+    font-family: THSarabunNew-Bold;
+    color: #232C3D !important;
+    font-size: 20px !important;
+    font-weight: 900;
+}
+
+/*.xCNRptSubFooter{
+    font-family: THSarabunNew-Bold;
+    color: #232C3D !important;
+    font-size: 20px !important;
+    font-weight: 900;
+}*/
+.table>tbody>tr>td.xCNRptSubFooter {
+    font-family: THSarabunNew-Bold;
+    color: #232C3D !important;
+    font-size: 20px !important;
+    font-weight: 900;
+}
+
+/*.xCNRptSumFooter {
+    font-family: THSarabunNew-Bold;
+    color: #232C3D !important;
+    font-size: 20px !important;
+    font-weight: 900;
+}*/
+.table>tbody>tr>td.xCNRptSumFooter {
+    font-family: THSarabunNew-Bold;
+    color: #232C3D !important;
+    font-size: 20px !important;
+    font-weight: 900;
+}
+
+.table>tfoot>tr>td.xCNRptSumFooter {
+    font-family: THSarabunNew-Bold;
+    color: #232C3D !important;
+    font-size: 20px !important;
+    font-weight: 900;
+}
+
+.xCNRptGrouPing {
+    font-family: THSarabunNew-Bold;
+    color: #232C3D !important;
+    font-size: 20px !important;
+    font-weight: 900;
+
+}
+.table>tbody>tr>td.xCNRptGrouPing {
+    font-family: THSarabunNew-Bold;
+    color: #232C3D !important;
+    font-size: 20px !important;
+    font-weight: 900;
+}
+
+.table>tbody>tr.xCNTrFooter {
+    border-top: dashed 1px #333 !important;
+    border-bottom: 1px solid black !important;
+    /* border-top: 1px dotted black !important; */
+    /* background-color: #CFE2F3 !important; */
+}
+
+@media print {
+
+    .xCNRptTitle {
+        font-family: THSarabunNew;
+        font-size: 18px !important;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+    
+    .xCNRptCompany {
+        font-family: THSarabunNew;
+        font-size: 18px !important;
+        font-weight: 700;
+        line-height: 0.1 !important;
+    }
+    
+    div.xCNRptAddress {
+        font-family: THSarabunNew;
+        font-size: 15px !important;
+        font-weight: 400 !important;
+        line-height: 1 !important;
+        margin-bottom: 0px !important;
+    }
+    div.xCNRptAddress label {
+        font-family: THSarabunNew;
+        font-size: 15px !important;
+        font-weight: 400 !important;
+        line-height: 1 !important;
+        margin-bottom: 0px !important;
+    }
+    
+    .xCNRptDetail {
+        font-family: THSarabunNew;
+        font-size: 15px !important;
+        font-weight: 500;
+        line-height: 1;
+    }
+    .table>tbody>tr>td.xCNRptDetail {
+        font-family: THSarabunNew;
+        color: #232C3D !important;
+        font-size: 15px !important;
+        font-weight: 400;
+        line-height: 1;
+    }
+    
+    .xCNRptDataPrint {
+        font-family: THSarabunNew;
+        font-size: 15px !important;
+        font-weight: 500;
+    }
+    
+    .xCNRptLabel {
+        font-family: THSarabunNew;
+        font-size: 12px !important;
+        font-weight: 500;
+    }
+    
+    .xCNRptFilter {
+        font-family: THSarabunNew;
+        font-size: 15px !important;
+        font-weight: 500;
+        line-height: 1 !important;
+    }
+    div.xCNRptFilter label {
+        font-family: THSarabunNew;
+        font-size: 15px !important;
+        font-weight: 400 !important;
+        line-height: 1 !important;
+        margin-bottom: 0px !important;
+    }
+
+    .xCNRptFilterTitle {
+        font-family: THSarabunNew-Bold;
+        color: #232C3D !important;
+        font-size: 15px !important;
+        font-weight: 900;
+    }
+    div.xCNRptFilterTitle label{
+        font-family: THSarabunNew-Bold;
+        color: #232C3D !important;
+        font-size: 15px !important;
+        font-weight: 900;
+    }
+    
+    .xCNRptFilterHead {
+        font-family: THSarabunNew-Bold;
+        color: #232C3D !important;
+        font-size: 15px !important;
+        font-weight: 900;
+    }
+    div.xCNRptFilterHead label{
+        font-family: THSarabunNew-Bold;
+        color: #232C3D !important;
+        font-size: 15px !important;
+        font-weight: 900;
+    }
+
+    .xCNRptColumnHeader {
+        font-family: THSarabunNew-Bold;
+        color: #232C3D !important;
+        font-size: 15px !important;
+        font-weight: 900;
+        color: red;
+    }
+    .table thead th.xCNRptColumnHeader, .table>thead>tr>th.xCNRptColumnHeader {
+        font-family: THSarabunNew-Bold;
+        color: #232C3D !important;
+        font-size: 15px !important;
+        font-weight: 900;
+        color: red;
+    }
+    
+    .xCNRptSubFooter{
+        font-family: THSarabunNew-Bold;
+        color: #232C3D !important;
+        font-size: 15px !important;
+        font-weight: 900;
+    }
+    .table>tbody>tr>td.xCNRptSubFooter {
+        font-family: THSarabunNew-Bold;
+        color: #232C3D !important;
+        font-size: 15px !important;
+        font-weight: 900;
+    }
+    
+    .xCNRptSumFooter {
+        font-family: THSarabunNew-Bold;
+        color: #232C3D !important;
+        font-size: 15px !important;
+        font-weight: 900;
+    }
+    .table>tbody>tr>td.xCNRptSumFooter {
+        font-family: THSarabunNew-Bold;
+        color: #232C3D !important;
+        font-size: 15px !important;
+        font-weight: 900;
+    }
+    .table>tfoot>tr>td.xCNRptSumFooter {
+        font-family: THSarabunNew-Bold;
+        color: #232C3D !important;
+        font-size: 15px !important;
+        font-weight: 900;
+    }
+    .xCNRptGrouPing {
+        font-family: THSarabunNew-Bold;
+        color: #232C3D !important;
+        font-size: 15px !important;
+        font-weight: 900;
+    
+    }
+    .table>tbody>tr>td.xCNRptGrouPing {
+        font-family: THSarabunNew-Bold;
+        color: #232C3D !important;
+        font-size: 15px !important;
+        font-weight: 900;
+    }
+
+}
+
+
+
+.xCNRptPDFTitle {
+    font-family: THSarabunNew;
+    font-size: 24px !important;
+    font-weight: bold;
+}
+
+.xCNRptPDFLabel {
+    font-family: THSarabunNew;
+    font-size: 18px !important;
+    font-weight: 500;
+}
+
+.xCNReportTBHeard {
+    text-align: center;
+    color: #232C3D !important;
+    font-size: 18px !important;
+    font-weight: 500;
+}
+
+.xCNReportTBData {
+    color: #232C3D !important;
+    font-size: 12px !important;
+    font-weight: 500;
+}
+.xCNFooterPageRpt{
+    display: none;
+}
+
+
+/* ====================== CSS Document ====================== */
+
+.xWDocHeardText {
+    font-family: THSarabunNew-Bold;
+    font-size: 20px !important;
+    font-weight: bold;
+    color: #232C3D !important;
+}
+
+.xWFont-size-25px {
+    font-size: 21px !important
+}
+
+.xWFont-size-30px {
+    font-size: 30px !important
+}
+
+.xWFont-size-35px {
+    font-size: 35px !important
+}
+
+.xWFont-size-40px {
+    font-size: 40px !important
+}
+
+.xCNTextConsOth{
+    font-weight: 600;
+    text-decoration:underline;
+    font-size:20px !important;
+}
+
+.xCNFilterOthFromTo{
+    font-weight: 600 !important;
+}

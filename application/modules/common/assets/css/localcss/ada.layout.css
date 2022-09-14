@@ -1,0 +1,516 @@
+@media only screen and (max-width: 768px) {}
+
+@media only screen and (min-width: 768px) {}
+
+@media only screen and (min-width: 992px) {}
+
+@media only screen and (min-width: 1200px) {}
+
+@media screen and (max-width: 1024px) {}
+
+
+/*---------------------------Head Menu---------------------------------*/
+
+.odvMainContent {
+    margin-top: 0px;
+}
+
+.container-fluid {
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.navbar-default .navbar-nav>.open>a,
+.navbar-default .navbar-nav>.open>a:hover,
+.navbar-default .navbar-nav>.open>a:focus {
+    background-color: rgba(0, 0, 0, 0.02) !important;
+}
+
+.navbar-default #navbar-menu {
+    float: none !important;
+}
+
+.navbar-default .brand {
+    padding: 10px 15px !important;
+    background-color: transparent !important;
+    height: 55px;
+    display: block !important;
+}
+
+.navbar-nav>li>a {
+    padding: 17px 20px !important;
+}
+
+.navbar-btn {
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+}
+
+.navbar-form {
+    padding: 6px !important;
+}
+
+.navbar-default .brand small {
+    position: relative;
+    top: -10px;
+    left: 8px;
+    display: flex;
+}
+
+.logo {
+    width: 170px;
+    float: left;
+}
+
+
+/*--------------------------Footer lang -------------------------------*/
+
+#odvLangPanal {
+    position: fixed;
+    right: 0;
+    margin-top: 6px;
+}
+
+#odvLangEditPanal {
+    background: #FFFFFF;
+    height: 35px;
+    width: 100%;
+    position: fixed;
+    bottom: 0px;
+    display: none;
+    z-index: 200;
+    padding-left: 60px !important;
+}
+
+.xCNFooterPanalHelp {
+    margin-top: 6px;
+    position: absolute;
+    margin-left: 15px;
+}
+
+.xCNMrgLeft {
+    margin-left: 5px;
+    color: #b3b0b0;
+    font-size: 13px;
+}
+
+.xCNWidth100per{
+    width: 100%;
+}
+
+.xCNHight100per{
+    height: 100%;
+}
+
+.xCNMrgRight {
+    margin-right: 30px;
+    color: #b3b0b0;
+    font-size: 13px;
+}
+
+.xWdropdown-menu {
+    left: -80px;
+    margin-bottom: 8px !important;
+}
+
+.xWLogoEditLang {
+    height: 22px;
+    width: 25px;
+}
+
+
+/*-----------------------------Content----------------------------------*/
+
+.odvMainContent.main {
+    min-height: 0 !important;
+    max-height: 768px !important;
+}
+
+.main {
+    padding-bottom: 40px;
+    background: #F0F4F7 !important;
+}
+
+.xCNBody {
+    background: #F0F4F7;
+}
+
+.main-menu {
+    background: #F0F4F7;
+    /* border-bottom: 1px solid #e3e3e3; */
+    padding-bottom: 0px !important;
+    /* position: fixed; */
+    z-index: 20;
+    margin-left: 0px;
+}
+
+.breadcrumb {
+    background-color: transparent !important;
+    margin: 0px;
+    padding-left: 0px;
+}
+
+.main-content {
+    padding: 1px 15px !important;
+    padding-bottom: 50px !important;
+}
+
+.pagination {
+    margin: 0px !important;
+}
+
+label.fancy-checkbox {
+    margin-bottom: 0px;
+}
+
+.fancy-checkbox input[type="checkbox"]+span:before {
+    margin-right: 10px !important;
+}
+
+.panel-heading {
+    padding-top: 20px !important;
+    padding-bottom: 0px !important;
+}
+
+.panel-body {
+    padding-top: 10px !important;
+}
+
+.xCNPanelHeadColor {
+    background-color: #1D2530 !important;
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+}
+
+.xCNPanelHeadColor label {
+    margin: 0;
+}
+
+.xCNIconAddOn {
+    cursor: pointer;
+    float: right;
+    width: 20px;
+}
+
+.xCNIconTable {
+    cursor: pointer;
+    width: 14px;
+}
+
+.xCNIconBrowse {
+    cursor: pointer;
+    float: right;
+    margin-top: -26px;
+    width: 20px;
+    margin-right: 5px;
+}
+
+.xCNIconBrowseModal {
+    cursor: pointer;
+    float: right;
+    margin-top: -20px;
+    width: 20px;
+}
+
+.xCNIconBrowseEditInline {
+    cursor: pointer;
+    float: right;
+    margin-top: -25px;
+    width: 17px;
+    margin-right: 5px;
+}
+
+.xCNIconBrowseEditInlineHDDis {
+    cursor: pointer;
+    width: 17px;
+}
+
+.xCNPdtEditInLine {
+    padding: 6px 24px 6px 6px !important;
+    font-size: 17px !important;
+}
+
+.xCNMrgNavMenu {
+    margin: 15px 30px 5px 16px !important;
+}
+
+.xCNMenuCump {
+    position: absolute !important;
+}
+
+.xCNMenuBar {
+    padding: 18px 20px;
+}
+
+.xCNBtngroup {
+    float: right;
+    padding-top: 1px !important;
+    padding-bottom: 2px !important;
+}
+
+.xCNPunVMaster .xCNBtngroup {
+    float: right !important;
+}
+
+.xCNTextMenu {
+    padding: 20px 20px;
+}
+
+
+/* .xCNavRow {
+    height: 20px
+} */
+
+.xCNUplodeImage {
+    padding-top: 10px;
+    text-align: center;
+}
+
+.xCNImgCenter {
+    width: 100%;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.xCNHide {
+    display: none !important;
+}
+
+.xCNDisable {
+    cursor: not-allowed;
+    display: inline-block;
+    pointer-events: none;
+    /* background: #dedede !important; */
+}
+
+.xCNActivePage>a {
+    background-color: #efefef !important;
+}
+
+.page-item>a {
+    cursor: pointer;
+}
+
+.xWDrpDwnMenuMargLft {
+    margin-left: -50px;
+}
+
+.xCNMargBtm20 {
+    margin-bottom: 20px;
+}
+
+.xCNPadT30 {
+    padding-top: 30px !important;
+}
+
+.xCNMapShow {
+    /* height: 400px; */
+    width: 100%;
+    margin: 0;
+    padding: 0px
+}
+
+.xCNCenter th {
+    text-align: center;
+}
+
+.table>thead>tr>th {
+    vertical-align: bottom;
+    border-bottom: 1px solid #ddd;
+}
+
+.table>tbody>tr>td {
+    padding: 4px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+}
+
+.xCNEditRowBtn {
+    margin-left: 10px;
+    font-size: 19px;
+    cursor: pointer;
+}
+
+.xCNGetDrpDwnName {
+    width: 80% !important;
+}
+
+.xCNOdvEditRow {
+    width: 30% !important;
+}
+
+.xCNIconEditRow {
+    cursor: pointer;
+    float: right;
+    margin-top: -17px;
+    width: 20px;
+}
+
+
+/*-------------------------------Panal Report -----------------------------*/
+
+.xWPanal-heading {
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+    position: relative !important;
+}
+
+
+/*-------------------------------Panal Report -----------------------------*/
+
+
+/*-------------------------------Logo-----------------------------*/
+
+.xWLogoHeaderBchPageShp {
+    width: 238px;
+}
+
+.xWLogoInRow {
+    width: 36px;
+    text-align: center;
+}
+
+
+/*-------------------------------E-Ticket-----------------------------*/
+
+.upload-img span.btn-file {
+    position: absolute !important;
+    bottom: -8px !important;
+    right: 0px !important;
+    padding: 8px;
+}
+
+.btn-file input[type=file] {
+    position: absolute;
+    display: block;
+    bottom: 7px;
+    left: 0;
+    width: 100%;
+    height: 84%;
+    padding: 0 15px;
+}
+
+
+/*-------------------------------Promotion-----------------------------*/
+
+.xCNStaGrpBothPanal {
+    margin-bottom: 5px !important;
+}
+
+.xCNPmhHeadBox {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.xCNPmhFooterBox {
+    padding: 5px;
+    margin-bottom: 30px;
+}
+
+
+/*----------------- Image Browse Garolly -----------------------------*/
+
+.xCNImgContraner {
+    width: 750px;
+    position: relative;
+    left: 43%;
+    transform: translate(-50%);
+}
+
+.wf-container {
+    width: 117%;
+    height: 450px;
+}
+
+.xCNImgContraner1 {
+    width: 98%;
+    position: relative;
+    top: 10px;
+    left: 51%;
+    transform: translate(-50%);
+    -webkit-transform: translate(-50%);
+    -moz-transform: translate(-50%);
+    -ms-transform: translate(-50%);
+    -o-transform: translate(-50%);
+}
+
+.wf-container1 {
+    width: 100%;
+    height: 450px;
+}
+
+.wf-box1 {
+    padding-right: 10px
+}
+
+.xCNLoddingModal {
+    position: absolute;
+    width: 100%;
+    background-color: #FFFFFF !important;
+    z-index: 2500;
+    margin-left: 0px;
+    height: 200%;
+    display: none;
+}
+
+#otbPdtList .active>td {
+    background: #0081c2 !important;
+    color: #ffffff !important;
+}
+
+.xCNTableRpt tr {
+    cursor: pointer !important;
+}
+
+.xCNTableRpt .active>td {
+    background: #0081c2 !important;
+    color: #ffffff !important;
+}
+
+.xCNDisModal {
+    width: 900px;
+}
+
+#odvPdtDataMultiSelection {
+    display: none;
+}
+
+.xCNLabelFrm {
+    margin: 0;
+}
+
+.xWModalBrowsePdt {
+    background: #1d2530;
+}
+
+
+/*----------------- layOut-Report -----------------------------*/
+
+.xCNLayOutRptHtml {
+    padding-top: 15px !important;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+    padding-bottom: 15px !important;
+}
+
+
+/* Ticket Modal bootbox */
+
+.bootbox-alert {
+    z-index: 6000;
+}
+
+
+/* Creator : Kitpipat */
+
+.XCNHide {
+    display: none;
+}
+
+.XCNShow {
+    display: show;
+}

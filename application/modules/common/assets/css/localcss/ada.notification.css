@@ -1,0 +1,97 @@
+.theme-panel.active {
+    right: 0;
+    box-shadow: 0 5px 25px 0 rgba(0,0,0,.3);
+}
+
+.theme-panel.theme-panel-lg {
+    top: 0;
+    bottom: 0;
+    width: 260px;
+    right: -260px;
+}
+
+.theme-panel.theme-panel-lg .theme-panel-content{
+	position: absolute;
+    top: 55px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: scroll;
+    margin: 0;
+    padding: 20px;
+}
+
+body {
+    background: #d9e0e7;
+    font-size: 12px;
+    font-family: 'Open Sans',"Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: #707478;
+    line-height: 1.42857143;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.theme-panel.theme-panel-lg .theme-collapse-btn {
+    top: 30%;
+}
+
+.theme-panel .theme-collapse-btn {
+    position: absolute;
+    left: -30px;
+    top: 10%;
+    margin-top: -15px;
+    width: 30px;
+    height: 30px;
+    line-height: 37px;
+    font-size: 18px;
+    color: #333;
+    background: #fff;
+    border-radius: 4px 0 0 4px;
+    text-align: center;
+    box-shadow: 0 0 15px 0 rgba(0,0,0,.15);
+}
+
+.theme-panel {
+    position: fixed;
+    right: -175px;
+    top: 150px;
+    z-index: 1000;
+    background: #fff;
+    padding: 15px;
+    width: 175px;
+    transition: right .2s linear;
+    border-radius: 4px 0 0 4px;
+}
+
+.theme-panel .theme-panel-content {
+    margin: -15px;
+    padding: 15px;
+    background: #fff;
+    position: relative;
+    z-index: 1020;
+    border-radius: 5px 0 0 5px;
+}
+
+.theme-panel.theme-panel-lg.active {
+    right: 0;
+}
+
+
+.theme-panel.active .theme-collapse-btn .fa:before {
+    content: '\f00d';
+}
+
+.fa-cog:before {
+    content: "\f013";
+}
+
+.fa-cog:before {
+    content: "\f013";
+}
+
+*, ::after, ::before {
+    /* box-sizing: border-box; */
+    /* box-sizing: border-box; */
+    /* box-sizing: border-box; */
+}
+

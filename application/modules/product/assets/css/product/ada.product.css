@@ -1,0 +1,97 @@
+@media (min-width: 1200px) {
+    .xWPdtDivImage{
+        overflow-x: hidden;
+        overflow-y: auto;
+        height: 460px;
+    } 
+}
+
+.xWTDBorderPDT{
+    border-top: #dee2e6 !important;
+    border-top-style: solid !important;
+    border-top-width: 1px !important;
+}
+
+.nav > li.xWMenu.disabled > a,
+.nav > li.xWMenu.disabled > a:hover,
+.nav > li.xWMenu.disabled > a:focus{
+    color: #cecece !important;
+}
+.xCNMargin-top-20px{
+    margin-top: 20px;
+}
+.xWPdtTextLink{
+    color: #0081c2;
+    cursor: pointer;
+    font-size: 20px !important;
+    font-weight: bold;
+}
+
+.xWPdtTextLink i{
+    font-size: 15px !important;
+}
+
+.xWPdtTextLink:hover{
+    color:#00a0f0;
+}
+
+#odvModalMngUnitPackSize{
+    overflow: hidden auto;
+    display: none;
+}
+
+#odvModalMngUnitPackSize .modal-dialog{
+    width: 600px;
+    margin: 1.75rem auto;
+}
+
+#odvModalMngUnitPackSize .modal-body{
+    max-height: 500px;
+    overflow: auto;
+}
+
+#odvModalAddEditBarCode{
+    overflow: hidden auto;
+    display: none;
+}
+
+#odvModalAddEditBarCode .modal-dialog{
+    min-width: 50%;
+    margin: 1.75rem auto;
+}
+
+#odvModalAddEditBarCode .modal-body{
+    max-height: 500px;
+    overflow: auto;
+}
+
+#odvModalPrice4Detail {
+    overflow: hidden auto;
+    display: none;
+}
+
+#odvModalPrice4Detail .modal-dialog {
+    min-width: 80%;
+    margin: 1.75rem auto;
+}
+
+#odvModalAddEditBarCode .modal-body{
+    max-height: 500px;
+    overflow: auto;
+}
+
+
+#odvModalAddEditSuppler {
+    overflow: hidden auto;
+    display: none;
+}
+
+#odvModalAddEditSuppler .modal-dialog {
+    min-width: 80%;
+    margin: 1.75rem auto;
+}
+
+#odvModalAddEditSuppler .modal-body{
+    max-height: 500px;
+    overflow: auto;
+}
