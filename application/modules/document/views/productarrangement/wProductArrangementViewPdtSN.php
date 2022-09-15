@@ -55,7 +55,7 @@
                     <input type="hidden" id="oetPAMPdtSNCurrentQty" value="'+paPackData['nSNCurrentQty']+'">
                     <input type="hidden" id="oetPAMPdtSNBalanceQty" value="'+paPackData['nSNBalanceQty']+'">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <input type="text" class="form-control" id="oetPAMSerialNo" name="oetPAMSerialNo" placeholder="รหัสซีเรียล" maxlength="20" autocomplete="off" onkeyup="Javascript:if(event.keyCode==13) JSxPAMEventAddPdtSN()" >
+                        <input type="text" class="form-control" id="oetPAMSerialNo" name="oetPAMSerialNo" placeholder="รหัสซีเรียล" maxlength="50" autocomplete="off" onkeyup="Javascript:if(event.keyCode==13) JSxPAMEventAddPdtSN()" >
                     </div>
                 </div>
             </div>
