@@ -29,6 +29,13 @@ class cBrowserPDTCallView extends MX_Controller
             $SelectTier = 'Barcode';
         }
 
+        $tStaPdtLay     = $this->input->post('tStaPdtLay'); //Y = แสดงสินค้าที่อยู่ในตู้ VD ด้วย, N = ไม่แสดงสินค้าที่ผูกในตู้ VD (TVDMPdtLayout)
+        if (isset($tStaPdtLay)) {
+            $tStaPdtLay = $tStaPdtLay;
+        } else {
+            $tStaPdtLay = 'Y';
+        }
+
         //element return input
         $tElementreturn     = $this->input->post('Elementreturn');
 
@@ -122,7 +129,8 @@ class cBrowserPDTCallView extends MX_Controller
             'tParameterProductCode' => $tParameterProductCode,
             'tParameterAgenCode' => $tParameterAgenCode,
             'tNotInPdtType'   => $tNotInPdtType,
-            'tWhere'            => $tWhere
+            'tWhere'            => $tWhere,
+            'tStaPdtLay'        => $tStaPdtLay
         );
         // echo "<pre>";print_r($aData);exit;
 
@@ -171,6 +179,7 @@ class cBrowserPDTCallView extends MX_Controller
             $tSearchText            =  $this->input->post("tSearchText");
             $tSearchSelect          =  $this->input->post("tSearchSelect");
             $tFindOnlyPDT           = 'normal';
+            $tStaPdtLay             = $this->input->post("tStaPdtLay");
         } else {
             $tBCH                   =  $this->input->post("BCH");
             $tSHP                   =  $this->input->post("SHP");
@@ -197,6 +206,7 @@ class cBrowserPDTCallView extends MX_Controller
             'tSPL'                  => @$tSPL,
             'nDISTYPE'              => @$nDISTYPE,
             'tSelectTier'           => @$tSelectTier,
+            'tStaPdtLay'            => @$tStaPdtLay,
             'tPagename'             => @$tPagename,
             'aNotinItem'            => @$aNotinItem,
             'nPDTMoveon'            => @$nPDTMoveon,
@@ -344,6 +354,7 @@ class cBrowserPDTCallView extends MX_Controller
         $tShpSession        = $this->session->userdata("tSesUsrShpCode");
         $tMerSession        = $this->session->userdata("tSesUsrMerCode");
         $tSelectTier        = $paData['tSelectTier'];
+        $tStaPdtLay         = $paData['tStaPdtLay'];
 
         $tWhere = $paData['tWhere'];
         if ( isset($tWhere) && !empty($tWhere) && is_array($tWhere) && FCNnHSizeOf($tWhere) > 0 ) {
@@ -545,6 +556,15 @@ class cBrowserPDTCallView extends MX_Controller
             //ถ้าอยากหาราคา
             $tLeftJoinPrice  = " LEFT JOIN VCN_ProductCost VPC ON ";
             $tLeftJoinPrice .= " VPC.FTPdtCode = ProductM.FTPdtCode ";
+        }
+
+        //------------------- สินค้าใน VD พาโนแกรม -------------------
+        if( $tStaPdtLay == "N" ){
+            $tFilter .= " AND Products.FTPdtCode NOT IN (   SELECT FTPdtCode
+                                                            FROM TVDMPdtLayout WITH(NOLOCK)
+                                                            WHERE ISNULL(FTPdtCode, '') <> ''
+                                                            GROUP BY FTPdtCode 
+                                                        ) ";
         }
 
         //-------------------ผู้จำหน่าย-------------------

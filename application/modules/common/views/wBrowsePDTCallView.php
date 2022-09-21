@@ -203,7 +203,8 @@ if (empty($aNotinItem)) {
                 'ProductCode': '<?= $tParameterProductCode ?>',
                 'AgenCode': '<?= $tParameterAgenCode ?>',
                 'tNotInPdtType': '<?= json_encode($tNotInPdtType) ?>',
-                'tWhere' : <?= json_encode($tWhere) ?>
+                'tWhere' : <?= json_encode($tWhere) ?>,
+                'tStaPdtLay' : '<?=$tStaPdtLay?>'
             },
             cache: false,
             timeout: 0,

@@ -404,7 +404,7 @@
                 tWhereModal += " AND (TCNMWaHouse.FTBchCode = '"+tASTBchCode+"') ";
             }
 
-            tWhereModal += " AND (TCNMWaHouse.FTWahStaType != '6') ";
+            // tWhereModal += " AND (TCNMWaHouse.FTWahStaType != '6') ";
             
 
             // Where คลังของ ร้านค้า
@@ -1239,7 +1239,7 @@ function JSxAdjStkBrowsePdt(ptType){
             type: "POST",
             url: "BrowseDataPDT",
             data: {
-                'Qualitysearch'   : ['SUP','NAMEPDT','CODEPDT','FromToBCH','FromToSHP','FromToPGP','FromToPTY'],
+                // 'Qualitysearch'   : ['SUP','NAMEPDT','CODEPDT','FromToBCH','FromToSHP','FromToPGP','FromToPTY'],
                 'PriceType'       : ['Pricesell'],
                 'SelectTier'      : ['PDT'],//PDT, Barcode
                 // 'Elementreturn'   : ['oetASTFilterPdtCodeFrom','oetASTFilterPdtNameFrom'],
@@ -1249,7 +1249,8 @@ function JSxAdjStkBrowsePdt(ptType){
                 'SPL'             : ['',''],
                 'BCH'             : [$('#oetASTBchCode').val(),''],//Code, Name
                 'MER'             : [$('#oetASTMerCode').val(),''], 
-                'SHP'             : [$('#oetASTShopCode').val(),''], 
+                'SHP'             : [$('#oetASTShopCode').val(),''],
+                'tStaPdtLay'      : 'N', //Y = แสดงสินค้าที่อยู่ในตู้ VD ด้วย, N = ไม่แสดงสินค้าที่ผูกในตู้ VD (TVDMPdtLayout)
                 'TimeLocalstorage': dTimelocalStorage
             },
             cache: false,

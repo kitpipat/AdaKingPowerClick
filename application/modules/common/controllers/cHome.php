@@ -228,6 +228,9 @@ class cHome extends MX_Controller
         $tImportSplVatCode  = $this->input->post('tImportSplVatCode');
         // $tLblCode  = $this->input->post('tLblCode');
         $aImportParams = $this->input->post('aImportParams');
+        if( isset($aImportParams) ){
+            $aImportParams = json_decode($aImportParams, JSON_FORCE_OBJECT);
+        }
         // echo "<pre>";
         // print_r($aPackData);exit;
         $nPackData      = FCNnHSizeOf($aPackData);
@@ -655,6 +658,10 @@ class cHome extends MX_Controller
         } else if( $tNameModule == 'printbarcode' ){
             for ($i = 1; $i < $nPackData; $i++) {
                 $this->mCommon->FCNaMCMMListDataPrintBarCode($aPackData[$i], $aImportParams);
+            }
+        } else if( $tNameModule == 'adjstkconfirm' ){
+            for ($i = 1; $i < $nPackData; $i++) {
+                $this->mAdjustStock->FSxMASTImportGetDTProduct($aPackData[$i],$aImportParams,$i);
             }
         } else {
             $aInsPackdata = array();
@@ -1163,40 +1170,59 @@ class cHome extends MX_Controller
                                 $this->mCommon->FCNaMCMMImportExcelToTmp($aWhereData, $aSumSheet1);
                             }
                             break;
-                        case "adjstkconfirm":
-                            // echo "<pre>";
-                            // echo $tTableRefPK;
-                            // print_r($aPackData);
-                            // print_r($aPackData[$i]);
-                            // echo "</pre>";
-                            // exit;
-                            $tUserLogin = $this->session->userdata('tSesUsername');
-                            $aDataPdt = $this->mAdjustStock->FSaMASTImportGetDTProduct($aPackData[$i],$aImportParams);
-                            if( $aDataPdt['tCode'] == '1' ){
-                                $aObject = array(
-                                    'FTBchCode'         => $aDataPdt['aItems']['FTBchCode'],
-                                    'FTXthDocNo'        => $aDataPdt['aItems']['FTXthDocNo'],
-                                    'FNXtdSeqNo'        => $i,
-                                    'FTXthDocKey'       => $tTableRefPK,
-                                    'FTPdtCode'         => $aDataPdt['aItems']['FTPdtCode'],
-                                    'FTXtdPdtName'      => $aDataPdt['aItems']['FTPdtName'],
-                                    'FTPunCode'         => $aDataPdt['aItems']['FTPunCode'],
-                                    'FTPunName'         => $aDataPdt['aItems']['FTPunName'],
-                                    'FTXtdBarCode'      => $aDataPdt['aItems']['FTBarCode'],
-                                    'FCPdtUnitFact'     => $aDataPdt['aItems']['FCPdtUnitFact'],
-                                    'FCAjdUnitQtyC1'    => $aDataPdt['aItems']['FCAjdUnitQtyC1'],
-                                    'FCAjdQtyAllC1'     => $aDataPdt['aItems']['FCAjdQtyAllC1'],
-                                    'FTAjdPlcCode'      => $aDataPdt['aItems']['FTAjdPlcCode'],
-                                    'FTSessionID'       => $this->session->userdata("tSesSessionID"),
-                                    'FDLastUpdOn'       => date('Y-m-d H:i:s'),
-                                    'FDCreateOn'        => date('Y-m-d H:i:s'),
-                                    'FTLastUpdBy'       => $tUserLogin,
-                                    'FTCreateBy'        => $tUserLogin
-                                    // 'FTTmpStatus'       => (empty($aPackData[$i][2])) ? '' : $aPackData[1][2],
-                                    // 'FTTmpRemark'       => (empty($aPackData[$i][3])) ? '' : $aPackData[1][3],
-                                );
-                            }
-                            break;
+                        // case "adjstkconfirm":
+                           
+                        //     $tUserLogin = $this->session->userdata('tSesUsername');
+                        //     $aDataPdt = $this->mAdjustStock->FSaMASTImportGetDTProduct($aPackData[$i],$aImportParams);
+                            
+                        //     if( $aDataPdt['tCode'] == '1' ){
+                        //         $aObject = array(
+                        //             'FTBchCode'         => $aDataPdt['aItems']['FTBchCode'],
+                        //             'FTXthDocNo'        => $aDataPdt['aItems']['FTXthDocNo'],
+                        //             'FNXtdSeqNo'        => $i,
+                        //             'FTXthDocKey'       => $tTableRefPK,
+                        //             'FTPdtCode'         => $aDataPdt['aItems']['FTPdtCode'],
+                        //             'FTXtdPdtName'      => $aDataPdt['aItems']['FTPdtName'],
+                        //             'FTPunCode'         => $aDataPdt['aItems']['FTPunCode'],
+                        //             'FTPunName'         => $aDataPdt['aItems']['FTPunName'],
+                        //             'FTXtdBarCode'      => $aDataPdt['aItems']['FTBarCode'],
+                        //             'FCPdtUnitFact'     => intval($aDataPdt['aItems']['FCPdtUnitFact']),
+                        //             'FCAjdUnitQtyC1'    => intval($aDataPdt['aItems']['FCAjdUnitQtyC1']),
+                        //             'FCAjdQtyAllC1'     => intval($aDataPdt['aItems']['FCAjdQtyAllC1']),
+                        //             'FTAjdPlcCode'      => $aDataPdt['aItems']['FTAjdPlcCode'],
+                        //             'FTSessionID'       => $this->session->userdata("tSesSessionID"),
+                        //             'FDLastUpdOn'       => date('Y-m-d H:i:s'),
+                        //             'FDCreateOn'        => date('Y-m-d H:i:s'),
+                        //             'FTLastUpdBy'       => $tUserLogin,
+                        //             'FTCreateBy'        => $tUserLogin,
+                        //             'FTTmpStatus'       => (empty($aPackData[$i][2])) ? '' : $aPackData[1][2],
+                        //             'FTTmpRemark'       => (empty($aPackData[$i][3])) ? '' : $aPackData[1][3],
+                        //         );
+                        //     }else{
+                        //         $aObject = array(
+                        //             'FTBchCode'         => $aImportParams['tBchCode'],
+                        //             'FTXthDocNo'        => $aImportParams['tDocNo'],
+                        //             'FNXtdSeqNo'        => $i,
+                        //             'FTXthDocKey'       => $tTableRefPK,
+                        //             'FTPdtCode'         => 'N/A',
+                        //             'FTXtdPdtName'      => 'N/A',
+                        //             'FTPunCode'         => 'N/A',
+                        //             'FTPunName'         => 'N/A',
+                        //             'FTXtdBarCode'      => $aPackData[$i][0],
+                        //             'FCPdtUnitFact'     => 0,
+                        //             'FCAjdUnitQtyC1'    => intval($aPackData[$i][1]),
+                        //             'FCAjdQtyAllC1'     => intval($aPackData[$i][1]),
+                        //             'FTAjdPlcCode'      => 'N/A',
+                        //             'FTSessionID'       => $this->session->userdata("tSesSessionID"),
+                        //             'FDLastUpdOn'       => date('Y-m-d H:i:s'),
+                        //             'FDCreateOn'        => date('Y-m-d H:i:s'),
+                        //             'FTLastUpdBy'       => $tUserLogin,
+                        //             'FTCreateBy'        => $tUserLogin,
+                        //             'FTTmpStatus'       => '3',
+                        //             'FTTmpRemark'       => 'สินค้าผูกตู้ VD',
+                        //         );
+                        //     }
+                        //     break;
                     }
 
 

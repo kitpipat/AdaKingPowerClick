@@ -1879,49 +1879,65 @@ class mAdjustStock extends CI_Model
     }
 
     // Create By : Napat(Jame) 24/08/2022
-    public function FSaMASTImportGetDTProduct($paImportData,$paImportParams){
+    public function FSxMASTImportGetDTProduct($paImportData,$aImportParams,$pnSeqNo){
 
-        $aImportParams  = json_decode($paImportParams, JSON_FORCE_OBJECT);
+        // $aImportParams  = json_decode($paImportParams, JSON_FORCE_OBJECT);
+        $tUserLogin     = $this->session->userdata('tSesUsername');
+        $tSesSessionID  = $this->session->userdata("tSesSessionID");
         $nLangEdit      = $this->session->userdata("tLangEdit");
         $tBchCode       = $aImportParams['tBchCode'];
         $tDocNo         = $aImportParams['tDocNo'];
         $tPdtBarCode    = $paImportData[0];
         $nQty           = $paImportData[1];
 
-        $tSQL = "   SELECT 
-                        '$tBchCode'		    AS FTBchCode,
-                        '$tDocNo'			AS FTXthDocNo,
+        $tSQL  = "  INSERT INTO TCNTDocDTTmp (FTBchCode,FTXthDocNo,FNXtdSeqNo,FTXthDocKey,FTPdtCode,FTXtdPdtName,FTPunCode,FTPunName,FTXtdBarCode,FCPdtUnitFact,FCAjdUnitQtyC1,FCAjdQtyAllC1,FTAjdPlcCode,FTSessionID,FDLastUpdOn,FDCreateOn,FTLastUpdBy,FTCreateBy)";
+        $tSQL .= "  SELECT 
+                        
+                        '$tBchCode'		            AS FTBchCode,
+                        '$tDocNo'			        AS FTXthDocNo,
+                        $pnSeqNo                    AS FNXtdSeqNo,
+                        'TCNTPdtAdjStkHD'           AS FTXthDocKey,
                         PDT.FTPdtCode,
                         PDT_L.FTPdtName,
                         PPS.FTPunCode,
                         PUN_L.FTPunName,
                         PBAR.FTBarCode,
                         PPS.FCPdtUnitFact,
-                        PBAR.FTPlcCode              AS FTAjdPlcCode,
                         $nQty                       AS FCAjdUnitQtyC1,
-                        $nQty * PPS.FCPdtUnitFact   AS FCAjdQtyAllC1
-                    FROM TCNMPdt PDT WITH(NOLOCK)
+                        $nQty * PPS.FCPdtUnitFact   AS FCAjdQtyAllC1,
+                        PBAR.FTPlcCode              AS FTAjdPlcCode,
+                        '$tSesSessionID'            AS FTSessionID,
+                        GETDATE()                   AS FDLastUpdOn,
+                        GETDATE()                   AS FDCreateOn,
+                        '$tUserLogin'               AS FTLastUpdBy,
+                        '$tUserLogin'               AS FTCreateBy
+                    FROM TCNMPdt                PDT     WITH(NOLOCK)
                     LEFT JOIN TCNMPdt_L         PDT_L   WITH(NOLOCK) ON PDT.FTPdtCode = PDT_L.FTPdtCode AND PDT_L.FNLngID = $nLangEdit
                     INNER JOIN TCNMPdtPackSize  PPS     WITH(NOLOCK) ON PDT.FTPdtCode = PPS.FTPdtCode
                     LEFT JOIN TCNMPdtUnit_L     PUN_L   WITH(NOLOCK) ON PPS.FTPunCode = PUN_L.FTPunCode AND PUN_L.FNLngID = $nLangEdit
                     INNER JOIN TCNMPdtBar       PBAR    WITH(NOLOCK) ON PDT.FTPdtCode = PBAR.FTPdtCode AND PPS.FTPunCode = PBAR.FTPunCode AND PBAR.FTBarStaUse = '1'
                     LEFT JOIN TCNMPdtSpcBch     SpcBch  WITH(NOLOCK) ON PDT.FTPdtCode = SpcBch.FTPdtCode
-                    WHERE PBAR.FTBarCode = '$tPdtBarCode'
+                    WHERE PBAR.FTBarCode = '$tPdtBarCode' 
+                      AND PDT.FTPdtCode NOT IN (    SELECT FTPdtCode
+                                                    FROM TVDMPdtLayout WITH(NOLOCK)
+                                                    WHERE ISNULL(FTPdtCode, '') <> ''
+                                                    GROUP BY FTPdtCode 
+                                               )
                 ";
 
-        $oQuery = $this->db->query($tSQL);
-        if ($oQuery->num_rows() > 0) {
-            $aResult = array(
-                'tCode'     => '1',
-                'tDesc'     => 'data found.',
-                'aItems'    => $oQuery->row_array(),
-            );
-        } else {
-            $aResult = array(
-                'tCode'     => '800',
-                'tDesc'     => 'data not found.',
-            );
-        }
-        return $aResult;
+        $this->db->query($tSQL);
+        // if ($oQuery->num_rows() > 0) {
+        //     $aResult = array(
+        //         'tCode'     => '1',
+        //         'tDesc'     => 'data found.',
+        //         'aItems'    => $oQuery->row_array(),
+        //     );
+        // } else {
+        //     $aResult = array(
+        //         'tCode'     => '800',
+        //         'tDesc'     => 'data not found.',
+        //     );
+        // }
+        // return $aResult;
     }
 }

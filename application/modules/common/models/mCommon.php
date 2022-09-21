@@ -167,21 +167,21 @@ class mCommon extends CI_Model
 
 
     // $aImportParams
-    public function FCNaMCMMListDataPrintBarCode($paPackData, $paImportParams)  //$pnLangPrint
+    public function FCNaMCMMListDataPrintBarCode($paPackData, $aImportParams)  //$pnLangPrint
     {
         // settings parameters
-        $aImportParams          = json_decode($paImportParams);
+        // $aImportParams          = json_decode($paImportParams);
         $tBarCode               = $paPackData[0];
         $nQty                   = $paPackData[1];
         $tStaImport             = $paPackData[2];
         $tImpDesc               = $paPackData[3];
 
         // echo "<pre>"; print_r($aImportParams); exit;
-        $tLblCode               = $aImportParams->tLblCode;
-        $tPrnBarSheet           = $aImportParams->tPriType;
-        $nPrnBarStaStartDate    = $aImportParams->nPrnBarStaStartDate;
-        $tPrnBarEffectiveDate   = $aImportParams->tPrnBarEffectiveDate;
-        $tVerGroup              = $aImportParams->tVerGroup;
+        $tLblCode               = $aImportParams['tLblCode'];
+        $tPrnBarSheet           = $aImportParams['tPriType'];
+        $nPrnBarStaStartDate    = $aImportParams['nPrnBarStaStartDate'];
+        $tPrnBarEffectiveDate   = $aImportParams['tPrnBarEffectiveDate'];
+        $tVerGroup              = $aImportParams['tVerGroup'];
 
         $tIP                = $this->input->ip_address();
         $tFullHost          = gethostbyaddr($tIP);
