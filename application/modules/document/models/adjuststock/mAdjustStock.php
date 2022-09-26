@@ -1885,6 +1885,7 @@ class mAdjustStock extends CI_Model
         $tUserLogin     = $this->session->userdata('tSesUsername');
         $tSesSessionID  = $this->session->userdata("tSesSessionID");
         $nLangEdit      = $this->session->userdata("tLangEdit");
+        $tWahCode       = $aImportParams['tWahCode'];
         $tBchCode       = $aImportParams['tBchCode'];
         $tDocNo         = $aImportParams['tDocNo'];
         $tPdtBarCode    = $paImportData[0];
@@ -1920,7 +1921,7 @@ class mAdjustStock extends CI_Model
                     WHERE PBAR.FTBarCode = '$tPdtBarCode' 
                       AND PDT.FTPdtCode NOT IN (    SELECT FTPdtCode
                                                     FROM TVDMPdtLayout WITH(NOLOCK)
-                                                    WHERE ISNULL(FTPdtCode, '') <> ''
+                                                    WHERE ISNULL(FTPdtCode, '') <> '' AND FTBchCode = '$tBchCode' AND FTWahCode = '$tWahCode'
                                                     GROUP BY FTPdtCode 
                                                )
                 ";

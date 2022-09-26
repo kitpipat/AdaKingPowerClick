@@ -1104,4 +1104,16 @@ class cAdjustStock extends MX_Controller {
         }
     }
 
+    // Create By : Napat(Jame) 23/09/2022
+    // เคลียร์ DT Temp
+    public function FSxCASTEventClearDataDTTemp(){
+        // Clear Temp Before Insert
+        $aDataClear = array(
+            'FTXthDocKey'   => 'TCNTPdtAdjStkHD',
+            'FTSessionID'   => $this->session->userdata('tSesSessionID'),
+            'tDeleteType'   => '1'
+        );
+        $this->mAdjustStock->FSxMAdjStkClearDTTmp($aDataClear);
+    }
+
 }

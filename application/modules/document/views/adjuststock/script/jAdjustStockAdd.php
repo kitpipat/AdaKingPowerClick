@@ -629,41 +629,47 @@
 
         // Event Browse Modal คลังสินค้า
         $('#obtASTBrowseWah').unbind().click(function(){
-            var nStaSession = JCNxFuncChkSessionExpired();
-            if(typeof(nStaSession) !== 'undefined' && nStaSession == 1){
-                JSxCheckPinMenuClose(); // Hidden Pin Menu
+            var nStaChkDataDT   = $('#otbASTDocPdtAdvTable tbody tr.xCNDOCPdtItem').length;
+            if(nStaChkDataDT == 0){
+                var nStaSession = JCNxFuncChkSessionExpired();
+                if(typeof(nStaSession) !== 'undefined' && nStaSession == 1){
+                    JSxCheckPinMenuClose(); // Hidden Pin Menu
 
-                var tShpCode = $('#oetASTShopCode').val();
-                var tPosCode = $('#oetASTPosCode').val();
-                if(typeof(tShpCode) != undefined && tShpCode != "" && tPosCode == ""){
-                    //คล้งร้านค้า ShopWah  Where ShpCode
-                    window.oASTBrowseShpWahOption = undefined;
-                    oASTBrowseShpWahOption     = oASTBrowseShpWah({
-                        'tASTBchCode'        : $('#oetASTBchCode').val(),
-                        'tASTShpCode'        : $('#oetASTShopCode').val(),
-                        'tReturnInputCode'   : 'oetASTWahCode',
-                        'tReturnInputName'   : 'oetASTWahName',
-                        'tNextFuncName'      : "JSxASTSetConditionWah",
-                        'aArgReturn'         : []
-                    });
-                    JCNxBrowseData('oASTBrowseShpWahOption');
+                    var tShpCode = $('#oetASTShopCode').val();
+                    var tPosCode = $('#oetASTPosCode').val();
+                    if(typeof(tShpCode) != undefined && tShpCode != "" && tPosCode == ""){
+                        //คล้งร้านค้า ShopWah  Where ShpCode
+                        window.oASTBrowseShpWahOption = undefined;
+                        oASTBrowseShpWahOption     = oASTBrowseShpWah({
+                            'tASTBchCode'        : $('#oetASTBchCode').val(),
+                            'tASTShpCode'        : $('#oetASTShopCode').val(),
+                            'tReturnInputCode'   : 'oetASTWahCode',
+                            'tReturnInputName'   : 'oetASTWahName',
+                            'tNextFuncName'      : "JSxASTSetConditionWah",
+                            'aArgReturn'         : []
+                        });
+                        JCNxBrowseData('oASTBrowseShpWahOption');
+                    }else{
+                        //คลังสาขา Wahouse   Where RefCode
+                        window.oASTBrowseWahOption  = undefined;
+                        oASTBrowseWahOption         = oASTBrowseWah({
+                            'tASTBchCode'       : $('#oetASTBchCode').val(),
+                            'tASTShpCode'       : $('#oetASTShopCode').val(),
+                            'tASTPosCode'       : $('#oetASTPosCode').val(),
+                            'tReturnInputCode'  : "oetASTWahCode",
+                            'tReturnInputName'  : "oetASTWahName",
+                            'tNextFuncName'     : "JSxASTSetConditionWah",
+                            'aArgReturn'        : []
+                        });
+                        JCNxBrowseData('oASTBrowseWahOption');
+                    }
+                    
                 }else{
-                    //คลังสาขา Wahouse   Where RefCode
-                    window.oASTBrowseWahOption  = undefined;
-                    oASTBrowseWahOption         = oASTBrowseWah({
-                        'tASTBchCode'       : $('#oetASTBchCode').val(),
-                        'tASTShpCode'       : $('#oetASTShopCode').val(),
-                        'tASTPosCode'       : $('#oetASTPosCode').val(),
-                        'tReturnInputCode'  : "oetASTWahCode",
-                        'tReturnInputName'  : "oetASTWahName",
-                        'tNextFuncName'     : "JSxASTSetConditionWah",
-                        'aArgReturn'        : []
-                    });
-                    JCNxBrowseData('oASTBrowseWahOption');
+                    JCNxShowMsgSessionExpired();
                 }
-                
             }else{
-                JCNxShowMsgSessionExpired();
+                $('#odvASTPopupFoundDataInDT #ohdASTTypeClick').val('WAH');
+                $('#odvASTPopupFoundDataInDT').modal('show');
             }
         });
 
@@ -1088,12 +1094,18 @@
         // $('#obtBrowseASTBCH').click(function(){ JCNxBrowseData('oBrowse_BCH'); });
 
         $('#obtBrowseASTBCH').unbind().click(function(){
-            var nStaSession = JCNxFuncChkSessionExpired();
-            if(typeof(nStaSession) !== 'undefined' && nStaSession == 1){
-                JSxCheckPinMenuClose(); // Hide Menu Pin
-                JCNxBrowseData('oBrowse_BCH');
+            var nStaChkDataDT   = $('#otbASTDocPdtAdvTable tbody tr.xCNDOCPdtItem').length;
+            if(nStaChkDataDT == 0){
+                var nStaSession = JCNxFuncChkSessionExpired();
+                if(typeof(nStaSession) !== 'undefined' && nStaSession == 1){
+                    JSxCheckPinMenuClose(); // Hide Menu Pin
+                    JCNxBrowseData('oBrowse_BCH');
+                }else{
+                    JCNxShowMsgSessionExpired();
+                }
             }else{
-                JCNxShowMsgSessionExpired();
+                $('#odvASTPopupFoundDataInDT #ohdASTTypeClick').val('BCH');
+                $('#odvASTPopupFoundDataInDT').modal('show');
             }
         });
 
@@ -1186,27 +1198,35 @@
 /////////////// Browse Filter Product ///////////////
 
 $('#obtAdjStkFilterDataCondition').click(function(){
-    if( $('#oetASTWahCode').val() != '' ){
-        $('#odvAdjStkFilterDataCondition').modal('show');
 
-        //Clear ค่า
-        $('#oetASTFilterPdtNameFrom , #oetASTFilterPdtNameTo').val('');
-        $('#oetASTFilterPdtCodeFrom , #oetASTFilterPdtCodeTo').val('');
-
-        //Clear ค่า
-        $('#oetASTFilterSplNameFrom , #oetASTFilterSplNameTo').val('');
-        $('#oetASTFilterSplCodeFrom , #oetASTFilterSplCodeTo').val('');
-
-        //Clear ค่า
-        $('#oetASTFilterPgpName').val('');
-        $('#oetASTFilterPgpCode').val('');
-
-        //Clear ค่า
-        $('#oetASTFilterPlcName').val('');
-        $('#oetASTFilterPlcCode').val('');
-    }else{
-        alert('กรุณาเลือกคลัง');
+    if( $('#oetASTBchCode').val() == '' ){
+        FSvCMNSetMsgWarningDialog('กรุณาเลือกสาขา');
+        return;
     }
+
+    if( $('#oetASTWahCode').val() == '' ){
+        FSvCMNSetMsgWarningDialog('กรุณาเลือกคลัง');
+        return;
+    }
+
+    $('#odvAdjStkFilterDataCondition').modal('show');
+
+    //Clear ค่า
+    $('#oetASTFilterPdtNameFrom , #oetASTFilterPdtNameTo').val('');
+    $('#oetASTFilterPdtCodeFrom , #oetASTFilterPdtCodeTo').val('');
+
+    //Clear ค่า
+    $('#oetASTFilterSplNameFrom , #oetASTFilterSplNameTo').val('');
+    $('#oetASTFilterSplCodeFrom , #oetASTFilterSplCodeTo').val('');
+
+    //Clear ค่า
+    $('#oetASTFilterPgpName').val('');
+    $('#oetASTFilterPgpCode').val('');
+
+    //Clear ค่า
+    $('#oetASTFilterPlcName').val('');
+    $('#oetASTFilterPlcCode').val('');
+
 });
 
 $('#obtAdjStkConfirmFilter').click(function(){
@@ -1250,6 +1270,7 @@ function JSxAdjStkBrowsePdt(ptType){
                 'BCH'             : [$('#oetASTBchCode').val(),''],//Code, Name
                 'MER'             : [$('#oetASTMerCode').val(),''], 
                 'SHP'             : [$('#oetASTShopCode').val(),''],
+                'WAH'             : [$('#oetASTWahCode').val(),''],
                 'tStaPdtLay'      : 'N', //Y = แสดงสินค้าที่อยู่ในตู้ VD ด้วย, N = ไม่แสดงสินค้าที่ผูกในตู้ VD (TVDMPdtLayout)
                 'TimeLocalstorage': dTimelocalStorage
             },
@@ -1523,12 +1544,23 @@ function JSnASTPrintDoc(){
 // Create By : Napat(Jame) 24/08/2022
 $('#obtASTImportExcelFile').off('click').on('click', function(){
 
+    if( $('#oetASTBchCode').val() == '' ){
+        FSvCMNSetMsgWarningDialog('กรุณาเลือกสาขา');
+        return;
+    }
+
+    if( $('#oetASTWahCode').val() == '' ){
+        FSvCMNSetMsgWarningDialog('กรุณาเลือกคลัง');
+        return;
+    }    
+
     var tNameModule     = 'adjstkconfirm';
     var tTypeModule     = 'document';
     var tAfterRoute     = 'JSxASTImportExcelCallback';
     var tFlagClearTmp   = '1' // null = ไม่สนใจ 1 = ลบหมดเเล้วเพิ่มใหม่ 2 = เพิ่มต่อเนื่อง
 
     var aParams = {
+        'tWahCode'  : $('#oetASTWahCode').val(),
         'tBchCode'  : $('#oetASTBchCode').val(),
         'tDocNo'    : $('#oetASTDocNo').val()
     };
@@ -1551,5 +1583,42 @@ function JSxASTImportExcelCallback() {
 }
 
 /////////////// END Import Excel File ///////////////
+
+// Create by : 23/09/2022 Napat(Jame)
+// เช็ค Data Tr In Table Behide Change Condition
+function JSxASTEvnConfirmDelDTTemp(){
+    var tTypeClickEvent = $('#ohdASTTypeClick').val();
+    $.ajax({
+        type    : "POST",
+        url     : "docASTEventClearDataDTTemp",
+        success: function(tResult) {
+            
+            $('#odvASTPopupFoundDataInDT').modal('hide');
+            $('.modal-backdrop').remove();
+            JSvASTLoadPdtDataTableHtml();
+
+            // Check Case Click Event
+            switch(tTypeClickEvent){
+                case 'BCH':
+                    // JSxTopUpVendingCallbackBch(null);
+                    setTimeout(function(){
+                        $( "#obtBrowseASTBCH" ).trigger( "click" );
+                    },1000);
+                break;
+                case 'WAH':
+                    // JSxTopUpVendingCallbackWah(null);
+                    setTimeout(function(){
+                        $( "#obtASTBrowseWah" ).trigger( "click" );
+                    },1000);
+                break;
+            }
+           
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            JCNxCloseLoading();
+            JCNxResponseError(jqXHR, textStatus, errorThrown);
+        }
+    });
+}
 
 </script>

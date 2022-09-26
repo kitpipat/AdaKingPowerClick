@@ -77,6 +77,9 @@ class cBrowserPDTCallView extends MX_Controller
         //Parameter SHP
         $tParameterSHP      = $this->input->post('SHP');
 
+        //Parameter WAH
+        $tParameterWAH      = $this->input->post('WAH');
+
         //Parameter DISTYPE
         $tParameterDISTYPE    = $this->input->post('DISTYPE');
 
@@ -122,6 +125,7 @@ class cBrowserPDTCallView extends MX_Controller
             'tParameterMER'     => $tParameterMER,
             'tParameterBCH'     => $tParameterBCH,
             'tParameterSHP'     => $tParameterSHP,
+            'tParameterWAH'     => $tParameterWAH,
             'tParameterDISTYPE' => $tParameterDISTYPE,
             'tTimeLocalstorage' => $tTimeLocalstorage,
             'tPagename'         => $tPagename,
@@ -170,6 +174,7 @@ class cBrowserPDTCallView extends MX_Controller
             $tSHP                   =  $this->input->post("SHP");
             $tMER                   =  $this->input->post("MER");
             $tSPL                   =  $this->input->post("SPL");
+            $tWAH                   =  $this->input->post("WAH");
             $nDISTYPE               =  $this->input->post("DISTYPE");
             $tSelectTier            =  $this->input->post("SelectTier");
             $tReturnType            =  $this->input->post("ReturnType");
@@ -185,6 +190,7 @@ class cBrowserPDTCallView extends MX_Controller
             $tSHP                   =  $this->input->post("SHP");
             $tMER                   =  $this->input->post("MER");
             $tSPL                   =  $this->input->post("SPL");
+            $tWAH                   =  $this->input->post("WAH");
             $aPriceType             =  $this->input->post("aPriceType");
             $tSearchText            =  trim($tBarcode);
             $tSearchSelect          =  'PDTANDBarcode';
@@ -204,6 +210,7 @@ class cBrowserPDTCallView extends MX_Controller
             'tMER'                  => @$tMER,
             'tSHP'                  => @$tSHP,
             'tSPL'                  => @$tSPL,
+            'tWAH'                  => @$tWAH,
             'nDISTYPE'              => @$nDISTYPE,
             'tSelectTier'           => @$tSelectTier,
             'tStaPdtLay'            => @$tStaPdtLay,
@@ -558,14 +565,7 @@ class cBrowserPDTCallView extends MX_Controller
             $tLeftJoinPrice .= " VPC.FTPdtCode = ProductM.FTPdtCode ";
         }
 
-        //------------------- สินค้าใน VD พาโนแกรม -------------------
-        if( $tStaPdtLay == "N" ){
-            $tFilter .= " AND Products.FTPdtCode NOT IN (   SELECT FTPdtCode
-                                                            FROM TVDMPdtLayout WITH(NOLOCK)
-                                                            WHERE ISNULL(FTPdtCode, '') <> ''
-                                                            GROUP BY FTPdtCode 
-                                                        ) ";
-        }
+        
 
         //-------------------ผู้จำหน่าย-------------------
         if ($paData['tSPL'] != '' || $paData['tSPL'] != null) {
@@ -587,6 +587,21 @@ class cBrowserPDTCallView extends MX_Controller
         //-------------------ร้านค้า-------------------
         if ($paData['tSHP'] != '' || $paData['tSHP'] != null) {
             //$tFilter .= " AND (Products.FTShpCode = '".$paData['tSHP']."')";
+        }
+
+        //------------------- สินค้าใน VD พาโนแกรม -------------------
+        if( $tStaPdtLay == "N" ){
+            $tFilter .= " AND Products.FTPdtCode NOT IN (   SELECT FTPdtCode
+                                                            FROM TVDMPdtLayout WITH(NOLOCK)
+                                                            WHERE ISNULL(FTPdtCode, '') <> '' 
+                                                            AND FTBchCode = '".$tBCH."' ";
+
+            if ($paData['tWAH'] != '' || $paData['tWAH'] != null) {
+                $tFilter .= "                               AND FTWahCode = '".$paData['tWAH']."' ";
+            }
+
+            $tFilter .= "                                   GROUP BY FTPdtCode ";
+            $tFilter .= "                               ) ";
         }
 
         //เงือนไขว่าวิ่งเข้า VIEW SQL ชุดไหน

@@ -10,6 +10,17 @@ if (empty($tParameterSPL)) {
     }
 }
 
+//Get parameter WAH
+if (empty($tParameterWAH)) {
+    $tWAHCode   = '';
+} else {
+    if ($tParameterWAH[0] == '') {
+        $tWAHCode   = '';
+    } else {
+        $tWAHCode   = $tParameterWAH[0];
+    }
+}
+
 //Get parameter BCH
 if (empty($tParameterBCH)) {
     $tBCHCode   = '';
@@ -192,6 +203,7 @@ if (empty($aNotinItem)) {
                 'SHP': '<?= $tSHPCode ?>',
                 'MER': '<?= $tMERCode ?>',
                 'SPL': '<?= $tSPLCode ?>',
+                'WAH': '<?= $tWAHCode ?>',
                 'DISTYPE': '<?= $tDISTYPE ?>',
                 'SelectTier': $('#odhEleSelectTier').val(),
                 'ReturnType': $('#odhEleReturnType').val(),

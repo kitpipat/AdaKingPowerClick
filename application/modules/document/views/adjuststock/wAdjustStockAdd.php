@@ -887,7 +887,27 @@
     </div>
 </div>
 
-
+<div class="modal fade" id="odvASTPopupFoundDataInDT">
+	<input type="hidden" id="ohdASTTypeClick" name="ohdASTTypeClick">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header xCNModalHead">
+				<label class="xCNTextModalHeard"><?=language('document/document/document','tDocStawarning'); ?></label>
+			</div>
+			<div class="modal-body">
+				<p id="obpMsgApv"><?=language('document/adjuststockvd/adjuststockvd','มีข้อมูลรายการสินค้าเดิมในระบบ ท่านต้องการที่จะลบข้อมูลรายการสินค้า ใช่ หรือ ไม่ ?'); ?>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn xCNBTNPrimery"	onclick="JSxASTEvnConfirmDelDTTemp()">
+					<?=language('common/main/main', 'tModalConfirm'); ?>
+				</button>
+				<button type="button" class="btn xCNBTNDefult" data-dismiss="modal">
+					<?=language('common/main/main', 'tModalCancel'); ?>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 <!-- ============================================================================================================================================================== -->
 

@@ -558,6 +558,7 @@ $route['dcmASTCancel']                  = 'document/adjuststock/cAdjustStock/FSv
 $route['dcmASTApprove']                 = 'document/adjuststock/cAdjustStock/FSvCASTApprove';
 $route['dcmASTGetPdtBarCode']           = 'document/adjuststock/cAdjustStock/FSvCASTGetPdtBarCode';
 $route['docAdjStkEventAddProducts']     = 'document/adjuststock/cAdjustStock/FSvCAdjStkEventAddProducts';
+$route['docASTEventClearDataDTTemp']    = 'document/adjuststock/cAdjustStock/FSxCASTEventClearDataDTTemp';
 
 //ใบรับของ-ใบซื้อสินค้า/บริการ
 $route['dcmPI/(:any)/(:any)']           = 'document/purchaseinvoice/cPurchaseInvoice/index/$1/$2';
