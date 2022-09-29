@@ -14,9 +14,9 @@ class Serverprinter_Model extends CI_Model
      */
     public function FSaMSrvPriSearchByID($paData)
     {
-        $tSrvPriCode   = $paData['FTSrvPriCode'];
-        $tAgnCode   = $paData['FTAgnCode'];
-        $nLngID     = $paData['FNLngID'];
+        $tSrvPriCode    = $paData['tSrvCode'];
+        $tAgnCode       = $paData['tAgnCode'];
+        $nLngID         = $paData['FNLngID'];
 
 
         $tSQL       = "SELECT
@@ -295,6 +295,7 @@ class Serverprinter_Model extends CI_Model
      * Return : Status response
      * Return Type : array
      */
+    /* LastUpdate By Napat(Jame) 29/09/2022 เพิ่มลบตาราง Spc */
     public function FSnMSrvPriDel($paData)
     {
         $this->db->where('FTSrvCode', $paData['FTSrvPriCode']);
@@ -305,11 +306,269 @@ class Serverprinter_Model extends CI_Model
         $this->db->where('FTAgnCode', $paData['FTAgnCode']);
         $this->db->delete('TCNMPrnServer_L');
 
-
+        $this->db->where('FTSrvCode', $paData['FTSrvPriCode']);
+        $this->db->where('FTAgnCode', $paData['FTAgnCode']);
+        $this->db->delete('TCNMPrnServerSpc');
 
         return $aStatus = array(
             'rtCode' => '1',
             'rtDesc' => 'success',
         );
     }
+
+    // Create By : Napat(Jame) 26/09/2022
+    public function FSaMSrvPriSpcList($paData){
+
+        $nLngID     = $this->session->userdata("tLangEdit");
+        $tAgnCode   = $paData['tAgnCode'];
+        $tSrvCode   = $paData['tSrvCode'];
+
+        $tSQL       = " SELECT
+                            PSS.FTAgnCode,
+                            PSS.FTSrvCode,
+                            PSS.FTPlbCode,
+                            PLBL.FTPblName,
+                            PSS.FTLblCode,
+                            LBFL.FTLblName
+                        FROM TCNMPrnServerSpc PSS WITH(NOLOCK)
+                        INNER JOIN TCNMPrnLabel  PLB  WITH(NOLOCK) ON PLB.FTAgnCode = PSS.FTAgnCode AND PLB.FTPlbCode = PSS.FTPlbCode
+                        LEFT JOIN TCNMPrnLabel_L PLBL WITH(NOLOCK) ON PLBL.FTAgnCode = PLB.FTAgnCode AND PLBL.FTPlbCode = PLB.FTPlbCode AND PLBL.FNLngID = $nLngID
+                        LEFT JOIN TCNSLabelFmt_L LBFL WITH(NOLOCK) ON LBFL.FTLblCode = PSS.FTLblCode AND LBFL.FNLngID = $nLngID
+                        WHERE PSS.FTSrvCode <> '' ";
+
+        if( isset($tAgnCode) && !empty($tAgnCode) ){
+            $tSQL .= " AND (PSS.FTAgnCode = '$tAgnCode' OR ISNULL(PSS.FTAgnCode,'') = '') ";
+        }
+
+        if( isset($tSrvCode) && !empty($tSrvCode) ){
+            $tSQL .= " AND PSS.FTSrvCode = '$tSrvCode' ";
+        }
+
+        $oQuery = $this->db->query($tSQL);
+        if ($oQuery->num_rows() > 0) {
+            $aResult = array(
+                'aItems'        => $oQuery->result_array(),
+                'tCode'        => '1',
+                'tDesc'        => 'found data',
+            );
+        } else {
+            $aResult = array(
+                'tCode' => '800',
+                'tDesc' => 'data not found',
+            );
+        }
+
+        $jResult = json_encode($aResult);
+        $aResult = json_decode($jResult, true);
+        return $aResult;
+    }
+
+    // Create By : Napat(Jame) 27/09/2022
+    public function FSaMSrvPriSpcAddData($paPackData){
+        $this->db->insert_batch('TCNMPrnServerSpc', $paPackData);
+        if ($this->db->affected_rows() > 0) {
+            $aStatus = array(
+                'tCode' => '1',
+                'tDesc' => 'Add Success',
+            );
+        } else {
+            $aStatus = array(
+                'tCode' => '905',
+                'tDesc' => 'Add Unsuccess',
+            );
+        }
+        return $aStatus;
+    }
+
+    // Create By : Napat(Jame) 28/09/2022
+    public function FSaMSrvPriSpcDelData($paDelData){
+        $this->db->delete('TCNMPrnServerSpc', $paDelData);
+        if ($this->db->affected_rows() > 0) {
+            $aStatus = array(
+                'tCode' => '1',
+                'tDesc' => 'Delete Success',
+            );
+        } else {
+            $aStatus = array(
+                'tCode' => '905',
+                'tDesc' => 'Delete Unsuccess',
+            );
+        }
+        return $aStatus;
+    }
+
+    // Create By : Napat(Jame) 28/09/2022
+    public function FSaMSrvPriGetPrnLabelExport($ptAgnCode,$ptSrvCode,$pnLngID){
+        $tSQL = "   SELECT
+                        PLB.FTAgnCode,
+                        PLB.FTPlbCode,
+                        PLB.FTLblCode,
+                        PLB.FTSppCode,
+                        PLB.FTPlbStaUse,
+                        PLB.FDLastUpdOn,
+                        PLB.FTLastUpdBy,
+                        PLB.FDCreateOn,
+                        PLB.FTCreateBy
+                    FROM TCNMPrnServerSpc     PSS  WITH(NOLOCK)
+                    INNER JOIN TCNMPrnLabel   PLB  WITH(NOLOCK) ON PLB.FTAgnCode = PSS.FTAgnCode AND PLB.FTPlbCode = PSS.FTPlbCode
+                    WHERE PSS.FTAgnCode = '$ptAgnCode' 
+                      AND PSS.FTSrvCode = '$ptSrvCode' ";
+        $oQuery = $this->db->query($tSQL);
+
+        if ($oQuery->num_rows() > 0) {
+            $aResult = array(
+                'raItems'       => $oQuery->result_array(),
+                'rtCode'        => '1',
+                'rtDesc'        => 'success',
+            );
+        } else {
+            $aResult = array(
+                'rtCode'        => '800',
+                'rtDesc'        => 'data not found.',
+            );
+        }
+        return $aResult;
+    }
+
+    // Create By : Napat(Jame) 28/09/2022
+    public function FSaMSrvPriGetPrnLabelLExport($ptAgnCode,$ptSrvCode,$pnLngID){
+        $tSQL = "   SELECT
+                        PLBL.FTAgnCode,
+                        PLBL.FTPlbCode,
+                        PLBL.FNLngID,
+                        PLBL.FTPblName,
+                        PLBL.FTPblRmk
+                    FROM TCNMPrnServerSpc     PSS  WITH(NOLOCK)
+                    LEFT JOIN TCNMPrnLabel_L  PLBL WITH(NOLOCK) ON PLBL.FTAgnCode = PSS.FTAgnCode AND PLBL.FTPlbCode = PSS.FTPlbCode AND PLBL.FNLngID = $pnLngID
+                    WHERE PSS.FTAgnCode = '$ptAgnCode' 
+                      AND PSS.FTSrvCode = '$ptSrvCode' ";
+        $oQuery = $this->db->query($tSQL);
+
+        if ($oQuery->num_rows() > 0) {
+            $aResult = array(
+                'raItems'       => $oQuery->result_array(),
+                'rtCode'        => '1',
+                'rtDesc'        => 'success',
+            );
+        } else {
+            $aResult = array(
+                'rtCode'        => '800',
+                'rtDesc'        => 'data not found.',
+            );
+        }
+        return $aResult;
+    }
+
+    // Create By : Napat(Jame) 28/09/2022
+    public function FSaMSrvPriGetLabelFmtExport($ptAgnCode,$ptSrvCode,$pnLngID){
+        $tSQL = "   SELECT
+                        LBF.FTLblCode,
+                        LBF.FTLblRptNormal,
+                        LBF.FTLblRptPmt,
+                        LBF.FTLblStaUse,
+                        LBF.FDLastUpdOn,
+                        LBF.FTLastUpdBy,
+                        LBF.FDCreateOn,
+                        LBF.FTCreateBy
+                    FROM TCNMPrnServerSpc PSS WITH(NOLOCK)
+                    INNER JOIN TCNMPrnLabel PLB WITH(NOLOCK) ON PLB.FTAgnCode = PSS.FTAgnCode AND PLB.FTPlbCode = PSS.FTPlbCode
+                    INNER JOIN TCNSLabelFmt LBF WITH(NOLOCK) ON LBF.FTLblCode = PLB.FTLblCode
+                    WHERE PSS.FTAgnCode = '$ptAgnCode' 
+                      AND PSS.FTSrvCode = '$ptSrvCode' ";
+        $oQuery = $this->db->query($tSQL);
+
+        if ($oQuery->num_rows() > 0) {
+            $aResult = array(
+                'raItems'       => $oQuery->result_array(),
+                'rtCode'        => '1',
+                'rtDesc'        => 'success',
+            );
+        } else {
+            $aResult = array(
+                'rtCode'        => '800',
+                'rtDesc'        => 'data not found.',
+            );
+        }
+        return $aResult;
+    }
+
+    // Create By : Napat(Jame) 28/09/2022
+    public function FSaMSrvPriGetLabelFmtLExport($ptAgnCode,$ptSrvCode,$pnLngID){
+        $tSQL = "   SELECT
+                        LBFL.FTLblCode,
+                        LBFL.FNLngID,
+                        LBFL.FTLblName,
+                        LBFL.FTLblRmk
+                    FROM TCNMPrnServerSpc     PSS  WITH(NOLOCK)
+                    INNER JOIN TCNMPrnLabel   PLB  WITH(NOLOCK) ON PLB.FTAgnCode = PSS.FTAgnCode AND PLB.FTPlbCode = PSS.FTPlbCode
+                    INNER JOIN TCNSLabelFmt_L LBFL WITH(NOLOCK) ON LBFL.FTLblCode = PLB.FTLblCode AND LBFL.FNLngID = $pnLngID
+                    WHERE PSS.FTAgnCode = '$ptAgnCode' 
+                      AND PSS.FTSrvCode = '$ptSrvCode' ";
+        $oQuery = $this->db->query($tSQL);
+
+        if ($oQuery->num_rows() > 0) {
+            $aResult = array(
+                'raItems'       => $oQuery->result_array(),
+                'rtCode'        => '1',
+                'rtDesc'        => 'success',
+            );
+        } else {
+            $aResult = array(
+                'rtCode'        => '800',
+                'rtDesc'        => 'data not found.',
+            );
+        }
+        return $aResult;
+    }
+
+    // Create By : Napat(Jame) 28/09/2022
+    public function FSaMSrvPriGetDataUrlObjectExport(){
+        $tSQL = " SELECT * FROM TCNTUrlObject WITH(NOLOCK) ";
+        $oQuery = $this->db->query($tSQL);
+
+        if ($oQuery->num_rows() > 0) {
+            $aResult = array(
+                'raItems'       => $oQuery->result_array(),
+                'rtCode'        => '1',
+                'rtDesc'        => 'success',
+            );
+        } else {
+            $aResult = array(
+                'rtCode'        => '800',
+                'rtDesc'        => 'data not found.',
+            );
+        }
+        return $aResult;
+    }
+
+    // Create By : Napat(Jame) 28/09/2022
+    public function FSaMSrvPriGetDataUrlObjectLoginExport(){
+        $tSQL = " SELECT * FROM TCNTUrlObjectLogin WITH(NOLOCK) ";
+        $oQuery = $this->db->query($tSQL);
+
+        if ($oQuery->num_rows() > 0) {
+            $aResult = array(
+                'raItems'       => $oQuery->result_array(),
+                'rtCode'        => '1',
+                'rtDesc'        => 'success',
+            );
+        } else {
+            $aResult = array(
+                'rtCode'        => '800',
+                'rtDesc'        => 'data not found.',
+            );
+        }
+        return $aResult;
+    }
+
+    public function FSnMSrvPriCountDataSpc($paData){
+        $tAgnCode = $paData['tAgnCode'];
+        $tSrvCode = $paData['tSrvCode'];
+
+        $tSQL = " SELECT FTSrvCode FROM TCNMPrnServerSpc WITH(NOLOCK) WHERE FTAgnCode = '$tAgnCode' AND FTSrvCode = '$tSrvCode' ";
+        $oQuery = $this->db->query($tSQL);
+        $nCount = $oQuery->num_rows();
+        return $nCount;
+    }
+
 }

@@ -25,8 +25,8 @@ class Serverprinter_Controller extends MX_Controller
             'nSrvPriBrowseType'     => $nSrvPriBrowseType,
             'tSrvPriBrowseOption'   => $tSrvPriBrowseOption,
             // 'aAlwEvent'             => FCNaHCheckAlwFunc('settingprint/0/0'),
-            'aAlwEvent'             => ['tAutStaFull' => 1, 'tAutStaAdd' => 1, 'tAutStaEdit' => 1],
-            'vBtnSave'              => FCNaHBtnSaveActiveHTML('settingprint/0/0'),
+            'aAlwEvent'             => FCNaHCheckAlwFunc('ServerPrinter/0/0'),
+            'vBtnSave'              => FCNaHBtnSaveActiveHTML('ServerPrinter/0/0'),
             'nOptDecimalShow'       => FCNxHGetOptionDecimalShow(),
             'nOptDecimalSave'       => FCNxHGetOptionDecimalSave()
         ];
@@ -43,7 +43,7 @@ class Serverprinter_Controller extends MX_Controller
      */
     public function FSvSrvPriListPage()
     {
-        $aDataConfigView    = ['aAlwEvent'             => ['tAutStaFull' => 1, 'tAutStaAdd' => 1, 'tAutStaEdit' => 1]];
+        $aDataConfigView    = ['aAlwEvent' => FCNaHCheckAlwFunc('ServerPrinter/0/0')];
         $this->load->view('settingconfig/settingprint/wServerPrinterList', $aDataConfigView);
     }
 
@@ -117,7 +117,8 @@ class Serverprinter_Controller extends MX_Controller
                 'rtCode' => '99',
                 'tSesAgnCode'   => $this->session->userdata("tSesUsrAgnCode"),
                 'tSesAgnName'   => $this->session->userdata("tSesUsrAgnName")
-            )
+            ),
+            'nCountSpc' => 0,
         );
 
         $this->load->view('settingconfig/settingprint/wServerPrinterAdd', $aDataAdd);
@@ -134,21 +135,26 @@ class Serverprinter_Controller extends MX_Controller
     public function FSvSrvPriEditPage()
     {
 
-        $tSrvPriCode       = $this->input->post('tSrvPriCode');
-        $tSrvPriAgnCode       = $this->input->post('tSrvPriAgnCode');
-        $nLangResort    = $this->session->userdata("tLangID");
-        $nLangEdit      = $this->session->userdata("tLangEdit");
+        $tSrvPriCode        = $this->input->post('tSrvPriCode');
+        $tSrvPriAgnCode     = $this->input->post('tSrvPriAgnCode');
+        $nLangResort        = $this->session->userdata("tLangID");
+        $nLangEdit          = $this->session->userdata("tLangEdit");
 
 
         $aData  = array(
-            'FTSrvPriCode' => $tSrvPriCode,
-            'FTAgnCode' => $tSrvPriAgnCode,
-            'FNLngID'   => $nLangEdit
+            // 'FTSrvPriCode'  => $tSrvPriCode,
+            // 'FTAgnCode'     => $tSrvPriAgnCode,
+            'tAgnCode'      => $tSrvPriAgnCode,
+            'tSrvCode'      => $tSrvPriCode,
+            'FNLngID'       => $nLangEdit
         );
+        $aSrvPriData = $this->Serverprinter_Model->FSaMSrvPriSearchByID($aData);
+        $nCountSpc   = $this->Serverprinter_Model->FSnMSrvPriCountDataSpc($aData);
 
-
-        $aSrvPriData       = $this->Serverprinter_Model->FSaMSrvPriSearchByID($aData);
-        $aDataEdit      = array('aResult' => $aSrvPriData);
+        $aDataEdit      = array(
+            'aResult'   => $aSrvPriData,
+            'nCountSpc' => $nCountSpc,
+        );
         $this->load->view('settingconfig/settingprint/wServerPrinterAdd', $aDataEdit);
     }
 
@@ -369,4 +375,79 @@ class Serverprinter_Controller extends MX_Controller
         $this->Serverprinter_Model->FSnMSrvPriDel($aSrvPri);
         echo json_encode($tSrvPriCode);
     }
+
+    // Create By : Napat(Jame) 26/09/2022
+    public function FSvSrvPriSpcDataList(){
+
+        $tAgnCode   = $this->input->post('ptAgnCode');
+        $tSrvCode   = $this->input->post('ptSrvCode');
+
+        $aData  = array(
+            'tAgnCode'      => $tAgnCode,
+            'tSrvCode'      => $tSrvCode,
+        );
+        $aResList = $this->Serverprinter_Model->FSaMSrvPriSpcList($aData);
+        $nCountSpc   = $this->Serverprinter_Model->FSnMSrvPriCountDataSpc($aData);
+
+        $aGenTable = array(
+            'aDataList' => $aResList,
+            'nCountSpc' => $nCountSpc,
+        );
+        $this->load->view('settingconfig/settingprint/wServerPrinterSpcDataTable', $aGenTable);
+    }
+
+    // Create By : Napat(Jame) 27/09/2022
+    public function FSaSrvPriSpcAddData(){
+        $aPackData   = $this->input->post('paPackData');
+        $aResSta = $this->Serverprinter_Model->FSaMSrvPriSpcAddData($aPackData);
+        echo json_encode($aResSta);
+    }
+
+    // Create By : Napat(Jame) 28/09/2022
+    public function FSaSrvPriSpcDelData(){
+        $tAgnCode   = $this->input->post('ptAgnCode');
+        $tSrvCode   = $this->input->post('ptSrvCode');
+        $tPlbCode   = $this->input->post('ptPlbCode');
+
+        $aDelData = array(
+            'FTAgnCode'     => $tAgnCode,
+            'FTSrvCode'     => $tSrvCode,
+            'FTPlbCode'     => $tPlbCode,
+        );
+        $aResSta = $this->Serverprinter_Model->FSaMSrvPriSpcDelData($aDelData);
+        echo json_encode($aResSta);
+    }
+
+    // Create By : Napat(Jame) 28/09/2022
+    public function FSaSrvPriSpcExportJson(){
+        $tAgnCode   = $this->input->post('ptAgnCode');
+        $tSrvCode   = $this->input->post('ptSrvCode');
+        $nLngID     = $this->session->userdata("tLangEdit");
+
+        $aLabelFmtData      = $this->Serverprinter_Model->FSaMSrvPriGetLabelFmtExport($tAgnCode,$tSrvCode,$nLngID);
+        $aLabelFmtLData     = $this->Serverprinter_Model->FSaMSrvPriGetLabelFmtLExport($tAgnCode,$tSrvCode,$nLngID);
+        $aPrnLabelData      = $this->Serverprinter_Model->FSaMSrvPriGetPrnLabelExport($tAgnCode,$tSrvCode,$nLngID);
+        $aPrnLabelLData     = $this->Serverprinter_Model->FSaMSrvPriGetPrnLabelLExport($tAgnCode,$tSrvCode,$nLngID);
+
+        $aUrlObject         = $this->Serverprinter_Model->FSaMSrvPriGetDataUrlObjectExport();
+        $aUrlObjectLogin    = $this->Serverprinter_Model->FSaMSrvPriGetDataUrlObjectLoginExport();
+
+        if( $tAgnCode != "" ){
+            $ptSrvCode = $tAgnCode."_".$tSrvCode;
+        }else{
+            $ptSrvCode = $tSrvCode;
+        }
+
+        $aParamExport = array(
+            "ptSrvCode"             => $tSrvCode,
+            'poaTCNSLabelFmt'       => $aLabelFmtData['raItems'],
+            'poaTCNSLabelFmt_L'     => $aLabelFmtLData['raItems'],
+            'poaTCNMPrnLabel'       => $aPrnLabelData['raItems'],
+            'poaTCNMPrnLabel_L'     => $aPrnLabelLData['raItems'],
+            'poaTCNTUrlObject'      => $aUrlObject['raItems'],
+            'poaTCNTUrlObjectLogin' => $aUrlObjectLogin['raItems']
+        );
+        echo json_encode($aParamExport);
+    }
+
 }

@@ -4,18 +4,17 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <!-- <th class="xCNTextBold text-center" style="width:10%;"><?php echo language('product/settingprinter/settingprinter', 'tSPTBChoose') ?></th> -->
                         <th class="text-center" id="othCheckboxHide" width="3%">
                             <label class="fancy-checkbox">
                                 <input id="ocbCheckAll" type="checkbox" class="ocmCENCheckDeleteAll" name="ocbCheckAll" style="margin-right: 0px !important">
                                 <span class=""></span>
                             </label>
                         </th>
-                        <th class="xCNTextBold text-center" style="width:20%;"><?php echo language('product/settingprinter/settingprinter', 'tSPTBCode') ?></th>
-                        <th class="xCNTextBold text-center" style="width:20%;"><?php echo language('product/settingprinter/settingprinter', 'tSPTBName') ?></th>
+                        <th class="xCNTextBold text-center" style="width:17%;"><?php echo language('product/settingprinter/settingprinter', 'tSPTBCode') ?></th>
+                        <th class="xCNTextBold text-center" style="width:60%;"><?php echo language('product/settingprinter/settingprinter', 'tSPTBName') ?></th>
                         <th class="xCNTextBold text-center" style="width:10%;"><?php echo language('product/settingprinter/settingprinter', 'tSPTBStatus') ?></th>
-                        <th class="xCNTextBold text-center" style="width:10%;"><?php echo language('product/settingprinter/settingprinter', 'tSPTBDelete') ?></th>
-                        <th class="xCNTextBold text-center" style="width:10%;"><?php echo language('product/settingprinter/settingprinter', 'tSPTBEdit') ?></th>
+                        <th class="xCNTextBold text-center" style="width:5%;"><?php echo language('product/settingprinter/settingprinter', 'tSPTBDelete') ?></th>
+                        <th class="xCNTextBold text-center" style="width:5%;"><?php echo language('product/settingprinter/settingprinter', 'tSPTBEdit') ?></th>
                     </tr>
                 </thead>
                 <tbody id="odvRGPList">
@@ -31,12 +30,12 @@
                                 <td class="text-left otdSrvPriCode" data-agncode="<?= $aValue['rtPrnSrvAgnCode']?>"><?= $aValue['rtPrnSrvCode'] ?></td>
                                 <td class="text-left otdSrvPriName"><?= $aValue['rtPrnSrvName'] ?></td>
                                 <?php
-                                $tSrvPriSta = '';
-                                if ($aValue['rtPrnSrvSta'] == 1) {
-                                    $tSrvPriSta = language('product/settingprinter/settingprinter', 'tSPTBActive1');
-                                } else {
-                                    $tSrvPriSta = language('product/settingprinter/settingprinter', 'tSPTBActive2');
-                                }
+                                    $tSrvPriSta = '';
+                                    if ($aValue['rtPrnSrvSta'] == 1) {
+                                        $tSrvPriSta = language('product/settingprinter/settingprinter', 'tSPTBActive1');
+                                    } else {
+                                        $tSrvPriSta = language('product/settingprinter/settingprinter', 'tSPTBActive2');
+                                    }
                                 ?>
                                 <td class="text-left"><?php echo $tSrvPriSta;  ?></td>
                                 <td>

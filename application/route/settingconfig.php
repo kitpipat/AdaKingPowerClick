@@ -103,7 +103,10 @@ $route['ServerPrinterEventEdit']               = 'settingconfig/settingprint/Ser
 $route['ServerPrinterDeleteMulti']             = 'settingconfig/settingprint/Serverprinter_Controller/FSoSrvPriDeleteMulti';
 $route['ServerPrinterDelete']                  = 'settingconfig/settingprint/Serverprinter_Controller/FSoSrvPriDelete';
 $route['ServerPrinterUniqueValidate/(:any)']   = 'settingconfig/settingprint/Serverprinter_Controller/FStSrvPriUniqueValidate/$1';
-
+$route['ServerPrinterSpcDataTable']            = 'settingconfig/settingprint/Serverprinter_Controller/FSvSrvPriSpcDataList';
+$route['ServerPrinterSpcAddData']              = 'settingconfig/settingprint/Serverprinter_Controller/FSaSrvPriSpcAddData';
+$route['ServerPrinterSpcDelData']              = 'settingconfig/settingprint/Serverprinter_Controller/FSaSrvPriSpcDelData';
+$route['ServerPrinterSpcExportJson']           = 'settingconfig/settingprint/Serverprinter_Controller/FSaSrvPriSpcExportJson';
 
 //Server Lable
 $route['LablePrinter/(:any)/(:any)']          = 'settingconfig/settingprint/Lableprinter_Controller/index/$1/$2';

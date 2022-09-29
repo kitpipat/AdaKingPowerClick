@@ -14,19 +14,36 @@
 			</div>
 		</div>
 		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4"></div>
-		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-			<label class="xCNLabelFrm"><span class="text-danger">*</span><?php echo language('product/settingprinter/settingprinter', 'tSPTitle') ?></label>
-			<div class="input-group">
-				<input type='text' class='form-control xCNHide xWRptAllInput' id='oetPlbPrnSrvCode' name='oetPlbPrnSrvCode'>
+		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 text-right" style="margin-top:23px;">
+
+			<?php /*if($aAlwEvent['tAutStaFull'] == 1 || $aAlwEvent['tAutStaDelete'] == 1 ):*/ ?>
+			<div class="form-group">
+				<div id="odvMngTableList" class="btn-group xCNDropDrownGroup">
+					<button type="button" class="btn xCNBTNMngTable" data-toggle="dropdown">
+						<?php echo language('common/main/main','tCMNOption')?>
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" role="menu">
+						<li id="oliBtnDeleteAll" class="disabled">
+							<a href="javascript:;" data-toggle="modal" data-target="#odvModalDelLabPri" onclick="JSxLabPriSetDataBeforeDelMulti()"><?php echo language('common/main/main','tCMNDeleteAll')?></a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<?php /*endif;*/ ?>
+
+			<!-- <label class="xCNLabelFrm"><span class="text-danger">*</span><?php echo language('product/settingprinter/settingprinter', 'tSPTitle') ?></label> -->
+			<!-- <div class="input-group"> -->
+				<!-- <input type='text' class='form-control xCNHide xWRptAllInput' id='oetPlbPrnSrvCode' name='oetPlbPrnSrvCode'>
 				<input type="text" class="form-control  xCNInputMaskDate" readonly id="oetPlbPrnSrvName" name="oetPlbPrnSrvName" value="" placeholder="<?php echo language('product/settingprinter/settingprinter', 'tSPTitle') ?>">
 				<span class="input-group-btn">
 					<button id="obtPlbPrnSrvBrowse" type="button" class="btn xCNBtnDateTime" style="margin-top: -2px;">
 						<img class="xCNIconFind"> </button>
-				</span>
-				<span class="input-group-btn">
+				</span> -->
+				<!-- <span class="input-group-btn">
 					<button class="btn btn-info xWExportPrintSet" id="obtExportPrintSet" onclick="JSnLabPriExportChoose()" style="height: 35.7px;margin-left: 10px;"><?php echo language('product/settingprinter/settingprinter', 'tLPTBExport') ?></button>
-				</span>
-				<span class="input-group-btn">
+				</span> -->
+				<!-- <span class="input-group-btn">
 					<div id="odvMngTableList" class="btn-group xCNDropDrownGroup" style="margin-left: 10px;">
 						<button type="button" class="btn xCNBTNMngTable" data-toggle="dropdown" style="padding-bottom: 1px !important;">
 							<?php echo language('common/main/main', 'tCMNOption') ?>
@@ -38,8 +55,19 @@
 							</li>
 						</ul>
 					</div>
-				</span>
-			</div>
+				</span> -->
+				<!-- <div id="odvMngTableList" class="btn-group xCNDropDrownGroup" style="margin-left: 10px;">
+					<button type="button" class="btn xCNBTNMngTable" data-toggle="dropdown" style="padding-bottom: 1px !important;">
+						<?php echo language('common/main/main', 'tCMNOption') ?>
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" role="menu">
+						<li id="oliBtnDeleteAll" class="disabled">
+							<a href="javascript:;" data-toggle="modal" data-target="#odvModalDelLabPri" onclick="JSxLabPriSetDataBeforeDelMulti()"><?php echo language('common/main/main', 'tCMNDeleteAll') ?></a>
+						</li>
+					</ul>
+				</div> -->
+			<!-- </div> -->
 			
 		</div>
 		

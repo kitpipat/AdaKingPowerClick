@@ -1669,7 +1669,8 @@
             window.oPrnBarPrnLableBrowsOption = oPrnBarPrnLableBrowse({
                 'tReturnInputCode'  : 'oetPrnBarPrnLableCode',
                 'tReturnInputName'  : 'oetPrnBarPrnLableName',
-                'tPdtPriType'       : $('#ocbPrnBarSheet').val()
+                'tPdtPriType'       : $('#ocbPrnBarSheet').val(),
+                'tSrvCode'          : $('#oetPrnBarPrnSrvCode').val(),
             });
             JCNxBrowseData('oPrnBarPrnLableBrowsOption');
         } else {
@@ -1682,8 +1683,9 @@
         if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
             JSxCheckPinMenuClose(); // Hidden Pin Menu
             window.oPrnBarPrnSrvBrowsOption = oPrnBarPrnSrvBrowse({
-                'tReturnInputCode': 'oetPrnBarPrnSrvCode',
-                'tReturnInputName': 'oetPrnBarPrnSrvName',
+                'tReturnInputCode'  : 'oetPrnBarPrnSrvCode',
+                'tReturnInputName'  : 'oetPrnBarPrnSrvName',
+                'tPlbCode'          : $('#oetPrnBarPrnLableCode').val(),
             });
             JCNxBrowseData('oPrnBarPrnSrvBrowsOption');
         } else {
@@ -1696,6 +1698,7 @@
         let tPrnLabInputReturnCode  = poReturnInputModel.tReturnInputCode;
         let tPrnLabInputReturnName  = poReturnInputModel.tReturnInputName;
         let tPdtPriType             = poReturnInputModel.tPdtPriType;
+        let tSrvCode                = poReturnInputModel.tSrvCode;
         let tWhereCondition         = "";
         let tSesUsrAgnCode          = '<?=$this->session->userdata("tSesUsrAgnCode")?>';
 
@@ -1715,6 +1718,18 @@
                     tWhereCondition += " AND (ISNULL(TCNSLabelFmt.FTLblRptNormal,'') != '' AND ISNULL(TCNSLabelFmt.FTLblRptPmt,'') != '') ";
             }
         }
+
+        let tJoinTable = ['TCNMPrnLabel_L', 'TCNSLabelFmt'];
+        let tJoinOn    = [
+            'TCNMPrnLabel.FTPlbCode = TCNMPrnLabel_L.FTPlbCode AND TCNMPrnLabel.FTAgnCode = TCNMPrnLabel_L.FTAgnCode AND TCNMPrnLabel_L.FNLngID = ' + nLangEdits,
+            'TCNSLabelFmt.FTLblCode = TCNMPrnLabel.FTLblCode',
+        ];
+
+        if( tSrvCode != "" ){
+            tWhereCondition += " AND TCNMPrnServerSpc.FTSrvCode = '"+tSrvCode+"' ";
+            tJoinTable.push("TCNMPrnServerSpc");
+            tJoinOn.push("TCNMPrnServerSpc.FTAgnCode = TCNMPrnLabel.FTAgnCode AND TCNMPrnServerSpc.FTPlbCode = TCNMPrnLabel.FTPlbCode");
+        }
         
         let oPrnBarPrnLableOption = {
             Title: ['product/pdtmodel/pdtmodel', 'รูปแบบการพิมพ์'],
@@ -1723,11 +1738,8 @@
                 PK: 'FTPlbCode'
             },
             Join: {
-                Table: ['TCNMPrnLabel_L', 'TCNSLabelFmt'],
-                On: [
-                    'TCNMPrnLabel.FTPlbCode = TCNMPrnLabel_L.FTPlbCode AND TCNMPrnLabel.FTAgnCode = TCNMPrnLabel_L.FTAgnCode AND TCNMPrnLabel_L.FNLngID = ' + nLangEdits,
-                    'TCNSLabelFmt.FTLblCode = TCNMPrnLabel.FTLblCode'
-                ]
+                Table   : tJoinTable,
+                On      : tJoinOn,
             },
             Where: {
                 Condition: [" AND TCNMPrnLabel.FTPlbStaUse = '1' AND TCNSLabelFmt.FTLblStaUse = '1' "+tWhereCondition]
@@ -1793,13 +1805,24 @@
     }
 
     var oPrnBarPrnSrvBrowse = function(poReturnInputModel) {
-        let tPrnSrvInputReturnCode = poReturnInputModel.tReturnInputCode;
-        let tPrnSrvInputReturnName = poReturnInputModel.tReturnInputName;
+        let tPrnSrvInputReturnCode  = poReturnInputModel.tReturnInputCode;
+        let tPrnSrvInputReturnName  = poReturnInputModel.tReturnInputName;
+        let tPlbCode                = poReturnInputModel.tPlbCode;
         let tWhereCondition         = " AND TCNMPrnServer.FTSrvStaUse = '1' ";
         let tSesUsrAgnCode          = '<?=$this->session->userdata("tSesUsrAgnCode")?>';
 
         if( tSesUsrAgnCode != "" ){
             tWhereCondition += " AND (TCNMPrnServer.FTAgnCode = '"+tSesUsrAgnCode+"' OR ISNULL(TCNMPrnServer.FTAgnCode,'') = '') ";
+        }
+
+        let tJoinTable = ['TCNMPrnServer_L'];
+        let tJoinOn    = [
+            'TCNMPrnServer.FTSrvCode = TCNMPrnServer_L.FTSrvCode AND TCNMPrnServer.FTAgnCode = TCNMPrnServer_L.FTAgnCode AND TCNMPrnServer_L.FNLngID = ' + nLangEdits
+        ];
+        if( tPlbCode != "" ){
+            tJoinTable.push("TCNMPrnServerSpc");
+            tJoinOn.push("TCNMPrnServerSpc.FTAgnCode = TCNMPrnServer.FTAgnCode AND TCNMPrnServerSpc.FTSrvCode = TCNMPrnServer.FTSrvCode");
+            tWhereCondition += " AND TCNMPrnServerSpc.FTPlbCode = '"+tPlbCode+"' ";
         }
         
         let oPrnBarPrnSrvOption = {
@@ -1809,10 +1832,8 @@
                 PK: 'FTSrvCode'
             },
             Join: {
-                Table: ['TCNMPrnServer_L'],
-                On: [
-                    'TCNMPrnServer.FTSrvCode = TCNMPrnServer_L.FTSrvCode AND TCNMPrnServer.FTAgnCode = TCNMPrnServer_L.FTAgnCode AND TCNMPrnServer_L.FNLngID = ' + nLangEdits
-                ]
+                Table   : tJoinTable,
+                On      : tJoinOn,
             },
             Where: {
                 Condition: [tWhereCondition]
@@ -1832,6 +1853,7 @@
                 Value: [tPrnSrvInputReturnCode, "TCNMPrnServer.FTSrvCode"],
                 Text: [tPrnSrvInputReturnName, "TCNMPrnServer_L.FTSrvName"]
             },
+            // DebugSQL: true
         };
         return oPrnBarPrnSrvOption;
     }

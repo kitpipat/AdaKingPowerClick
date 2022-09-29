@@ -15,57 +15,6 @@ $('document').ready(function() {
 
 /*============================= End Auto Run =================================*/
 
-/*============================= Begin Custom Form Validate ===================*/
-
-var bUniqueSrvPriCode;
-$.validator.addMethod(
-    "uniqueSrvPriCode",
-    function(tValue, oElement, aParams) {
-        let tSrvPriCode = tValue;
-        $.ajax({
-            type: "POST",
-            url: "ServerPrinterUniqueValidate/SrvPriCode",
-            data: "tSrvPriCode=" + tSrvPriCode,
-            dataType: "html",
-            success: function(ptMsg) {
-                // If vatrate and vat start exists, set response to true
-                bUniqueSrvPriCode = (ptMsg == 'true') ? false : true;
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log('Custom validate uniqueSrvPriCode: ', jqXHR, textStatus, errorThrown);
-            },
-            async: false
-        });
-        return bUniqueSrvPriCode;
-    },
-    "Vat Code is Already Taken"
-);
-
-// Override Error Message
-jQuery.extend(jQuery.validator.messages, {
-    required: "This field is required.",
-    remote: "Please fix this field.",
-    email: "Please enter a valid email address.",
-    url: "Please enter a valid URL.",
-    date: "Please enter a valid date.",
-    dateISO: "Please enter a valid date (ISO).",
-    number: "Please enter a valid number.",
-    digits: "Please enter only digits.",
-    creditcard: "Please enter a valid credit card number.",
-    equalTo: "Please enter the same value again.",
-    accept: "Please enter a value with a valid extension.",
-    maxlength: jQuery.validator.format("Please enter no more than {0} characters."),
-    minlength: jQuery.validator.format("Please enter at least {0} characters."),
-    rangelength: jQuery.validator.format("Please enter a value between {0} and {1} characters long."),
-    range: jQuery.validator.format("Please enter a value between {0} and {1}."),
-    max: jQuery.validator.format("Please enter a value less than or equal to {0}."),
-    min: jQuery.validator.format("Please enter a value greater than or equal to {0}.")
-});
-
-/*============================= End Custom Form Validate =====================*/
-
-/*============================= Begin Form Validate ==========================*/
-
 /**
  * Functionality : (event) Add/Edit SrvPri
  * Parameters : ptRoute is route to add Customer Group data.
@@ -75,76 +24,6 @@ jQuery.extend(jQuery.validator.messages, {
  * Return Type : -
  */
 function JSnAddEditSrvPri(ptRoute) {
-
-
-
-    // $.validator.addMethod('dublicateCode', function(value, element) {
-    //     if (ptRoute == "ServerPrinterEventAdd") {
-    //         if ($("ohdCheckDuplicateSrvPriCode").val() == 1) {
-    //             return false;
-    //         } else {
-    //             return true;
-    //         }
-    //     } else {
-    //         return true;
-    //     }
-    // }, '');
-    // $('#ofmAddSrvPri').validate({
-    //     rules: {
-    //         oetSrvPriCode: {
-    //             "required": {
-    //                 depends: function(oElement) {
-    //                     if (ptRoute == "ServerPrinterEventAdd") {
-    //                         if ($('#ocbSrvPriAutoGenCode').is(':checked')) {
-    //                             return false;
-    //                         } else {
-    //                             return true;
-    //                         }
-    //                     } else {
-    //                         return true;
-    //                     }
-    //                 }
-    //             },
-    //             "dublicateCode": {}
-    //         },
-    //         oetSrvPriName: { "required": {} },
-    //     },
-    //     messages: {
-    //         oetSrvPriCode: {
-    //             "required": $('#oetSrvPriCode').attr('data-validate-required'),
-    //             // "dublicateCode": $('#oetSrvPriCode').attr('data-validate-dublicateCode')
-    //         },
-    //         oetSrvPriName: {
-    //             "required": $('#oetSrvPriName').attr('data-validate-required'),
-    //         },
-    //     },
-    //     errorElement: "em",
-    //     errorPlacement: function(error, element) {
-    //         error.addClass("help-block");
-    //         if (element.prop("type") === "checkbox") {
-    //             error.appendTo(element.parent("label"));
-    //         } else {
-    //             var tCheck = $(element.closest('.form-group')).find('.help-block').length;
-    //             if (tCheck == 0) {
-    //                 error.appendTo(element.closest('.form-group')).trigger('change');
-    //             }
-    //         }
-    //     },
-    //     highlight: function(element, errorClass, validClass) {
-    //         $(element).closest('.form-group').addClass("has-error").removeClass("has-success");
-    //     },
-    //     unhighlight: function(element, errorClass, validClass) {
-    //         $(element).closest('.form-group').addClass("has-success").removeClass("has-error");
-    //     },
-    //     submitHandler: function(form) {
-    //         if (!$('#ocbSrvPriAutoGenCode').is(':checked')) {
-    //             JSxCheckServerPrinterCodeDupInDB(ptRoute);
-    //         } else {
-    //             JSxSrvPriAddUpdateInTable(ptRoute);
-
-    //         }
-    //     }
-    // });
     var nStaSession = JCNxFuncChkSessionExpired();
     if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
         $('#ofmAddSrvPri').validate().destroy();
@@ -272,7 +151,7 @@ function JSxSrvPriAddUpdateInTable(ptRoute) {
                         JSvCallPageSrvPri();
                     }
                 } else {
-                    alert(aReturn['tStaMessg']);
+                    FSvCMNSetMsgWarningDialog(aReturn['tStaMessg']);
                 }
             } else {
                 JCNxCloseLoading();
@@ -313,42 +192,6 @@ function JSxSrvPriNavDefult() {
         }
     } catch (err) {
         console.log('JSxSrvPriNavDefult Error: ', err);
-    }
-}
-
-/**
- * Functionality : Function Show Event Error
- * Parameters : Error Ajax Function
- * Creator : 20/12/2021 Worakorn
- * Last Modified : -
- * Return : Modal Status Error
- * Return Type : view
- */
-function JCNxResponseError(jqXHR, textStatus, errorThrown) {
-    try {
-        JCNxCloseLoading();
-        var tHtmlError = $(jqXHR.responseText);
-        var tMsgError = "<h3 style='font-size:20px;color:red'>";
-        tMsgError += "<i class='fa fa-exclamation-triangle'></i>";
-        tMsgError += " Error<hr></h3>";
-        switch (jqXHR.status) {
-            case 404:
-                tMsgError += tHtmlError.find('p:nth-child(2)').text();
-                break;
-            case 500:
-                tMsgError += tHtmlError.find('p:nth-child(3)').text();
-                break;
-
-            default:
-                tMsgError += 'something had error. please contact admin';
-                break;
-        }
-        $("body").append(tModal);
-        $('#modal-customs').attr("style", 'width: 450px; margin: 1.75rem auto;top:20%;');
-        $('#myModal').modal({ show: true });
-        $('#odvModalBody').html(tMsgError);
-    } catch (err) {
-        console.log('JCNxResponseError Error: ', err);
     }
 }
 
@@ -406,14 +249,14 @@ function JSvSrvPriDataTable(pnPage) {
                 nPageCurrent: nPageCurrent
             },
             cache: false,
-            Timeout: 5000,
+            Timeout: 0,
             success: function(tResult) {
                 if (tResult != "") {
                     $('#ostDataSrvPri').html(tResult);
                 }
                 JSxSrvPriNavDefult();
                 JCNxLayoutControll();
-                JStCMMGetPanalLangHTML('TCNMUsrDepart_L'); //โหลดภาษาใหม่
+                // JStCMMGetPanalLangHTML('TCNMUsrDepart_L'); //โหลดภาษาใหม่
                 JCNxCloseLoading();
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -436,7 +279,7 @@ function JSvSrvPriDataTable(pnPage) {
 function JSvCallPageSrvPriAdd() {
     try {
         JCNxOpenLoading();
-        JStCMMGetPanalLangSystemHTML('', '');
+        // JStCMMGetPanalLangSystemHTML('', '');
         $.ajax({
             type: "POST",
             url: "ServerPrinterPageAdd",
@@ -476,7 +319,7 @@ function JSvCallPageSrvPriAdd() {
 function JSvCallPageSrvPriEdit(ptSrvPriCode,ptSrvPriAgnCode) {
     try {
         JCNxOpenLoading();
-        JStCMMGetPanalLangSystemHTML('JSvCallPageSrvPriEdit', ptSrvPriCode);
+        // JStCMMGetPanalLangSystemHTML('JSvCallPageSrvPriEdit', ptSrvPriCode);
 
         $.ajax({
             type: "POST",
@@ -542,55 +385,6 @@ function JStGenerateSrvPriCode() {
         });
     } catch (err) {
         console.log('JStGenerateSrvPriCode Error: ', err);
-    }
-}
-
-/**
- * Functionality : Check SrvPri Code In DB
- * Parameters : {params}
- * Creator : 20/12/2021 Worakorn
- * Last Modified : -
- * Return : status, message
- * Return Type : string
- */
-function JStCheckSrvPriCode() {
-    try {
-        var tCode = $('#oetSrvPriCode').val();
-        var tAgnCode = $('#oetSrvPriAgnCode').val();
-        
-        var tTableName = 'TCNMPrnServer';
-        var tFieldName = 'FTSrvCode';
-        if (tCode != '') {
-            $.ajax({
-                type: "POST",
-                url: "CheckInputGenCode",
-                data: {
-                    tTableName: tTableName,
-                    tFieldName: tFieldName,
-                    tCode: tCode,
-                    tAgnCode: tAgnCode
-                },
-                cache: false,
-                success: function(tResult) {
-                    var tData = $.parseJSON(tResult);
-                    $('.btn-default').attr('disabled', true);
-                    if (tData.rtCode == '1') { //มี Code นี้ในระบบแล้ว จะส่งไปหน้า Edit
-                        alert('มี id นี้แล้วในระบบ');
-                        JSvCallPageSrvPriEdit(tCode);
-                    } else {
-                        alert('ไม่พบระบบจะ Gen ใหม่');
-                        JStGenerateSrvPriCode();
-                    }
-                    $('.wrap-input100').removeClass('alert-validate');
-                    $('.btn-default').attr('disabled', false);
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    JCNxResponseError(jqXHR, textStatus, errorThrown);
-                }
-            });
-        }
-    } catch (err) {
-        console.log('JStCheckSrvPriCode Error: ', err);
     }
 }
 

@@ -22,9 +22,10 @@
 						</div>
 						<div id="odvBtnAddEdit">
 							<div class="demo-button xCNBtngroup" style="width:100%;">
-								<button onclick="JSvCallPageSrvPri()" class="btn xCNBTNDefult xCNBTNDefult2Btn" type="button"> <?php echo language('common/main/main', 'tBack')?></button>
+								<button type="button" class="btn xCNBTNDefult xCNBTNDefult2Btn xWBtnTab2 xWExportPrintLabelInSrv"> <?php echo language('product/settingprinter/settingprinter', 'tLPTBExport')?></button>
+								<button onclick="JSvCallPageSrvPri()" class="btn xCNBTNDefult xCNBTNDefult2Btn xWBtnTab1" type="button"> <?php echo language('common/main/main', 'tBack')?></button>
 								<?php if($aAlwEvent['tAutStaFull'] == 1 || ($aAlwEvent['tAutStaAdd'] == 1 || $aAlwEvent['tAutStaEdit'] == 1)):?>
-									<div class="btn-group">
+									<div class="btn-group xWBtnTab1">
 										<button type="submit" class="btn xWBtnGrpSaveLeft" onclick="$('#obtSubmitSrvPri').click()"> <?php echo language('common/main/main', 'tSave')?></button>
 										<?php echo $vBtnSave?>
 									</div>
