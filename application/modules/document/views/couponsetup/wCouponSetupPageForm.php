@@ -330,7 +330,7 @@
                                         class="form-control xCNInputWhenStaCancelDoc"
                                         id="oetCPHFrmCpnMsg1"
                                         name="oetCPHFrmCpnMsg1"
-                                        maxlength="255"
+                                        maxlength="100"
                                         placeholder="<?php echo language('document/couponsetup/couponsetup', 'tCPHLabelFrmCouponMsg1');?>"
                                         value="<?php echo @$tCPHCpnMsg1;?>"
                                     >
@@ -343,7 +343,7 @@
                                         class="form-control xCNInputWhenStaCancelDoc"
                                         id="oetCPHFrmCpnMsg2"
                                         name="oetCPHFrmCpnMsg2"
-                                        maxlength="255"
+                                        maxlength="100"
                                         placeholder="<?php echo language('document/couponsetup/couponsetup', 'tCPHLabelFrmCouponMsg2');?>"
                                         value="<?php echo @$tCPHCpnMsg2;?>"
                                     >

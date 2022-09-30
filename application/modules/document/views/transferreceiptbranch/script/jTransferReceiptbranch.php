@@ -466,7 +466,7 @@
 
     //ยกเลิกเอกสาร
     function JSxTBITransferReceiptDocCancel(pbIsConfirm) {
-        tTBIDocNo = $("#oetTBIDocNo").val();
+        var tTBIDocNo = $("#oetTBIDocNo").val();
         var tBIBchCode = $('#oetTBIBchCode').val();
         if (pbIsConfirm) {
             $.ajax({
@@ -477,15 +477,15 @@
                     tBIBchCode: tBIBchCode
                 },
                 cache: false,
-                timeout: 5000,
-                success: function(tResult) {
+                timeout: 0,
+                success: function(oResult) {
                     $("#odvTBIPopupCancel").modal("hide");
-                    aResult = $.parseJSON(tResult);
-                    if (aResult.nSta == 1) {
+                    var aResult = JSON.parse(oResult);
+                    if (aResult['rtCode'] == '1') {
                         JSvTBICallPageEdit(tTBIDocNo);
                     } else {
                         JCNxCloseLoading();
-                        tMsgBody = aResult.tMsg;
+                        var tMsgBody = aResult['rtDesc'];
                         FSvCMNSetMsgErrorDialog(tMsgBody);
                     }
                 },

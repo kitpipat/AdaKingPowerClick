@@ -1443,22 +1443,49 @@ class mTransferreceiptbranch extends CI_Model
                     WHERE FTXthDocNo = '$tDocNo' ";
         $this->db->query($tSQL);
     }
+
     //ยกเลิกเอกสาร
-    public function FSvMTBICancel($paDataUpdate)
+    // Last Update : Napat(Jame) 30/09/2022 เพิ่มการเคลียร์อ้างอิงเอกสาร
+    public function FSxMTBICancel($paDataUpdate)
     {
         try {
-            $this->db->set('FTXthStaDoc', 3);
-            $this->db->where('FTXthDocNo', $paDataUpdate['FTXthDocNo']);
+
+            $tDocNo = $paDataUpdate['FTXthDocNo'];
+
+            $this->db->trans_begin();
+
+            // ปรับสถานะเอกสารเป็น ยกเลิก
+            $this->db->set('FTXthStaDoc', '3');
+            $this->db->where('FTXthDocNo', $tDocNo);
             $this->db->update('TCNTPdtTbiHD');
-            if ($this->db->affected_rows() > 0) {
-                $aStatus = array(
-                    'rtCode' => '1',
-                    'rtDesc' => 'OK',
-                );
-            } else {
+
+            // เช็คว่าเอกสารมีอ้างอิงไหม
+            // ถ้ามีอ้างอิง ต้องลบข้อมูลอ้างอิงตารางตัวเอง + ตารางที่อ้างอิงภายใน
+            $tSQL       = " SELECT DISTINCT FTXthRefDocNo,FTXthRefKey FROM TCNTPdtTbiHDDocRef WHERE FTXthDocNo = '".$tDocNo."' AND FTXthRefType = '1' ";
+            $oQuery     = $this->db->query($tSQL);
+            if( $oQuery->num_rows() > 0 ){
+                // ลบอ้างอิงตารางตัวเอง
+                $this->db->where('FTXthRefType', '1');
+                $this->db->where('FTXthDocNo', $tDocNo);
+                $this->db->delete('TCNTPdtTbiHDDocRef');
+
+                // ลบอ้างอิงตาราง ใบจ่ายโอน-สาขา
+                $this->db->where('FTXthRefType', '2');
+                $this->db->where('FTXthRefDocNo', $tDocNo);
+                $this->db->delete('TCNTPdtTboHDDocRef');
+            }
+
+            if ( $this->db->trans_status() === FALSE ) {
+                $this->db->trans_rollback();
                 $aStatus = array(
                     'rtCode' => '903',
-                    'rtDesc' => 'Not Approve',
+                    'rtDesc' => $this->db->error()['message'],
+                );
+            } else {
+                $this->db->trans_commit();
+                $aStatus = array(
+                    'rtCode' => '1',
+                    'rtDesc' => 'OK'
                 );
             }
             return $aStatus;
@@ -1846,17 +1873,15 @@ class mTransferreceiptbranch extends CI_Model
 
     public function FSaMTBICheckStatusDocProcess($paDataWhere)
     {
-        $tBCHCode       = $paDataWhere['tBchCode'];
-        $tDocumentNumber       = $paDataWhere['tDocumentNumber'];
-
-
+        $tBCHCode           = $paDataWhere['tBchCode'];
+        $tDocumentNumber    = $paDataWhere['tDocumentNumber'];
 
         $tSQL       = " SELECT
                           FTXthStaDoc
-                        FROM TCNTPdtTbiHD
+                        FROM TCNTPdtTbiHD WITH(NOLOCK)
                         WHERE FTXthDocNo = '$tDocumentNumber'
                         AND FTBchCode = '$tBCHCode'
-                        AND FTXthStaApv = 1 ";
+                        AND FTXthStaApv = '1' ";
 
         $oQuery = $this->db->query($tSQL);
         $nResult = $oQuery->num_rows();

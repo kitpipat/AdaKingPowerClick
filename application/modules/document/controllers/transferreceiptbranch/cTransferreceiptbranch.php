@@ -1341,6 +1341,7 @@ class cTransferreceiptbranch extends MX_Controller
     }
 
     //ยกเลิกเอกสาร
+    // Last Update : Napat(Jame) 30/09/2022 เพิ่มการเคลียร์อ้างอิงเอกสาร
     public function FSoCTBIEventCancel()
     {
         $tTBIDocNo = $this->input->post('tTBIDocNo');
@@ -1348,23 +1349,10 @@ class cTransferreceiptbranch extends MX_Controller
         $aDataUpdate = array(
             'FTXthDocNo' => $tTBIDocNo,
         );
-        // $aStaApv    = $this->mTransferreceiptbranch->FSvMTBICancel($aDataUpdate);
 
-        // //อัพเดทใน CN ให้กลับไปใช้งานได้
-        // $this->mTransferreceiptbranch->FSvMTBICheckDocumentInCN('CANCEL', $aDataUpdate);
+        // ปรับสถานะเป็นยกเลิกเอกสาร + เคลียร์อ้างอิงเอกสาร
+        $aStaCancel = $this->mTransferreceiptbranch->FSxMTBICancel($aDataUpdate);
 
-        // if ($aStaApv['rtCode'] == 1) {
-        //     $aApv = array(
-        //         'nSta' => 1,
-        //         'tMsg' => "Cancel done.",
-        //     );
-        // } else {
-        //     $aApv = array(
-        //         'nSta' => 2,
-        //         'tMsg' => "Not Cancel.",
-        //     );
-        // }
-        // echo json_encode($aApv);
         $tDocumentNumber    = $this->input->post('tTBIDocNo');
         $tBchCode           = $this->input->post('tBIBchCode');
         $aWhere = array(
@@ -1372,13 +1360,11 @@ class cTransferreceiptbranch extends MX_Controller
             'tDocumentNumber' => $tDocumentNumber,
             'tBchCode'        => $tBchCode
         );
-        //ยกเลิกเอกสาร
-        $aStaApv    =  $this->mTransferreceiptbranch->FSvMTBICancel($aDataUpdate);
 
-        //ถ้ายกเลิกเอกสาร ต้องวิ่งไปเช็คว่าสินค้าใน DT มี Status จองยัง ถ้ามีแล้วต้องวิ่ง MQ / ถ้าไม่มีสถานะยังไม่จองไม่ต้องทำไร (รอทำ)
+        // เช็คว่าเอกสารอนุมัติหรือยัง ?
         $nItems = $this->mTransferreceiptbranch->FSaMTBICheckStatusDocProcess($aWhere);
         if ($nItems != 0) {
-
+            // ส่งให้ MQ คืนสต๊อกสินค้า
             $aMQParams = [
                 "queueName" => "CN_QDocApprove",
                 "params"    => [
@@ -1394,22 +1380,9 @@ class cTransferreceiptbranch extends MX_Controller
                 ]
             ];
             FCNxCallRabbitMQ($aMQParams);
-
-        } else {
-
-            if ($aStaApv['rtCode'] == 1) {
-                $aApv = array(
-                    'nSta' => 1,
-                    'tMsg' => "Cancel done.",
-                );
-            } else {
-                $aApv = array(
-                    'nSta' => 2,
-                    'tMsg' => "Not Cancel.",
-                );
-            }
-            echo json_encode($aApv);
         }
+        echo json_encode($aStaCancel);
+        
     }
 
     //อัพเดทข้อมูล เป็นเเถว
