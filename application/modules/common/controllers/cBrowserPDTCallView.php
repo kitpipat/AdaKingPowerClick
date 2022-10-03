@@ -591,17 +591,24 @@ class cBrowserPDTCallView extends MX_Controller
 
         //------------------- สินค้าใน VD พาโนแกรม -------------------
         if( $tStaPdtLay == "N" ){
-            $tFilter .= " AND Products.FTPdtCode NOT IN (   SELECT FTPdtCode
-                                                            FROM TVDMPdtLayout WITH(NOLOCK)
-                                                            WHERE ISNULL(FTPdtCode, '') <> '' 
-                                                            AND FTBchCode = '".$tBCH."' ";
+            $tFilter .= " AND Products.FTPdtCode NOT IN ( SELECT DISTINCT PLO.FTPdtCode
+                                FROM TCNMWaHouse WAH WITH(NOLOCK) 
+                                INNER JOIN TVDMPosShop PSH WITH(NOLOCK) ON PSH.FTBchCode = WAH.FTBchCode AND PSH.FTPosCode = WAH.FTWahRefCode
+                                INNER JOIN TVDMPdtLayout PLO WITH(NOLOCK) ON PLO.FTBchCode = WAH.FTBchCode AND PLO.FTShpCode = PSH.FTShpCode
+                                WHERE WAH.FTBchCode = '".$tBCH."' AND ISNULL(PLO.FTPdtCode,'') != '' ";
 
             if ($paData['tWAH'] != '' || $paData['tWAH'] != null) {
-                $tFilter .= "                               AND FTWahCode = '".$paData['tWAH']."' ";
+                $tFilter .= "   AND WAH.FTWahCode = '".$paData['tWAH']."' ";
             }
 
-            $tFilter .= "                                   GROUP BY FTPdtCode ";
-            $tFilter .= "                               ) ";
+            
+            $tFilter .= "     ) ";
+
+            // SELECT FTPdtCode
+            // FROM TVDMPdtLayout WITH(NOLOCK)
+            // WHERE ISNULL(FTPdtCode, '') <> '' 
+            // AND FTBchCode = '".$tBCH."'
+
         }
 
         //เงือนไขว่าวิ่งเข้า VIEW SQL ชุดไหน

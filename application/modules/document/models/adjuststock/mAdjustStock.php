@@ -1919,12 +1919,18 @@ class mAdjustStock extends CI_Model
                     INNER JOIN TCNMPdtBar       PBAR    WITH(NOLOCK) ON PDT.FTPdtCode = PBAR.FTPdtCode AND PPS.FTPunCode = PBAR.FTPunCode AND PBAR.FTBarStaUse = '1'
                     LEFT JOIN TCNMPdtSpcBch     SpcBch  WITH(NOLOCK) ON PDT.FTPdtCode = SpcBch.FTPdtCode
                     WHERE PBAR.FTBarCode = '$tPdtBarCode' 
-                      AND PDT.FTPdtCode NOT IN (    SELECT FTPdtCode
-                                                    FROM TVDMPdtLayout WITH(NOLOCK)
-                                                    WHERE ISNULL(FTPdtCode, '') <> '' AND FTBchCode = '$tBchCode' AND FTWahCode = '$tWahCode'
-                                                    GROUP BY FTPdtCode 
+                      AND PDT.FTPdtCode NOT IN (    SELECT DISTINCT PLO.FTPdtCode
+                                                    FROM TCNMWaHouse WAH WITH(NOLOCK) 
+                                                    INNER JOIN TVDMPosShop PSH WITH(NOLOCK) ON PSH.FTBchCode = WAH.FTBchCode AND PSH.FTPosCode = WAH.FTWahRefCode
+                                                    INNER JOIN TVDMPdtLayout PLO WITH(NOLOCK) ON PLO.FTBchCode = WAH.FTBchCode AND PLO.FTShpCode = PSH.FTShpCode
+                                                    WHERE WAH.FTBchCode = '$tBchCode' AND WAH.FTWahCode = '$tWahCode' AND ISNULL(PLO.FTPdtCode,'') != ''
                                                )
-                ";
+        ";
+
+        // SELECT FTPdtCode
+        // FROM TVDMPdtLayout WITH(NOLOCK)
+        // WHERE ISNULL(FTPdtCode, '') <> '' AND FTBchCode = '$tBchCode' AND FTWahCode = '$tWahCode'
+        // GROUP BY FTPdtCode 
 
         $this->db->query($tSQL);
         // if ($oQuery->num_rows() > 0) {
