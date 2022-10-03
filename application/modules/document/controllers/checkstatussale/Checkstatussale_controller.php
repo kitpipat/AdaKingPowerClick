@@ -622,27 +622,42 @@ class Checkstatussale_controller extends MX_Controller {
     // Gen เอกสารใบจัดสินค้า
     public function FSoCCSSEventGenDocPacking(){
         try {
-            $aMQParams = [
-                "queueName" => "CN_QReqGenDoc",
-                "params"        => [
-                    "ptFunction"    =>  "TCNTPdtPickHD",    //ชื่อ Function
-                    "ptSource"      =>  "AdaStoreBack",     //ต้นทาง
-                    "ptDest"        =>  "MQReceivePrc",     //ปลายทาง
-                    "ptData"        =>  json_encode([
-                        "ptBchCode"     => $this->input->post('ptBchCode'),
-                        "ptDocNo"       => $this->input->post('ptDocNo'),
-                        "ptUserCode"    => $this->session->userdata("tSesUserCode"),
-                        "paCondition"   => array(),
-                        "ptPickType"    => '2' // 1 : สำหรับการจ่ายโอน , 2 : สำหรับการขาย
-                    ])
-                ]
-            ];
-            FCNxCallRabbitMQ($aMQParams);
 
-            $aReturnData = array(
-                'nStaEvent' => 1,
-                'tStaMessg' => 'Send MQ Success.'
+            $tBchCode   = $this->input->post('ptBchCode');
+            $tDocNo     = $this->input->post('ptDocNo');
+            $aDataWhere = array(
+                'tBchCode'  => $tBchCode,
+                'tDocNo'    => $tDocNo,
             );
+            $aChkGenPick = $this->Checkstatussale_model->FSaMCSSChkGenPick($aDataWhere);
+
+            if( $aChkGenPick['tCode'] != '1' ){
+                $aMQParams = [
+                    "queueName" => "CN_QReqGenDoc",
+                    "params"        => [
+                        "ptFunction"    =>  "TCNTPdtPickHD",    //ชื่อ Function
+                        "ptSource"      =>  "AdaStoreBack",     //ต้นทาง
+                        "ptDest"        =>  "MQReceivePrc",     //ปลายทาง
+                        "ptData"        =>  json_encode([
+                            "ptBchCode"     => $tBchCode,
+                            "ptDocNo"       => $tDocNo,
+                            "ptUserCode"    => $this->session->userdata("tSesUserCode"),
+                            "paCondition"   => array(),
+                            "ptPickType"    => '2' // 1 : สำหรับการจ่ายโอน , 2 : สำหรับการขาย
+                        ])
+                    ]
+                ];
+                FCNxCallRabbitMQ($aMQParams);
+                $aReturnData = array(
+                    'nStaEvent' => 1,
+                    'tStaMessg' => 'Send MQ Success.'
+                );
+            }else{
+                $aReturnData = array(
+                    'nStaEvent' => 405,
+                    'tStaMessg' => 'ใบขายนี้สร้างใบจัดแล้ว กรุณารีเฟรชหน้าจอเพื่อตรวจสอบข้อมูล'
+                );
+            }
         } catch (Exception $Error) {
             $aReturnData = array(
                 'nStaEvent' => 500,

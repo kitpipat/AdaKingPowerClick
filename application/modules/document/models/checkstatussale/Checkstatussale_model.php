@@ -1475,4 +1475,27 @@ class Checkstatussale_model extends CI_Model {
         return $aResult;
     }
 
+    // Create By : Napat (Jame) 03/10/2022
+    public function FSaMCSSChkGenPick($paData){
+        
+        $tDocNo = $paData['tDocNo'];
+
+        $tSQL = "   SELECT FTXthDocNo FROM TCNTPdtPickHDDocRef WITH(NOLOCK) 
+                    WHERE FTXthRefDocNo = '".$tDocNo."' 
+                    AND FTXthRefType = '1' AND FTXthRefKey = 'SALE' ";
+        $oQuery = $this->db->query($tSQL);
+        if ( $oQuery->num_rows() > 0 ){
+            $aResult = array(
+                'tCode'            => '1',
+                'tDesc'            => 'พบเอกสารใบจัดสินค้า'
+            );
+        } else {
+            $aResult = array(
+                'tCode'             => '800',
+                'tDesc'             => 'ไม่พบเอกสารใบจัดสินค้า'
+            );
+        }
+        return $aResult;
+    }
+
 }
