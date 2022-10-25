@@ -352,7 +352,7 @@ class mCommon extends CI_Model
                             LEFT JOIN TCNMPdtColor_L PCL WITH(NOLOCK) ON PCL.FTClrCode = PPS.FTClrCode AND PCL.FNLngID = ".$nLangPdtName."
                             LEFT JOIN TCNMPdtGrp  PGP WITH(NOLOCK) ON PGP.FTPgpChain = PDT.FTPgpChain
                             LEFT JOIN TCNMPdtGrp_L PGPL WITH(NOLOCK) ON PGPL.FTPgpChain = PDT.FTPgpChain AND PGPL.FNLngID = ".$nLngID."
-                            WHERE AdpHD.FTXphStaApv = '1' AND BAR.FTBarCode = '$tBarCode' "; 
+                            WHERE AdpHD.FTXphStaApv = '1' AND BAR.FTBarCode = '$tBarCode' AND BAR.FTBarStaUse = '1' AND Pdt.FTPdtStaActive = '1' "; 
 
         switch($tPrnBarSheet){
             case 'Normal':

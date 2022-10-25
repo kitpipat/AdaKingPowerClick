@@ -39,7 +39,8 @@ class mPromotionStep1ImportPmtExcel extends CI_Model
                               AND FTPmdBarCode = '$tBarCode' 
                               AND FTPmdGrpName = '$tPmtGroupNameTmpOld' 
                               AND FTSessionID = '$tUserSessionID'
-                        ) ";
+                        ) 
+                    AND BAR.FTBarStaUse = '1' ";
         
         if($tPdtCode!= ""){
             $tSQL .= "AND PDT.FTPdtCode = '$tPdtCode'";

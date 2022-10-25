@@ -162,6 +162,7 @@ class mBrowserPDTCallView extends CI_Model
                             LEFT JOIN TCNMPDTSpl ON TCNMPdt.FTPdtCode = TCNMPDTSpl.FTPdtCode AND TCNMPdtBar.FTBarCode = TCNMPDTSpl.FTBarCode
                             INNER JOIN TCNMPdtUnit_L ON TCNMPdtUnit_L.FTPunCode = TCNMPdtPackSize.FTPunCode AND TCNMPdtUnit_L.FNLngID = '$nLngID'
                             INNER JOIN TCNMPdt_L ON TCNMPdt.FTPdtCode = TCNMPdt_L.FTPdtCode AND TCNMPdt_L.FNLngID = '$nLngID'
+                            WHERE TCNMPdtBar.FTBarStaUse = '1'
                         ) AS Products WHERE 1=1 ";
         $tSQL       .= $ptFilter;
 
@@ -444,7 +445,8 @@ class mBrowserPDTCallView extends CI_Model
                         LEFT JOIN TCNMPdtBar ON TCNMPdtBar.FTPdtCode = TCNMPdtPackSize.FTPdtCode AND TCNMPdtBar.FTPunCode = TCNMPdtPackSize.FTPunCode
                         LEFT JOIN TCNMPDTSpl ON TCNMPdt.FTPdtCode = TCNMPDTSpl.FTPdtCode AND TCNMPdtBar.FTBarCode = TCNMPDTSpl.FTBarCode
                         INNER JOIN TCNMPdtUnit_L ON TCNMPdtUnit_L.FTPunCode = TCNMPdtPackSize.FTPunCode AND TCNMPdtUnit_L.FNLngID = '$nLngID'
-                        INNER JOIN TCNMPdt_L ON TCNMPdt.FTPdtCode = TCNMPdt_L.FTPdtCode AND TCNMPdt_L.FNLngID = '$nLngID' ";
+                        INNER JOIN TCNMPdt_L ON TCNMPdt.FTPdtCode = TCNMPdt_L.FTPdtCode AND TCNMPdt_L.FNLngID = '$nLngID' 
+                        WHERE TCNMPdtBar.FTBarStaUse = '1' ";
 
 
         $tSQL       .= " WHERE  1=1 ";
