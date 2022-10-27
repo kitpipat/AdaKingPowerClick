@@ -892,21 +892,15 @@
         let aPdtArgReturn = poReturnInputPdt.aArgReturn;
         let tCondition = '';
         var tSesUsrLevel = '<?= $this->session->userdata('tSesUsrLevel') ?>'
-
-        // let tBchCodeSess = $('#oetRptBchCodeSelect').val();
-        // let tAgnCode = $('#oetSpcAgncyCode').val();
-        // let tBchcode = tBchCodeSess.replace(/,/g, "','");
         var tBchcode = "<?php echo $this->session->userdata("tSesUsrBchCodeMulti") ?>";
         var tAgnCode = '<?php echo $this->session->userdata("tSesUsrAgnCode") ?>';
-        // var tBchcode = tBchCodeSess.replace(/,/g, "','");
+
+        tCondition += " AND TCNMPdt.FTPdtStaActive = '1' "; // สินค้าเคลื่อนไหว
+        tCondition += " AND ISNULL(TCNMPdtPackSize.FTPunCode,'') != '' AND ISNULL(TCNMPdtBar.FTBarCode,'') != '' "; // บาร์โค้ด และหน่วยต้องมีข้อมูลในมาสเตอร์
+        tCondition += " AND TCNMPdtBar.FTBarStaUse = '1' AND TCNMPdtBar.FTBarStaAlwSale = '1' "; // บาร์โค้ดใช้งาน + บาร์โค้ดอนุญาตขาย
+
         if (tSesUsrLevel != 'HQ') {
-            
             tCondition += " AND (TCNMPdtSpcBch.FTPdtCode IS NULL OR (TCNMPdtSpcBch.FTAgnCode = '"+tAgnCode+"' AND (TCNMPdtSpcBch.FTBchCode IN (" + tBchcode + ") OR ISNULL(TCNMPdtSpcBch.FTBchCode,'') = '')) ) ";
-
-
-            // tCondition += " AND ((TCNMPdtSpcBch.FTAgnCode = '" + tAgnCode + "')	OR TCNMPdtSpcBch.FTBchCode IN ('" + tBchcode + "') ";
-            // tCondition += " OR (ISNULL(TCNMPdtSpcBch.FTBchCode,'') = '' AND TCNMPdtSpcBch.FTAgnCode = '" + tAgnCode + "'	)";
-            // tCondition += " OR ISNULL(TCNMPdtSpcBch.FTAgnCode,'') = '' )";
         }
 
         let oPdtOptionReturn = {
@@ -916,10 +910,12 @@
                 PK: "FTPdtCode"
             },
             Join: {
-                Table: ["TCNMPdt_L", 'TCNMPdtSpcBch'],
+                Table: ["TCNMPdt_L", 'TCNMPdtSpcBch', "TCNMPdtPackSize", "TCNMPdtBar"],
                 On: [
                     'TCNMPdt.FTPdtCode = TCNMPdt_L.FTPdtCode AND TCNMPdt_L.FNLngID = ' + nLangEdits,
-                    'TCNMPdtSpcBch.FTPdtCode = TCNMPdt.FTPdtCode'
+                    'TCNMPdtSpcBch.FTPdtCode = TCNMPdt.FTPdtCode',
+                    "TCNMPdt.FTPdtCode = TCNMPdtPackSize.FTPdtCode",
+                    "TCNMPdt.FTPdtCode = TCNMPdtBar.FTPdtCode AND TCNMPdtPackSize.FTPunCode = TCNMPdtBar.FTPunCode"
                 ]
             },
             Where: {
@@ -944,8 +940,8 @@
                 FuncName: tPdtNextFuncName,
                 ArgReturn: aPdtArgReturn
             },
-            RouteAddNew: 'product',
-            BrowseLev: 1,
+            // RouteAddNew: 'product',
+            // BrowseLev: 1,
             // DebugSQL: true
         };
         return oPdtOptionReturn;
