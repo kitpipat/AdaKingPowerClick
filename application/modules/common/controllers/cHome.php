@@ -656,6 +656,7 @@ class cHome extends MX_Controller
                 // FCNnMasTmpChkCodeDupInDBSpecial($aValidateData);
             }
         } else if( $tNameModule == 'printbarcode' ){
+            $this->mCommon->FCNaMCMMClearImportExcelInTmp($aWhereData); // สั่งเคลียร์ tmp ก่อน
             for ($i = 1; $i < $nPackData; $i++) {
                 $this->mCommon->FCNaMCMMListDataPrintBarCode($aPackData[$i], $aImportParams);
             }

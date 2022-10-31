@@ -171,17 +171,17 @@ class mCommon extends CI_Model
     {
         // settings parameters
         // $aImportParams          = json_decode($paImportParams);
-        $tBarCode               = $paPackData[0];
-        $nQty                   = $paPackData[1];
-        $tStaImport             = $paPackData[2];
-        $tImpDesc               = $paPackData[3];
+        $tBarCode               = trim($paPackData[0]);
+        $nQty                   = trim($paPackData[1]);
+        $tStaImport             = trim($paPackData[2]);
+        $tImpDesc               = trim($paPackData[3]);
 
         // echo "<pre>"; print_r($aImportParams); exit;
-        $tLblCode               = $aImportParams['tLblCode'];
-        $tPrnBarSheet           = $aImportParams['tPriType'];
-        $nPrnBarStaStartDate    = $aImportParams['nPrnBarStaStartDate'];
-        $tPrnBarEffectiveDate   = $aImportParams['tPrnBarEffectiveDate'];
-        $tVerGroup              = $aImportParams['tVerGroup'];
+        $tLblCode               = trim($aImportParams['tLblCode']);
+        $tPrnBarSheet           = trim($aImportParams['tPriType']);
+        $nPrnBarStaStartDate    = trim($aImportParams['nPrnBarStaStartDate']);
+        $tPrnBarEffectiveDate   = trim($aImportParams['tPrnBarEffectiveDate']);
+        $tVerGroup              = trim($aImportParams['tVerGroup']);
 
         $tIP                = $this->input->ip_address();
         $tFullHost          = gethostbyaddr($tIP);
@@ -319,10 +319,6 @@ class mCommon extends CI_Model
                                         INNER JOIN TCNTPdtPrice4PDT PRI WITH(NOLOCK) ON PPS.FTPdtCode = PRI.FTPdtCode AND PPS.FTPunCode = PRI.FTPunCode AND PRI.FTPghDocType = '1'
                                         WHERE PPS.FTPdtCode = PDT.FTPdtCode),'') AS FTPlbPriPerUnit
                                 /* END CASE STD */
-                                
-                                
-                               
-
                             FROM TCNTPdtAdjPriHD AdpHD WITH(NOLOCK) 
                             INNER JOIN TCNTPdtAdjPriDT AdpDT WITH(NOLOCK) ON AdpHD.FTXphDocNo = AdpDT.FTXphDocNo
                             INNER JOIN TCNMPdt Pdt WITH(NOLOCK) ON  PDT.FTPdtCode = AdpDT.FTPdtCode
@@ -655,18 +651,18 @@ class mCommon extends CI_Model
     // Create By : Napat(Jame) 04/07/2022
     public function FCNaMCMMClearImportExcelInTmp($paPackData){
         try {
-
-            $tTableNameTmp      = $paPackData['tTableNameTmp'];
-            // $tNameModule        = $paPackData['tNameModule'];
-            // $tTypeModule        = $paPackData['tTypeModule'];
-            // $tFlagClearTmp      = $paPackData['tFlagClearTmp'];
-            $tTableRefPK        = $paPackData['tTableRefPK'];
-
-            //ลบข้อมูลของ master
-            $this->db->where_in('FTTmpTableKey', $tTableRefPK);
-            $this->db->where_in('FTSessionID', $paPackData['tSessionID']);
-            $this->db->delete($tTableNameTmp);
-            
+            $tTableNameTmp  = $paPackData['tTableNameTmp'];
+            if( $tTableNameTmp == 'TCNTPrnLabelTmp' ){
+                $tIP        = $this->input->ip_address();
+                $tFullHost  = gethostbyaddr($tIP);
+                $this->db->where_in('FTComName', $tFullHost);
+                $this->db->delete($tTableNameTmp);
+            }else{
+                $tTableRefPK    = $paPackData['tTableRefPK'];
+                $this->db->where_in('FTTmpTableKey', $tTableRefPK);
+                $this->db->where_in('FTSessionID', $paPackData['tSessionID']);
+                $this->db->delete($tTableNameTmp);
+            }
         } catch (Exception $Error) {
             return $Error;
         }

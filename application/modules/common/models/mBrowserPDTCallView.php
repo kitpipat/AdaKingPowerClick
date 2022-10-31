@@ -449,7 +449,7 @@ class mBrowserPDTCallView extends CI_Model
                         WHERE TCNMPdtBar.FTBarStaUse = '1' ";
 
 
-        $tSQL       .= " WHERE  1=1 ";
+        // $tSQL       .= " WHERE  1=1 ";
         
         // $tSQL       .= " OR ( ISNULL(TCNMPdtSpcBch.FTBchCode,'') IN($ptBCH)   ";
 

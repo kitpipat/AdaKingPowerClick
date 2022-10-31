@@ -13,9 +13,9 @@ class mPromotionStep1ImportPmtExcel extends CI_Model
      */
     public function FSaMGetDataPdt($paParams = []){
 
-        $tPdtCode = $paParams['tPdtCode'];
-        $tPunCode = $paParams['tPunCode'];
-        $tBarCode = $paParams['tBarCode'];
+        $tPdtCode = trim($paParams['tPdtCode']);
+        $tPunCode = trim($paParams['tPunCode']);
+        $tBarCode = trim($paParams['tBarCode']);
         $nLngID = $paParams['nLngID'];
         $tUserSessionID = $paParams['tUserSessionID'];
         $tPmtGroupNameTmpOld = $paParams['tPmtGroupNameTmpOld'];
@@ -27,10 +27,10 @@ class mPromotionStep1ImportPmtExcel extends CI_Model
                         UNTL.FTPunName,
                         BAR.FTBarCode
                     FROM TCNMPdt PDT WITH(NOLOCK)
-                    LEFT JOIN TCNMPdt_L PDTL WITH(NOLOCK) ON PDT.FTPdtCode = PDTL.FTPdtCode AND PDTL.FNLngID = $nLngID
                     INNER JOIN TCNMPdtPackSize PKS WITH(NOLOCK) ON PDT.FTPdtCode = PKS.FTPdtCode AND PKS.FTPunCode = '$tPunCode'
-                    LEFT JOIN TCNMPdtUnit_L UNTL WITH(NOLOCK) ON UNTL.FTPunCode = '$tPunCode' AND UNTL.FNLngID = $nLngID
-                    INNER JOIN TCNMPdtBar BAR WITH(NOLOCK) ON PDT.FTPdtCode = BAR.FTPdtCode AND BAR.FTPunCode = '$tPunCode' 
+                    INNER JOIN TCNMPdtBar BAR WITH(NOLOCK) ON PDT.FTPdtCode = BAR.FTPdtCode AND BAR.FTPunCode = PKS.FTPunCode
+                    LEFT JOIN TCNMPdtUnit_L UNTL WITH(NOLOCK) ON UNTL.FTPunCode = PKS.FTPunCode AND UNTL.FNLngID = $nLngID
+                    LEFT JOIN TCNMPdt_L PDTL WITH(NOLOCK) ON PDT.FTPdtCode = PDTL.FTPdtCode AND PDTL.FNLngID = $nLngID
                     WHERE PDT.FTPdtCode NOT IN ( 
                             SELECT FTPmdRefCode 
                             FROM TCNTPdtPmtDT_Tmp WITH(NOLOCK) 
@@ -43,7 +43,7 @@ class mPromotionStep1ImportPmtExcel extends CI_Model
                     AND BAR.FTBarStaUse = '1' ";
         
         if($tPdtCode!= ""){
-            $tSQL .= "AND PDT.FTPdtCode = '$tPdtCode'";
+            $tSQL .= "AND PDT.FTPdtCode = '$tPdtCode' ";
         }
 
         if($tBarCode!= ""){
