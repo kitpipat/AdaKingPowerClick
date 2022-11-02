@@ -657,9 +657,18 @@ class cHome extends MX_Controller
             }
         } else if( $tNameModule == 'printbarcode' ){
             $this->mCommon->FCNaMCMMClearImportExcelInTmp($aWhereData); // สั่งเคลียร์ tmp ก่อน
+            $tBarCodeIn = "'";
             for ($i = 1; $i < $nPackData; $i++) {
+                $tBarCodeIn .= $aPackData[$i][0];
+                if( ($i+1) != $nPackData ){ $tBarCodeIn .= "','"; }
                 $this->mCommon->FCNaMCMMListDataPrintBarCode($aPackData[$i], $aImportParams);
             }
+            $tBarCodeIn .= "'";
+            $aImpBarCut = $this->mCommon->FCNaMCMMPrintBarGetDataNotIn($tBarCodeIn);
+            $aReturnData = array(
+                'aImpBarCut' => $aImpBarCut,
+            );
+            echo json_encode($aReturnData);
         } else if( $tNameModule == 'adjstkconfirm' ){
             for ($i = 1; $i < $nPackData; $i++) {
                 $this->mAdjustStock->FSxMASTImportGetDTProduct($aPackData[$i],$aImportParams,$i);

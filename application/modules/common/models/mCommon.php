@@ -167,8 +167,8 @@ class mCommon extends CI_Model
 
 
     // $aImportParams
-    public function FCNaMCMMListDataPrintBarCode($paPackData, $aImportParams)  //$pnLangPrint
-    {
+    public function FCNaMCMMListDataPrintBarCode($paPackData, $aImportParams){
+
         // settings parameters
         // $aImportParams          = json_decode($paImportParams);
         $tBarCode               = trim($paPackData[0]);
@@ -358,73 +358,66 @@ class mCommon extends CI_Model
                 $tSQLSelect .= " AND AdpHD.FTXphDocType = '2' ";
                 break;                            
         }
-
-//         $tSQLSelect = " SELECT 
-//         PDT.FTPdtCode,
-//                             PDTL.FTPdtName FTPdtName, 
-//                             ISNULL(PRI.FCPgdPriceRet,0) FCPdtPrice,
-//                             '' FTPlcCode,
-//                             GETDATE() FDPrnDate,
-//                             ISNULL(PCL.FTClrName,'') + ' ' + ISNULL(PSZ.FTPszName,'') FTPdtContentUnit,
-//                             '' AS FTPlbCode, 
-//                             ISNULL(PBNL.FTPbnName,'') FTPbnDesc,
-//                             'ดูที่ผลิตภัณฑ์' FTPdtTime, 
-//                             'ดูที่ผลิตภัณฑ์' FTPdtMfg,
-//                             'บริษัท คิง เพาเวอร์ คลิก จำกัด' FTPdtImporter,
-//                             PDG.FTPdgRegNo FTPdtRefNo,
-//                             PSZ.FTPszName FTPdtValue,
-//                             1 FTPlbStaSelect
-//         FROM TCNMPdt PDT with(nolock)
-//                     INNER JOIN TCNMPdtPackSize PPS with(nolock) ON PPS.FTPdtCode = PDT.FTPdtCode
-//                     LEFT JOIN TCNMPdtUnit_L PUL WITH(NOLOCK) ON PUL.FTPunCode = PPS.FTPunCode AND PUL.FNLngID = $pnLangPrint
-//                     LEFT JOIN TCNMPdtBar BAR with(nolock) ON BAR.FTPdtCode = PPS.FTPdtCode AND BAR.FTPunCode = PPS.FTPunCode
-//                     LEFT JOIN TCNMPdt_L PDTL with(nolock) ON PDTL.FTPdtCode = PDT.FTPdtCode AND PDTL.FNLngID = $pnLangPrint
-//                     LEFT JOIN (SELECT PRI.FTPdtCode,PRI.FTPunCode,PRI.FCPgdPriceRet FROM TCNTPdtPrice4PDT PRI with(nolock) 
-//                                 INNER JOIN (SELECT FTPdtCode,FTPunCode,MAX(FTPghDocNo) FTPghDocNo
-//                                 FROM TCNTPdtPrice4PDT with(nolock)
-//                                 WHERE CONVERT(VARCHAR(10),GETDATE(),121) BETWEEN FDPghDStart AND FDPghDStop
-//                                 AND FTPghDocType = '1' 
-//                                 GROUP BY FTPdtCode,FTPunCode) PRI2 ON PRI2.FTPdtCode = PRI.FTPdtCode AND PRI2.FTPunCode = PRI.FTPunCode 
-//                                 AND PRI2.FTPghDocNo = PRI.FTPghDocNo) PRI ON PRI.FTPdtCode = PDT.FTPdtCode AND BAR.FTPunCode = PRI.FTPunCode
-//                                 LEFT JOIN
-// (
-// SELECT PRI.FTPdtCode, 
-//        PRI.FTPunCode, 
-//        PRI.FCPgdPriceRet
-// FROM TCNTPdtPrice4PDT PRI WITH(NOLOCK)
-//      INNER JOIN
-// (
-//     SELECT FTPdtCode, 
-//            FTPunCode, 
-//            MAX(FTPghDocNo) FTPghDocNo
-//     FROM TCNTPdtPrice4PDT WITH(NOLOCK)
-//     WHERE CONVERT(VARCHAR(10), GETDATE(), 121) BETWEEN FDPghDStart AND FDPghDStop
-//           AND FTPghDocType = '2'
-//     GROUP BY FTPdtCode, 
-//              FTPunCode
-// ) PRI2 ON PRI2.FTPdtCode = PRI.FTPdtCode
-//           AND PRI2.FTPunCode = PRI.FTPunCode
-//           AND PRI2.FTPghDocNo = PRI.FTPghDocNo
-// ) PRIPRO ON PRIPRO.FTPdtCode = PDT.FTPdtCode
-//         AND BAR.FTPunCode = PRIPRO.FTPunCode
-//                     LEFT JOIN TCNMPdtBrand_L PBNL with(nolock) ON PBNL.FTPbnCode = PDT.FTPbnCode AND PBNL.FNLngID = $pnLangPrint
-//                     LEFT JOIN TCNMPdtDrug PDG with(nolock) ON PDG.FTPdtCode = PDT.FTPdtCode
-//                     LEFT JOIN TCNMPdtSize_L PSZ with(nolock) ON PSZ.FTPszCode = PPS.FTPszCode AND PSZ.FNLngID =   $pnLangPrint
-//                     LEFT JOIN TCNMPdtColor_L PCL with(nolock) ON PCL.FTClrCode = PPS.FTClrCode AND PCL.FNLngID =   $pnLangPrint
-//                     LEFT JOIN TCNMPdtCategory CAT WITH(NOLOCK) ON PDT.FTPdtCode = CAT.FTPdtCode
-//                     WHERE 1 = 1 AND BAR.FTBarCode = '$ptBarCode' ";
-
-
         $this->db->query($tSQLSelect);
-        // $oQuerySelect = $this->db->query($tSQLSelect);
 
-        // if ($oQuerySelect->num_rows() > 0) {
-        //     $oResult = $oQuerySelect->result_array();
-        // } else {
-        //     $oResult = array();
-        // }
+        // Create By : Napat(Jame) 02/11/2022
+        // สร้าง Tmp เพื่อเก็บรหัสบาร์โค้ดที่ user import เข้ามาทั้งหมด
+        $tSQL = " IF OBJECT_ID(N'TCNTPrnLabelImpTmp') IS NULL BEGIN CREATE TABLE TCNTPrnLabelImpTmp (FTComName varchar(255),FTBarCode varchar(255)) END ";
+        $this->db->query($tSQL);
 
-        // return  $oResult;
+        // Create By : Napat(Jame) 02/11/2022
+        // เอาบาร์โค้ดจาก excel ลง tmp
+        $tSQL = " INSERT INTO TCNTPrnLabelImpTmp (FTComName,FTBarCode) VALUES ('".$tFullHost."','".$tBarCode."') ";
+        $this->db->query($tSQL);
+
+    }
+
+    // Create By : Napat(Jame) 01/11/2022 เอารหัสบาร์โค้ดที่ถูกดีดออกจาก process การ import ข้อมูล
+    // Last Update : Napat(Jame) 02/11/2022 join เคส หาสาเหตุที่นำเข้าไม่ได้
+    public function FCNaMCMMPrintBarGetDataNotIn($ptBarCodeIn){
+        $tIP        = $this->input->ip_address();
+        $tFullHost  = gethostbyaddr($tIP);
+
+        // $tSQL = "   SELECT DISTINCT BAR.FTBarCode FROM TCNMPdtBar BAR WITH(NOLOCK)
+        //             LEFT JOIN TCNTPrnLabelTmp TMP WITH(NOLOCK) ON TMP.FTBarCode = BAR.FTBarCode AND TMP.FTComName = '".$tFullHost."'
+        //             WHERE BAR.FTBarCode IN (".$ptBarCodeIn.") AND TMP.FTBarCode IS NULL ";
+        $tSQL = "   SELECT DISTINCT
+                        IMP.FTBarCode,
+                        CASE 
+                            WHEN BAR.FTBarCode IS NULL THEN 'ไม่พบบาร์โค้ดในระบบ' 
+                            WHEN BAR.FTBarStaUse != '1' THEN 'บาร์โค้ดสถานะไม่ใช้งาน'
+                            WHEN BAR.FTBarStaAlwSale != '1' THEN 'บาร์โค้ดไม่อนุญาตขาย'
+                            WHEN PDT.FTPdtCode IS NULL THEN 'ไม่พบสินค้าในระบบ'
+                            WHEN PDT.FTPdtStaActive != '1' THEN 'สินค้าสถานะไม่เคลื่อนไหว'
+                            WHEN DT.FTPdtCode IS NULL THEN 'ไม่พบราคาในระบบ'
+                            WHEN HD.FTXphStaApv != '1' THEN 'ใบปรับราคายังไม่อนุมัติ'
+                        END AS FTRmkFail
+                    FROM TCNTPrnLabelImpTmp IMP WITH(NOLOCK)
+                    LEFT JOIN TCNMPdtBar BAR WITH(NOLOCK) ON BAR.FTBarCode = IMP.FTBarCode
+                    LEFT JOIN TCNMPdt PDT WITH(NOLOCK) ON PDT.FTPdtCode = BAR.FTPdtCode
+                    LEFT JOIN TCNTPdtAdjPriDT DT WITH(NOLOCK) ON DT.FTPdtCode = PDT.FTPdtCode
+                    LEFT JOIN TCNTPdtAdjPriHD HD WITH(NOLOCK) ON HD.FTXphDocNo = DT.FTXphDocNo
+                    LEFT JOIN TCNTPrnLabelTmp TMP WITH(NOLOCK) ON TMP.FTBarCode = IMP.FTBarCode AND TMP.FTComName = IMP.FTComName
+                    WHERE IMP.FTComName = '$tFullHost' AND TMP.FTBarCode IS NULL ";
+        $oQuery = $this->db->query($tSQL);
+
+        $tSQL1 = " DELETE FROM TCNTPrnLabelImpTmp WHERE FTComName = '$tFullHost' ";
+        $this->db->query($tSQL1);
+
+        if( $oQuery->num_rows() > 0 ){
+            $aStatus = array(
+                'aResult'   => $oQuery->result_array(),
+                'nCode'     => 1,
+                'tDesc'     => 'พบบาร์โค้ดที่นำเข้าไม่ได้ '.$oQuery->num_rows().' รายการ'
+            );
+        }else{
+            $aStatus = array(
+                'aResult'   => $oQuery->result_array(),
+                'nCode'     => 800,
+                'tDesc'     => 'บาร์โค้ดทุกตัวใน excel นำเข้าได้ครบถ้วน'
+            );
+        }
+        return $aStatus;
     }
 
 

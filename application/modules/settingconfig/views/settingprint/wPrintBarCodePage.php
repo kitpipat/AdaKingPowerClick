@@ -2372,8 +2372,41 @@
         }
     });
 
-    function JSxImportExcelCallback() {
+    function JSxImportExcelCallback(poReturn) {
         setTimeout(function() {
+
+            var aReturn = JSON.parse(poReturn);
+            if( aReturn['aImpBarCut']['nCode'] = 1 ){
+                var aBarCode    = aReturn['aImpBarCut']['aResult'];
+                var tDesc       = aReturn['aImpBarCut']['tDesc'];
+                var tHtmlRender = "<h3><strong>"+ tDesc + "</strong></h3>";
+
+                tHtmlRender += '<div class="table-responsive" style="max-height: 205px;">';
+                tHtmlRender += '    <table class="table table-striped" style="margin-bottom: 0px;">';
+                tHtmlRender += '        <thead>';
+                tHtmlRender += '            <tr>';
+                tHtmlRender += '                <th nowrap class="text-center" width="5%">ลำดับ</th>';
+                tHtmlRender += '                <th nowrap class="text-center" width="60%">บาร์โค้ด</th>';
+                tHtmlRender += '                <th nowrap class="text-center" width="35%">หมายเหตุ</th>';
+                tHtmlRender += '            </tr>';
+                tHtmlRender += '        </thead>';
+                tHtmlRender += '        <tbody>';
+
+                for($i=0; $i < aBarCode.length; $i++){
+                    tHtmlRender += '        <tr>';
+                    tHtmlRender += '            <td nowrap class="text-center" style="vertical-align: middle;">' + ($i+1) + '</td>';
+                    tHtmlRender += '            <td nowrap class="text-left" style="vertical-align: middle;">' + aBarCode[$i]['FTBarCode'] + '</td>';
+                    tHtmlRender += '            <td nowrap class="text-left" style="vertical-align: middle;">' + aBarCode[$i]['FTRmkFail'] + '</td>';
+                    tHtmlRender += '        </tr>';
+                }
+                
+                tHtmlRender += '        </tbody>';
+                tHtmlRender += '    </table>';
+                tHtmlRender += '</div>';
+
+                FSvCMNSetMsgWarningDialog(tHtmlRender);
+            }
+
             // JSxPriBarMoveDataIntoTable(0, '');
             JSvPriBarCallDataTable(1);
         }, 50);
