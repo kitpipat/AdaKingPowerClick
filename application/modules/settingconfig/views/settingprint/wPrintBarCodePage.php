@@ -916,7 +916,7 @@
 
         tCondition += " AND TCNMPdt.FTPdtStaActive = '1' "; // สินค้าเคลื่อนไหว
         tCondition += " AND ISNULL(TCNMPdtPackSize.FTPunCode,'') != '' AND ISNULL(TCNMPdtBar.FTBarCode,'') != '' "; // บาร์โค้ด และหน่วยต้องมีข้อมูลในมาสเตอร์
-        tCondition += " AND TCNMPdtBar.FTBarStaUse = '1' AND TCNMPdtBar.FTBarStaAlwSale = '1' "; // บาร์โค้ดใช้งาน + บาร์โค้ดอนุญาตขาย
+        tCondition += " AND TCNMPdtBar.FTBarStaUse = '1' "; // บาร์โค้ดใช้งาน
 
         if (tSesUsrLevel != 'HQ') {
             tCondition += " AND (TCNMPdtSpcBch.FTPdtCode IS NULL OR (TCNMPdtSpcBch.FTAgnCode = '"+tAgnCode+"' AND (TCNMPdtSpcBch.FTBchCode IN (" + tBchcode + ") OR ISNULL(TCNMPdtSpcBch.FTBchCode,'') = '')) ) ";

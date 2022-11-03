@@ -348,7 +348,7 @@ class mCommon extends CI_Model
                             LEFT JOIN TCNMPdtColor_L PCL WITH(NOLOCK) ON PCL.FTClrCode = PPS.FTClrCode AND PCL.FNLngID = ".$nLangPdtName."
                             LEFT JOIN TCNMPdtGrp  PGP WITH(NOLOCK) ON PGP.FTPgpChain = PDT.FTPgpChain
                             LEFT JOIN TCNMPdtGrp_L PGPL WITH(NOLOCK) ON PGPL.FTPgpChain = PDT.FTPgpChain AND PGPL.FNLngID = ".$nLngID."
-                            WHERE AdpHD.FTXphStaApv = '1' AND BAR.FTBarCode = '$tBarCode' AND BAR.FTBarStaUse = '1' AND BAR.FTBarStaAlwSale = '1' AND Pdt.FTPdtStaActive = '1' "; 
+                            WHERE AdpHD.FTXphStaApv = '1' AND BAR.FTBarCode = '$tBarCode' AND BAR.FTBarStaUse = '1' AND Pdt.FTPdtStaActive = '1' "; 
 
         switch($tPrnBarSheet){
             case 'Normal':
@@ -381,12 +381,12 @@ class mCommon extends CI_Model
         // $tSQL = "   SELECT DISTINCT BAR.FTBarCode FROM TCNMPdtBar BAR WITH(NOLOCK)
         //             LEFT JOIN TCNTPrnLabelTmp TMP WITH(NOLOCK) ON TMP.FTBarCode = BAR.FTBarCode AND TMP.FTComName = '".$tFullHost."'
         //             WHERE BAR.FTBarCode IN (".$ptBarCodeIn.") AND TMP.FTBarCode IS NULL ";
+        //WHEN BAR.FTBarStaAlwSale != '1' THEN 'บาร์โค้ดไม่อนุญาตขาย'
         $tSQL = "   SELECT DISTINCT
                         IMP.FTBarCode,
                         CASE 
                             WHEN BAR.FTBarCode IS NULL THEN 'ไม่พบบาร์โค้ดในระบบ' 
                             WHEN BAR.FTBarStaUse != '1' THEN 'บาร์โค้ดสถานะไม่ใช้งาน'
-                            WHEN BAR.FTBarStaAlwSale != '1' THEN 'บาร์โค้ดไม่อนุญาตขาย'
                             WHEN PDT.FTPdtCode IS NULL THEN 'ไม่พบสินค้าในระบบ'
                             WHEN PDT.FTPdtStaActive != '1' THEN 'สินค้าสถานะไม่เคลื่อนไหว'
                             WHEN DT.FTPdtCode IS NULL THEN 'สินค้ายังไม่ปรับราคา'
