@@ -155,6 +155,7 @@ class mBrowserPDTCallView extends CI_Model
         $tSQL       .= "( 
                             SELECT  TCNMPdt.FTPdtCode , TCNMPdt.FTPdtStaActive , TCNMPdt_L.FTPdtName , TCNMPdtBar.FTBarCode , TCNMPdt.FTPtyCode , 
                                     TCNMPDTSpl.FTSplCode,TCNMPdt.FTPdtStaAlwDis,TCNMPdtSpcBch.FTAgnCode, TCNMPdt.FTPdtType, TCNMPdt.FTPdtSetOrSN
+                                    ,TCNMPdtBar.FTBarStaUse
                             FROM TCNMPdt
                             LEFT JOIN TCNMPdtSpcBch ON TCNMPdt.FTPdtCode = TCNMPdtSpcBch.FTPdtCode
                             LEFT JOIN TCNMPdtPackSize ON TCNMPdt.FTPdtCode = TCNMPdtPackSize.FTPdtCode
@@ -162,7 +163,6 @@ class mBrowserPDTCallView extends CI_Model
                             LEFT JOIN TCNMPDTSpl ON TCNMPdt.FTPdtCode = TCNMPDTSpl.FTPdtCode AND TCNMPdtBar.FTBarCode = TCNMPDTSpl.FTBarCode
                             INNER JOIN TCNMPdtUnit_L ON TCNMPdtUnit_L.FTPunCode = TCNMPdtPackSize.FTPunCode AND TCNMPdtUnit_L.FNLngID = '$nLngID'
                             INNER JOIN TCNMPdt_L ON TCNMPdt.FTPdtCode = TCNMPdt_L.FTPdtCode AND TCNMPdt_L.FNLngID = '$nLngID'
-                            WHERE TCNMPdtBar.FTBarStaUse = '1'
                         ) AS Products WHERE 1=1 ";
         $tSQL       .= $ptFilter;
 
@@ -438,15 +438,14 @@ class mBrowserPDTCallView extends CI_Model
         $tSQL       = "SELECT FTPDTCode FROM ";
         $tSQL       .= " ( ";
         $tSQL       .= "SELECT DISTINCT TCNMPdt.FTPdtCode , FTAgnCode , TCNMPdt.FTPdtStaActive , TCNMPdt_L.FTPdtName , TCNMPdtBar.FTBarCode , TCNMPdt.FTPtyCode , 
-                               TCNMPDTSpl.FTSplCode,TCNMPdt.FTPdtStaAlwDis, TCNMPdt.FTPdtType, TCNMPdt.FTPdtSetOrSN , TCNMPdtSpcBch.FTMerCode
+                               TCNMPDTSpl.FTSplCode,TCNMPdt.FTPdtStaAlwDis, TCNMPdt.FTPdtType, TCNMPdt.FTPdtSetOrSN , TCNMPdtSpcBch.FTMerCode , TCNMPdtBar.FTBarStaUse
                         FROM TCNMPdt
                         LEFT JOIN TCNMPdtSpcBch ON TCNMPdt.FTPdtCode = TCNMPdtSpcBch.FTPdtCode
                         LEFT JOIN TCNMPdtPackSize ON TCNMPdt.FTPdtCode = TCNMPdtPackSize.FTPdtCode
                         LEFT JOIN TCNMPdtBar ON TCNMPdtBar.FTPdtCode = TCNMPdtPackSize.FTPdtCode AND TCNMPdtBar.FTPunCode = TCNMPdtPackSize.FTPunCode
                         LEFT JOIN TCNMPDTSpl ON TCNMPdt.FTPdtCode = TCNMPDTSpl.FTPdtCode AND TCNMPdtBar.FTBarCode = TCNMPDTSpl.FTBarCode
                         INNER JOIN TCNMPdtUnit_L ON TCNMPdtUnit_L.FTPunCode = TCNMPdtPackSize.FTPunCode AND TCNMPdtUnit_L.FNLngID = '$nLngID'
-                        INNER JOIN TCNMPdt_L ON TCNMPdt.FTPdtCode = TCNMPdt_L.FTPdtCode AND TCNMPdt_L.FNLngID = '$nLngID' 
-                        WHERE TCNMPdtBar.FTBarStaUse = '1' ";
+                        INNER JOIN TCNMPdt_L ON TCNMPdt.FTPdtCode = TCNMPdt_L.FTPdtCode AND TCNMPdt_L.FNLngID = '$nLngID' ";
 
 
         // $tSQL       .= " WHERE  1=1 ";

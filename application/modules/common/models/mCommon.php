@@ -348,7 +348,7 @@ class mCommon extends CI_Model
                             LEFT JOIN TCNMPdtColor_L PCL WITH(NOLOCK) ON PCL.FTClrCode = PPS.FTClrCode AND PCL.FNLngID = ".$nLangPdtName."
                             LEFT JOIN TCNMPdtGrp  PGP WITH(NOLOCK) ON PGP.FTPgpChain = PDT.FTPgpChain
                             LEFT JOIN TCNMPdtGrp_L PGPL WITH(NOLOCK) ON PGPL.FTPgpChain = PDT.FTPgpChain AND PGPL.FNLngID = ".$nLngID."
-                            WHERE AdpHD.FTXphStaApv = '1' AND BAR.FTBarCode = '$tBarCode' AND BAR.FTBarStaUse = '1' AND Pdt.FTPdtStaActive = '1' "; 
+                            WHERE AdpHD.FTXphStaApv = '1' AND BAR.FTBarCode = '$tBarCode' AND BAR.FTBarStaUse = '1' AND BAR.FTBarStaAlwSale = '1' AND Pdt.FTPdtStaActive = '1' "; 
 
         switch($tPrnBarSheet){
             case 'Normal':
@@ -389,7 +389,7 @@ class mCommon extends CI_Model
                             WHEN BAR.FTBarStaAlwSale != '1' THEN 'บาร์โค้ดไม่อนุญาตขาย'
                             WHEN PDT.FTPdtCode IS NULL THEN 'ไม่พบสินค้าในระบบ'
                             WHEN PDT.FTPdtStaActive != '1' THEN 'สินค้าสถานะไม่เคลื่อนไหว'
-                            WHEN DT.FTPdtCode IS NULL THEN 'ไม่พบราคาในระบบ'
+                            WHEN DT.FTPdtCode IS NULL THEN 'สินค้ายังไม่ปรับราคา'
                             WHEN HD.FTXphStaApv != '1' THEN 'ใบปรับราคายังไม่อนุมัติ'
                         END AS FTRmkFail
                     FROM TCNTPrnLabelImpTmp IMP WITH(NOLOCK)

@@ -639,10 +639,11 @@
                     // BCH: [$("#oetBchCode").val(), $("#oetBchCode").val()],
                     SHP: [$("#oetShpCodeStart").val(), $("#oetShpCodeStart").val()], */
                     // NOTINITEM: [["00002", "1155109050238"]],
-                    NOTINITEM: window.aPromotionStep1PmtPdtDtNotIn
+                    NOTINITEM: window.aPromotionStep1PmtPdtDtNotIn,
+                    Where: [" AND Products.FTBarStaUse = '1' "],
                 },
                 cache: false,
-                timeout: 5000,
+                timeout: 0,
                 success: function (tResult) {
                     $("#odvModalDOCPDT").modal({backdrop: "static", keyboard: false});
                     $("#odvModalDOCPDT").modal({show: true});

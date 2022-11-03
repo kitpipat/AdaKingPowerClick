@@ -496,8 +496,27 @@
     </div>
 </div>
 
-<div id="odvModalBodyBrowse" class="modal-body xCNModalBodyAdd">
+<div id="odvPRNModalAlertImport" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header xCNModalHead">
+                <label class="xCNTextModalHeard">แจ้งเตือน</label>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 text-left">ระบบจะนำเข้าเฉพาะรายการสินค้าที่สมบูรณ์</div>
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                        <button id="obtPRNConfirmAlertImport" class="btn xCNBTNPrimery xCNBTNPrimery2Btn" type="button" data-dismiss="modal"><?php echo language('common/main/main', 'tModalConfirm') ?></button>
+                        <button class="btn xCNBTNDefult xCNBTNDefult2Btn" type="button" data-dismiss="modal"><?php echo language('common/main/main', 'tModalCancel') ?></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<div id="odvModalBodyBrowse" class="modal-body xCNModalBodyAdd"></div>
 
 
 
@@ -953,29 +972,31 @@
     // Return : Clear Velues Data
     // Return Type : -
     function JSxBarPrnConsNextFuncBrowsePdt(poDataNextFunc) {
-        if (typeof(poDataNextFunc) != 'undefined' && poDataNextFunc != "NULL") {
-            var aDataNextFunc = JSON.parse(poDataNextFunc);
-            tPdtCode = aDataNextFunc[0];
-            tPdtName = aDataNextFunc[1];
-        }
+        if (poDataNextFunc != "NULL") {
+            if (typeof(poDataNextFunc) != 'undefined' && poDataNextFunc != "NULL") {
+                var aDataNextFunc = JSON.parse(poDataNextFunc);
+                tPdtCode = aDataNextFunc[0];
+                tPdtName = aDataNextFunc[1];
+            }
 
-        // ประกาศตัวแปร สินค้า
-        var tPrnBarCodeFrom, tPrnBarNameFrom, tPrnBarCodeTo, tPrnBarNameTo
-        tPrnBarCodeFrom = $('#oetPrnBarBrowsePdtFromCode').val();
-        tPrnBarNameFrom = $('#oetPrnBarBrowsePdtFromName').val();
-        tPrnBarCodeTo = $('#oetPrnBarBrowsePdtToCode').val();
-        tPrnBarNameTo = $('#oetPrnBarBrowsePdtToNameF').val();
+            // ประกาศตัวแปร สินค้า
+            var tPrnBarCodeFrom, tPrnBarNameFrom, tPrnBarCodeTo, tPrnBarNameTo
+            tPrnBarCodeFrom = $('#oetPrnBarBrowsePdtFromCode').val();
+            tPrnBarNameFrom = $('#oetPrnBarBrowsePdtFromName').val();
+            tPrnBarCodeTo = $('#oetPrnBarBrowsePdtToCode').val();
+            tPrnBarNameTo = $('#oetPrnBarBrowsePdtToNameF').val();
 
-        // เช็คข้อมูลถ้ามีการ Browse จากสินค้า ให้ default ถึงร้านค้า เป็นข้อมูลเดียวกัน
-        if ((typeof(tPrnBarCodeFrom) !== 'undefined' && tPrnBarCodeFrom != "") && (typeof(tPrnBarCodeTo) !== 'undefined' && tPrnBarCodeTo == "")) {
-            $('#oetPrnBarBrowsePdtToCode').val(tPdtCode);
-            $('#oetPrnBarBrowsePdtToName').val(tPdtName);
-        }
+            // เช็คข้อมูลถ้ามีการ Browse จากสินค้า ให้ default ถึงร้านค้า เป็นข้อมูลเดียวกัน
+            if ((typeof(tPrnBarCodeFrom) !== 'undefined' && tPrnBarCodeFrom != "") && (typeof(tPrnBarCodeTo) !== 'undefined' && tPrnBarCodeTo == "")) {
+                $('#oetPrnBarBrowsePdtToCode').val(tPdtCode);
+                $('#oetPrnBarBrowsePdtToName').val(tPdtName);
+            }
 
-        // เช็คข้อมูลถ้ามีการ Browse ถึงร้านค้า default จากสินค้า เป็นข้อมูลเดียวกัน
-        if ((typeof(tPrnBarCodeTo) !== 'undefined' && tPrnBarCodeTo != "") && (typeof(tPrnBarCodeFrom) !== 'undefined' && tPrnBarCodeFrom == "")) {
-            $('#oetPrnBarBrowsePdtFromCode').val(tPdtCode);
-            $('#oetPrnBarBrowsePdtFromName').val(tPdtName);
+            // เช็คข้อมูลถ้ามีการ Browse ถึงร้านค้า default จากสินค้า เป็นข้อมูลเดียวกัน
+            if ((typeof(tPrnBarCodeTo) !== 'undefined' && tPrnBarCodeTo != "") && (typeof(tPrnBarCodeFrom) !== 'undefined' && tPrnBarCodeFrom == "")) {
+                $('#oetPrnBarBrowsePdtFromCode').val(tPdtCode);
+                $('#oetPrnBarBrowsePdtFromName').val(tPdtName);
+            }
         }
 
     }
@@ -1072,29 +1093,31 @@
     // Return Type : -
     function JSxPrnBarConsNextFuncBrowsePdtGrp(poDataNextFunc) {
 
-        if (typeof(poDataNextFunc) != 'undefined' && poDataNextFunc != "NULL") {
-            var aDataNextFunc = JSON.parse(poDataNextFunc);
-            tPdtGrpCode = aDataNextFunc[0];
-            tPdtGrpName = aDataNextFunc[1];
-        }
+        if (poDataNextFunc != "NULL") {
+            if (typeof(poDataNextFunc) != 'undefined' && poDataNextFunc != "NULL") {
+                var aDataNextFunc = JSON.parse(poDataNextFunc);
+                tPdtGrpCode = aDataNextFunc[0];
+                tPdtGrpName = aDataNextFunc[1];
+            }
 
-        // ประกาศตัวแปร กลุ่มสินค้า
-        var tPrnBarGrpCodeFrom, tPrnBarGrpNameFrom, tPrnBarGrpCodeTo, tPrnBarGrpNameTo
-        tPrnBarGrpCodeFrom = $('#oetPrnBarBrowsePdtGrpFromCode').val();
-        tPrnBarGrpNameFrom = $('#oetPrnBarBrowsePdtGrpFromName').val();
-        tPrnBarGrpCodeTo = $('#oetPrnBarBrowsePdtGrpToCode').val();
-        tPrnBarGrpNameTo = $('#oetPrnBarBrowsePdtGrpToName').val();
+            // ประกาศตัวแปร กลุ่มสินค้า
+            var tPrnBarGrpCodeFrom, tPrnBarGrpNameFrom, tPrnBarGrpCodeTo, tPrnBarGrpNameTo
+            tPrnBarGrpCodeFrom = $('#oetPrnBarBrowsePdtGrpFromCode').val();
+            tPrnBarGrpNameFrom = $('#oetPrnBarBrowsePdtGrpFromName').val();
+            tPrnBarGrpCodeTo = $('#oetPrnBarBrowsePdtGrpToCode').val();
+            tPrnBarGrpNameTo = $('#oetPrnBarBrowsePdtGrpToName').val();
 
-        // เช็คข้อมูลถ้ามีการ Browse จากกลุ่มสินค้า ให้ default ถึงกลุ่มสินค้า เป็นข้อมูลเดียวกัน 
-        if ((typeof(tPrnBarGrpCodeFrom) !== 'undefined' && tPrnBarGrpCodeFrom != "") && (typeof(tPrnBarGrpCodeTo) !== 'undefined' && tPrnBarGrpCodeTo == "")) {
-            $('#oetPrnBarBrowsePdtGrpToCode').val(tPdtGrpCode);
-            $('#oetPrnBarBrowsePdtGrpToName').val(tPdtGrpName);
-        }
+            // เช็คข้อมูลถ้ามีการ Browse จากกลุ่มสินค้า ให้ default ถึงกลุ่มสินค้า เป็นข้อมูลเดียวกัน 
+            if ((typeof(tPrnBarGrpCodeFrom) !== 'undefined' && tPrnBarGrpCodeFrom != "") && (typeof(tPrnBarGrpCodeTo) !== 'undefined' && tPrnBarGrpCodeTo == "")) {
+                $('#oetPrnBarBrowsePdtGrpToCode').val(tPdtGrpCode);
+                $('#oetPrnBarBrowsePdtGrpToName').val(tPdtGrpName);
+            }
 
-        // เช็คข้อมูลถ้ามีการ Browse ถึงกลุ่มสินค้า default จากกลุ่มสินค้า เป็นข้อมูลเดียวกัน 
-        if ((typeof(tPrnBarGrpCodeTo) !== 'undefined' && tPrnBarGrpCodeTo != "") && (typeof(tPrnBarGrpCodeFrom) !== 'undefined' && tPrnBarGrpCodeFrom == "")) {
-            $('#oetPrnBarBrowsePdtGrpFromCode').val(tPdtGrpCode);
-            $('#oetPrnBarBrowsePdtGrpFromName').val(tPdtGrpName);
+            // เช็คข้อมูลถ้ามีการ Browse ถึงกลุ่มสินค้า default จากกลุ่มสินค้า เป็นข้อมูลเดียวกัน 
+            if ((typeof(tPrnBarGrpCodeTo) !== 'undefined' && tPrnBarGrpCodeTo != "") && (typeof(tPrnBarGrpCodeFrom) !== 'undefined' && tPrnBarGrpCodeFrom == "")) {
+                $('#oetPrnBarBrowsePdtGrpFromCode').val(tPdtGrpCode);
+                $('#oetPrnBarBrowsePdtGrpFromName').val(tPdtGrpName);
+            }
         }
 
         //uncheckbox parameter[1] : id - by wat
@@ -1195,30 +1218,32 @@
     // Return : Clear Velues Data
     // Return Type : -
     function JSxPrnBarConsNextFuncBrowsePdtType(poDataNextFunc) {
+        // console.log(poDataNextFunc);
+        if( poDataNextFunc != "NULL" ){
+            if (typeof(poDataNextFunc) != 'undefined' && poDataNextFunc != "NULL") {
+                let aDataNextFunc = JSON.parse(poDataNextFunc);
+                tPdtTypeCode = aDataNextFunc[0];
+                tPdtTypeName = aDataNextFunc[1];
+            }
 
-        if (typeof(poDataNextFunc) != 'undefined' && poDataNextFunc != "NULL") {
-            let aDataNextFunc = JSON.parse(poDataNextFunc);
-            tPdtTypeCode = aDataNextFunc[0];
-            tPdtTypeName = aDataNextFunc[1];
-        }
+            // ประกาศตัวแปร ประเภทสินค้า
+            var tPrnBarTypeCodeFrom, tPrnBarTypeNameFrom, tPrnBarTypeCodeTo, tPrnBarTypeNameTo
+            tPrnBarTypeCodeFrom = $('#oetPrnBarBrowsePdtTypeFromCode').val();
+            tPrnBarTypeNameFrom = $('#oetPrnBarBrowsePdtTypeFromName').val();
+            tPrnBarTypeCodeTo = $('#oetPrnBarBrowsePdtTypeToCode').val();
+            tPrnBarTypeNameTo = $('#oetPrnBarBrowsePdtTypeToName').val();
 
-        // ประกาศตัวแปร ประเภทสินค้า
-        var tPrnBarTypeCodeFrom, tPrnBarTypeNameFrom, tPrnBarTypeCodeTo, tPrnBarTypeNameTo
-        tPrnBarTypeCodeFrom = $('#oetPrnBarBrowsePdtTypeFromCode').val();
-        tPrnBarTypeNameFrom = $('#oetPrnBarBrowsePdtTypeFromName').val();
-        tPrnBarTypeCodeTo = $('#oetPrnBarBrowsePdtTypeToCode').val();
-        tPrnBarTypeNameTo = $('#oetPrnBarBrowsePdtTypeToName').val();
+            // เช็คข้อมูลถ้ามีการ Browse จากประเภทสินค้า ให้ default ถึงประเภทสินค้า เป็นข้อมูลเดียวกัน
+            if ((typeof(tPrnBarTypeCodeFrom) !== 'undefined' && tPrnBarTypeCodeFrom != "") && (typeof(tPrnBarTypeCodeTo) !== 'undefined' && tPrnBarTypeCodeTo == "")) {
+                $('#oetPrnBarBrowsePdtTypeToCode').val(tPdtTypeCode);
+                $('#oetPrnBarBrowsePdtTypeToName').val(tPdtTypeName);
+            }
 
-        // เช็คข้อมูลถ้ามีการ Browse จากประเภทสินค้า ให้ default ถึงประเภทสินค้า เป็นข้อมูลเดียวกัน
-        if ((typeof(tPrnBarTypeCodeFrom) !== 'undefined' && tPrnBarTypeCodeFrom != "") && (typeof(tPrnBarTypeCodeTo) !== 'undefined' && tPrnBarTypeCodeTo == "")) {
-            $('#oetPrnBarBrowsePdtTypeToCode').val(tPdtTypeCode);
-            $('#oetPrnBarBrowsePdtTypeToName').val(tPdtTypeName);
-        }
-
-        // เช็คข้อมูลถ้ามีการ Browse ถึงประเภทสินค้า default จากประเภทสินค้า เป็นข้อมูลเดียวกัน
-        if ((typeof(tPrnBarTypeCodeTo) !== 'undefined' && tPrnBarTypeCodeTo != "") && (typeof(tPrnBarTypeCodeFrom) !== 'undefined' && tPrnBarTypeCodeFrom == "")) {
-            $('#oetPrnBarBrowsePdtTypeFromCode').val(tPdtTypeCode);
-            $('#oetPrnBarBrowsePdtTypeFromName').val(tPdtTypeName);
+            // เช็คข้อมูลถ้ามีการ Browse ถึงประเภทสินค้า default จากประเภทสินค้า เป็นข้อมูลเดียวกัน
+            if ((typeof(tPrnBarTypeCodeTo) !== 'undefined' && tPrnBarTypeCodeTo != "") && (typeof(tPrnBarTypeCodeFrom) !== 'undefined' && tPrnBarTypeCodeFrom == "")) {
+                $('#oetPrnBarBrowsePdtTypeFromCode').val(tPdtTypeCode);
+                $('#oetPrnBarBrowsePdtTypeFromName').val(tPdtTypeName);
+            }
         }
 
         //uncheckbox parameter[1] : id - by wat
@@ -1319,30 +1344,31 @@
     // Return Type : -
     function JSxPrnBarConsNextFuncBrowsePdtBrand(poDataNextFunc) {
 
-        if (typeof(poDataNextFunc) != 'undefined' && poDataNextFunc != "NULL") {
-            let aDataNextFunc = JSON.parse(poDataNextFunc);
-            tPdtBrandCode = aDataNextFunc[0];
-            tPdtBrandName = aDataNextFunc[1];
-        }
+        if (poDataNextFunc != "NULL") {
+            if (typeof(poDataNextFunc) != 'undefined' && poDataNextFunc != "NULL") {
+                let aDataNextFunc = JSON.parse(poDataNextFunc);
+                tPdtBrandCode = aDataNextFunc[0];
+                tPdtBrandName = aDataNextFunc[1];
+            }
 
+            // ประกาศตัวแปร ประเภทสินค้า
+            var tPrnBarBrandCodeFrom, tPrnBarBrandNameFrom, tPrnBarBrandCodeTo, tPrnBarBrandNameTo
+            tPrnBarBrandCodeFrom = $('#oetPrnBarBrowsePdtBrandFromCode').val();
+            tPrnBarBrandNameFrom = $('#oetPrnBarBrowsePdtBrandFromName').val();
+            tPrnBarBrandCodeTo = $('#oetPrnBarBrowsePdtBrandToCode').val();
+            tPrnBarBrandNameTo = $('#oetPrnBarBrowsePdtBrandToName').val();
 
-        // ประกาศตัวแปร ประเภทสินค้า
-        var tPrnBarBrandCodeFrom, tPrnBarBrandNameFrom, tPrnBarBrandCodeTo, tPrnBarBrandNameTo
-        tPrnBarBrandCodeFrom = $('#oetPrnBarBrowsePdtBrandFromCode').val();
-        tPrnBarBrandNameFrom = $('#oetPrnBarBrowsePdtBrandFromName').val();
-        tPrnBarBrandCodeTo = $('#oetPrnBarBrowsePdtBrandToCode').val();
-        tPrnBarBrandNameTo = $('#oetPrnBarBrowsePdtBrandToName').val();
+            // เช็คข้อมูลถ้ามีการ Browse จากประเภทสินค้า ให้ default ถึงประเภทสินค้า เป็นข้อมูลเดียวกัน
+            if ((typeof(tPrnBarBrandCodeFrom) !== 'undefined' && tPrnBarBrandCodeFrom != "") && (typeof(tPrnBarBrandCodeTo) !== 'undefined' && tPrnBarBrandCodeTo == "")) {
+                $('#oetPrnBarBrowsePdtBrandToCode').val(tPdtBrandCode);
+                $('#oetPrnBarBrowsePdtBrandToName').val(tPdtBrandName);
+            }
 
-        // เช็คข้อมูลถ้ามีการ Browse จากประเภทสินค้า ให้ default ถึงประเภทสินค้า เป็นข้อมูลเดียวกัน
-        if ((typeof(tPrnBarBrandCodeFrom) !== 'undefined' && tPrnBarBrandCodeFrom != "") && (typeof(tPrnBarBrandCodeTo) !== 'undefined' && tPrnBarBrandCodeTo == "")) {
-            $('#oetPrnBarBrowsePdtBrandToCode').val(tPdtBrandCode);
-            $('#oetPrnBarBrowsePdtBrandToName').val(tPdtBrandName);
-        }
-
-        // เช็คข้อมูลถ้ามีการ Browse ถึงประเภทสินค้า default จากประเภทสินค้า เป็นข้อมูลเดียวกัน
-        if ((typeof(tPrnBarBrandCodeTo) !== 'undefined' && tPrnBarBrandCodeTo != "") && (typeof(tPrnBarBrandCodeFrom) !== 'undefined' && tPrnBarBrandCodeFrom == "")) {
-            $('#oetPrnBarBrowsePdtBrandFromCode').val(tPdtBrandCode);
-            $('#oetPrnBarBrowsePdtBrandFromName').val(tPdtBrandName);
+            // เช็คข้อมูลถ้ามีการ Browse ถึงประเภทสินค้า default จากประเภทสินค้า เป็นข้อมูลเดียวกัน
+            if ((typeof(tPrnBarBrandCodeTo) !== 'undefined' && tPrnBarBrandCodeTo != "") && (typeof(tPrnBarBrandCodeFrom) !== 'undefined' && tPrnBarBrandCodeFrom == "")) {
+                $('#oetPrnBarBrowsePdtBrandFromCode').val(tPdtBrandCode);
+                $('#oetPrnBarBrowsePdtBrandFromName').val(tPdtBrandName);
+            }
         }
 
         //uncheckbox parameter[1] : id - by wat
@@ -1447,30 +1473,31 @@
     // Return : Clear Velues Data
     // Return Type : -
     function JSxPrnBarConsNextFuncBrowsePdtModel(poDataNextFunc) {
+        if (poDataNextFunc != "NULL") {
+            if (typeof(poDataNextFunc) != 'undefined' && poDataNextFunc != "NULL") {
+                let aDataNextFunc = JSON.parse(poDataNextFunc);
+                tPdtModelCode = aDataNextFunc[0];
+                tPdtModelName = aDataNextFunc[1];
+            }
 
-        if (typeof(poDataNextFunc) != 'undefined' && poDataNextFunc != "NULL") {
-            let aDataNextFunc = JSON.parse(poDataNextFunc);
-            tPdtModelCode = aDataNextFunc[0];
-            tPdtModelName = aDataNextFunc[1];
-        }
+            // ประกาศตัวแปร ประเภทสินค้า
+            var tPrnBarModelCodeFrom, tPrnBarModelNameFrom, tPrnBarModelCodeTo, tPrnBarModelNameTo
+            tPrnBarModelCodeFrom = $('#oetPrnBarBrowsePdtModelFromCode').val();
+            tPrnBarModelNameFrom = $('#oetPrnBarBrowsePdtModelFromName').val();
+            tPrnBarModelCodeTo = $('#oetPrnBarBrowsePdtModelToCode').val();
+            tPrnBarModelNameTo = $('#oetPrnBarBrowsePdtModelToName').val();
 
-        // ประกาศตัวแปร ประเภทสินค้า
-        var tPrnBarModelCodeFrom, tPrnBarModelNameFrom, tPrnBarModelCodeTo, tPrnBarModelNameTo
-        tPrnBarModelCodeFrom = $('#oetPrnBarBrowsePdtModelFromCode').val();
-        tPrnBarModelNameFrom = $('#oetPrnBarBrowsePdtModelFromName').val();
-        tPrnBarModelCodeTo = $('#oetPrnBarBrowsePdtModelToCode').val();
-        tPrnBarModelNameTo = $('#oetPrnBarBrowsePdtModelToName').val();
+            // เช็คข้อมูลถ้ามีการ Browse จากประเภทสินค้า ให้ default ถึงประเภทสินค้า เป็นข้อมูลเดียวกัน
+            if ((typeof(tPrnBarModelCodeFrom) !== 'undefined' && tPrnBarModelCodeFrom != "") && (typeof(tPrnBarModelCodeTo) !== 'undefined' && tPrnBarModelCodeTo == "")) {
+                $('#oetPrnBarBrowsePdtModelToCode').val(tPdtModelCode);
+                $('#oetPrnBarBrowsePdtModelToName').val(tPdtModelName);
+            }
 
-        // เช็คข้อมูลถ้ามีการ Browse จากประเภทสินค้า ให้ default ถึงประเภทสินค้า เป็นข้อมูลเดียวกัน
-        if ((typeof(tPrnBarModelCodeFrom) !== 'undefined' && tPrnBarModelCodeFrom != "") && (typeof(tPrnBarModelCodeTo) !== 'undefined' && tPrnBarModelCodeTo == "")) {
-            $('#oetPrnBarBrowsePdtModelToCode').val(tPdtModelCode);
-            $('#oetPrnBarBrowsePdtModelToName').val(tPdtModelName);
-        }
-
-        // เช็คข้อมูลถ้ามีการ Browse ถึงประเภทสินค้า default จากประเภทสินค้า เป็นข้อมูลเดียวกัน
-        if ((typeof(tPrnBarModelCodeTo) !== 'undefined' && tPrnBarModelCodeTo != "") && (typeof(tPrnBarModelCodeFrom) !== 'undefined' && tPrnBarModelCodeFrom == "")) {
-            $('#oetPrnBarBrowsePdtModelFromCode').val(tPdtModelCode);
-            $('#oetPrnBarBrowsePdtModelFromName').val(tPdtModelName);
+            // เช็คข้อมูลถ้ามีการ Browse ถึงประเภทสินค้า default จากประเภทสินค้า เป็นข้อมูลเดียวกัน
+            if ((typeof(tPrnBarModelCodeTo) !== 'undefined' && tPrnBarModelCodeTo != "") && (typeof(tPrnBarModelCodeFrom) !== 'undefined' && tPrnBarModelCodeFrom == "")) {
+                $('#oetPrnBarBrowsePdtModelFromCode').val(tPdtModelCode);
+                $('#oetPrnBarBrowsePdtModelFromName').val(tPdtModelName);
+            }
         }
 
         //uncheckbox parameter[1] : id - by wat
@@ -2056,30 +2083,31 @@
     // Return : Clear Velues Data
     // Return Type : -
     function JSxPrnBarConsNextFuncBrowseRptNo(poDataNextFunc) {
+        if (poDataNextFunc != "NULL") {
+            if (typeof(poDataNextFunc) != 'undefined' && poDataNextFunc != "NULL") {
+                let aDataNextFunc = JSON.parse(poDataNextFunc);
+                tPdtProCode = aDataNextFunc[0];
+                tPdtProName = aDataNextFunc[1];
+            }
 
-        if (typeof(poDataNextFunc) != 'undefined' && poDataNextFunc != "NULL") {
-            let aDataNextFunc = JSON.parse(poDataNextFunc);
-            tPdtProCode = aDataNextFunc[0];
-            tPdtProName = aDataNextFunc[1];
-        }
+            // ประกาศตัวแปร ประเภทสินค้า
+            var tPrnBarProCodeFrom, tPrnBarProNameFrom, tPrnBarProCodeTo, tPrnBarProNameTo
+            tPrnBarProCodeFrom = $('#oetPrnBarBrowseRptNoFromCode').val();
+            tPrnBarProNameFrom = $('#oetPrnBarBrowseRptNoFromName').val();
+            tPrnBarProCodeTo = $('#oetPrnBarBrowseRptNoToCode').val();
+            tPrnBarProNameTo = $('#oetPrnBarBrowseRptNoToName').val();
 
-        // ประกาศตัวแปร ประเภทสินค้า
-        var tPrnBarProCodeFrom, tPrnBarProNameFrom, tPrnBarProCodeTo, tPrnBarProNameTo
-        tPrnBarProCodeFrom = $('#oetPrnBarBrowseRptNoFromCode').val();
-        tPrnBarProNameFrom = $('#oetPrnBarBrowseRptNoFromName').val();
-        tPrnBarProCodeTo = $('#oetPrnBarBrowseRptNoToCode').val();
-        tPrnBarProNameTo = $('#oetPrnBarBrowseRptNoToName').val();
+            // เช็คข้อมูลถ้ามีการ Browse จากประเภทสินค้า ให้ default ถึงประเภทสินค้า เป็นข้อมูลเดียวกัน
+            if ((typeof(tPrnBarProCodeFrom) !== 'undefined' && tPrnBarProCodeFrom != "") && (typeof(tPrnBarProCodeTo) !== 'undefined' && tPrnBarProCodeTo == "")) {
+                $('#oetPrnBarBrowseRptNoToCode').val(tPdtProCode);
+                $('#oetPrnBarBrowseRptNoToName').val(tPdtProName);
+            }
 
-        // เช็คข้อมูลถ้ามีการ Browse จากประเภทสินค้า ให้ default ถึงประเภทสินค้า เป็นข้อมูลเดียวกัน
-        if ((typeof(tPrnBarProCodeFrom) !== 'undefined' && tPrnBarProCodeFrom != "") && (typeof(tPrnBarProCodeTo) !== 'undefined' && tPrnBarProCodeTo == "")) {
-            $('#oetPrnBarBrowseRptNoToCode').val(tPdtProCode);
-            $('#oetPrnBarBrowseRptNoToName').val(tPdtProName);
-        }
-
-        // เช็คข้อมูลถ้ามีการ Browse ถึงประเภทสินค้า default จากประเภทสินค้า เป็นข้อมูลเดียวกัน
-        if ((typeof(tPrnBarProCodeTo) !== 'undefined' && tPrnBarProCodeTo != "") && (typeof(tPrnBarProCodeFrom) !== 'undefined' && tPrnBarProCodeFrom == "")) {
-            $('#oetPrnBarBrowseRptNoFromCode').val(tPdtProCode);
-            $('#oetPrnBarBrowseRptNoFromName').val(tPdtProName);
+            // เช็คข้อมูลถ้ามีการ Browse ถึงประเภทสินค้า default จากประเภทสินค้า เป็นข้อมูลเดียวกัน
+            if ((typeof(tPrnBarProCodeTo) !== 'undefined' && tPrnBarProCodeTo != "") && (typeof(tPrnBarProCodeFrom) !== 'undefined' && tPrnBarProCodeFrom == "")) {
+                $('#oetPrnBarBrowseRptNoFromCode').val(tPdtProCode);
+                $('#oetPrnBarBrowseRptNoFromName').val(tPdtProName);
+            }
         }
 
         //uncheckbox parameter[1] : id - by wat
@@ -2335,8 +2363,6 @@
     //supawat 03/07/2020
     //กดนำเข้า จะวิ่งไป Modal popup ที่ center
     $('#odvEventImportFilePRT').click(function() {
-
-
         if ($('#oetPrnBarPrnLableCode').val() != '') {
             var tNameModule = 'printbarcode';
             var tTypeModule = 'document';
@@ -2376,12 +2402,12 @@
         setTimeout(function() {
 
             var aReturn = JSON.parse(poReturn);
-            if( aReturn['aImpBarCut']['nCode'] = 1 ){
+            if( aReturn['aImpBarCut']['nCode'] == 1 ){
                 var aBarCode    = aReturn['aImpBarCut']['aResult'];
                 var tDesc       = aReturn['aImpBarCut']['tDesc'];
-                var tHtmlRender = "<h3><strong>"+ tDesc + "</strong></h3>";
+                var tHtmlRender = "<div style='font-size:19px !important;font-weight: bold !important;margin-bottom: 10px;'>"+ tDesc + "</div>";
 
-                tHtmlRender += '<div class="table-responsive" style="max-height: 205px;">';
+                tHtmlRender += '<div class="table-responsive" style="max-height: 362px;">'; //205px = 5 rows, 362px = 10rows
                 tHtmlRender += '    <table class="table table-striped" style="margin-bottom: 0px;">';
                 tHtmlRender += '        <thead>';
                 tHtmlRender += '            <tr>';
@@ -2404,11 +2430,22 @@
                 tHtmlRender += '    </table>';
                 tHtmlRender += '</div>';
 
-                FSvCMNSetMsgWarningDialog(tHtmlRender);
+                // FSvCMNSetMsgWarningDialog(tHtmlRender);
+                $('#odvPRNModalAlertImport .modal-body').html(tHtmlRender);
+                $('#odvPRNModalAlertImport').modal('show');
+                $('#obtPRNConfirmAlertImport').off('click').on('click', function(){
+                    setTimeout(function() {
+                        JSvPriBarCallDataTable(1);
+                        $(window).scrollTop(0);
+                    }, 50);
+                });
+            }else{
+                JSvPriBarCallDataTable(1);
+                $(window).scrollTop(0);
             }
 
             // JSxPriBarMoveDataIntoTable(0, '');
-            JSvPriBarCallDataTable(1);
+            // JSvPriBarCallDataTable(1);
         }, 50);
     }
 </script>
