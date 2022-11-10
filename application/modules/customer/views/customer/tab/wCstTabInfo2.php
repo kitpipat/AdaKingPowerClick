@@ -44,7 +44,8 @@
                             </span>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <!-- 10/11/2022 ปิดใช้งาน ไปใช้งานที่หน้าจอระดับลูกค้าแทน -->
+                    <div class="form-group xCNHide">
                         <label class="xCNLabelFrm"><?php echo language('customer/customer/customer','tCSTPplRet');?></label>
                         <div class="input-group">
                             <input type="text" class="form-control xCNHide" id="oetCstPplRetCode" name="oetCstPplRetCode" value="<?php echo @$tCstPplCodeRet;?>">
