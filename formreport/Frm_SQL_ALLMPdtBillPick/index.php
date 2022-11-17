@@ -51,7 +51,7 @@ require_once('../../config_deploy.php');
 			Stimulsoft.Base.Localization.StiLocalization.setLocalizationFile("localization/en.xml", true);
 
 			var report = Stimulsoft.Report.StiReport.createNewReport();
-			report.loadFile("reports/Frm_SQL_ALLMPdtBillPick.mrt?v=1.0.1");
+			report.loadFile("reports/Frm_SQL_ALLMPdtBillPick.mrt?v=2.0.0");
 
 			// report.dictionary.variables.getByName("SP_nLang").valueObject = "1";
 			// report.dictionary.variables.getByName("nLanguage").valueObject = 1;
