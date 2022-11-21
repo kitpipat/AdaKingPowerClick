@@ -208,7 +208,7 @@ class Printbarcode_Model extends CI_Model
                                     INNER JOIN ( 
                                         ".$tPri4PDT." 
                                     ) PRI2 ON PRI2.FTPdtCode = PRI.FTPdtCode AND PRI2.FTPunCode = PRI.FTPunCode AND PRI2.FTPghDocNo = PRI.FTPghDocNo
-                                ) PRI ON PRI.FTPdtCode = PDT.FTPdtCode AND BAR.FTPunCode = PRI.FTPunCode
+                                ) PRI ON PRI.FTPdtCode = PDT.FTPdtCode AND BAR.FTPunCode = PRI.FTPunCode AND PRI.FTPghDocNo = AdpHD.FTXphDocNo
                                 LEFT JOIN ( 
                                     SELECT PRI.FTPdtCode,PRI.FTPunCode,PRI.FCPgdPriceRet,PRI.FTPghDocType,PRI.FTPghDocNo,PRI.FDPghDStart,PRI.FDPghDStop
                                     FROM TCNTPdtPrice4PDT PRI WITH(NOLOCK)
@@ -217,7 +217,7 @@ class Printbarcode_Model extends CI_Model
                                         WHERE FTPghDocType = '1' 
                                         GROUP BY FTPdtCode,FTPunCode
                                     ) PRI2 ON PRI2.FTPdtCode = PRI.FTPdtCode AND PRI2.FTPunCode = PRI.FTPunCode AND PRI2.FTPghDocNo = PRI.FTPghDocNo
-                                ) BPRI ON BPRI.FTPdtCode = PDT.FTPdtCode AND BAR.FTPunCode = BPRI.FTPunCode
+                                ) BPRI ON BPRI.FTPdtCode = PDT.FTPdtCode AND BAR.FTPunCode = BPRI.FTPunCode AND BPRI.FTPghDocNo = AdpHD.FTXphDocNo
                                 LEFT JOIN TCNMPdtBrand_L PBNL WITH(NOLOCK) ON PBNL.FTPbnCode = PDT.FTPbnCode AND PBNL.FNLngID = ".$nLangBrand."
                                 LEFT JOIN TCNMPdtDrug PDG WITH(NOLOCK) ON PDG.FTPdtCode = PDT.FTPdtCode
                                 LEFT JOIN TCNMPdtSize_L PSZ WITH(NOLOCK) ON PSZ.FTPszCode = PPS.FTPszCode AND PSZ.FNLngID = ".$nLangPdtName."
