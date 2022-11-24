@@ -217,7 +217,7 @@ class Printbarcode_Model extends CI_Model
                                         WHERE FTPghDocType = '1' 
                                         GROUP BY FTPdtCode,FTPunCode
                                     ) PRI2 ON PRI2.FTPdtCode = PRI.FTPdtCode AND PRI2.FTPunCode = PRI.FTPunCode AND PRI2.FTPghDocNo = PRI.FTPghDocNo
-                                ) BPRI ON BPRI.FTPdtCode = PDT.FTPdtCode AND BAR.FTPunCode = BPRI.FTPunCode AND BPRI.FTPghDocNo = AdpHD.FTXphDocNo
+                                ) BPRI ON BPRI.FTPdtCode = PDT.FTPdtCode AND BAR.FTPunCode = BPRI.FTPunCode
                                 LEFT JOIN TCNMPdtBrand_L PBNL WITH(NOLOCK) ON PBNL.FTPbnCode = PDT.FTPbnCode AND PBNL.FNLngID = ".$nLangBrand."
                                 LEFT JOIN TCNMPdtDrug PDG WITH(NOLOCK) ON PDG.FTPdtCode = PDT.FTPdtCode
                                 LEFT JOIN TCNMPdtSize_L PSZ WITH(NOLOCK) ON PSZ.FTPszCode = PPS.FTPszCode AND PSZ.FNLngID = ".$nLangPdtName."
