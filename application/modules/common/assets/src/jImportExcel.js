@@ -2095,42 +2095,47 @@ function to_json(workbook) {
 
 //ฟังก์ชั่นสำหรับ import excel -> controller -> modal
 function JSxProcessImportExcel(aJSONData, tNameModule, tTypeModule, tFlagClearTmp, tImportDocumentNo, tImportFrmBchCode, tImportSplVatRate, tImportSplVatCode, paParams) {
-    $.ajax({
-        type: "POST",
-        url: "ImportFileExcel",
-        data: {
-            'aPackdata': aJSONData,
-            'tNameModule': tNameModule,
-            'tTypeModule': tTypeModule,
-            'tFlagClearTmp': tFlagClearTmp,
-            'tImportDocumentNo': tImportDocumentNo,
-            'tImportFrmBchCode': tImportFrmBchCode,
-            'tImportSplVatRate': tImportSplVatRate,
-            'tImportSplVatCode': tImportSplVatCode,
-            // 'tLblCode': tLblCode
-            'aImportParams': paParams
-        },
-        async: false,
-        success: function(aResult) {
-            // console.log(aResult);
-            if ($('#ohdImportTypeModule').val().toString() == "master") {
-                //ถ้าเป็นหน้าจอมาสเตอร์ จะโหลด HTML มา
-                var tRouteMaster = $('#ohdImportAfterRoute').val();
-                JSxRenderHTMLForImport(tNameModule, tRouteMaster);
-            } else {
-                //ถ้าเป็นเอกสาร จะรับมาเป็น nextFunc
-                $('#odvModalImportFile').modal('hide');
-                setTimeout(function() {
-                    var tNextFunc = $('#ohdImportAfterRoute').val();
-                    return window[tNextFunc](aResult);
-                }, 500);
+    var nStaSession = JCNnCheckCookiesExpired();
+    if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
+        $.ajax({
+            type: "POST",
+            url: "ImportFileExcel",
+            data: {
+                'aPackdata': aJSONData,
+                'tNameModule': tNameModule,
+                'tTypeModule': tTypeModule,
+                'tFlagClearTmp': tFlagClearTmp,
+                'tImportDocumentNo': tImportDocumentNo,
+                'tImportFrmBchCode': tImportFrmBchCode,
+                'tImportSplVatRate': tImportSplVatRate,
+                'tImportSplVatCode': tImportSplVatCode,
+                // 'tLblCode': tLblCode
+                'aImportParams': paParams
+            },
+            async: false,
+            success: function(aResult) {
+                // console.log(aResult);
+                if ($('#ohdImportTypeModule').val().toString() == "master") {
+                    //ถ้าเป็นหน้าจอมาสเตอร์ จะโหลด HTML มา
+                    var tRouteMaster = $('#ohdImportAfterRoute').val();
+                    JSxRenderHTMLForImport(tNameModule, tRouteMaster);
+                } else {
+                    //ถ้าเป็นเอกสาร จะรับมาเป็น nextFunc
+                    $('#odvModalImportFile').modal('hide');
+                    setTimeout(function() {
+                        var tNextFunc = $('#ohdImportAfterRoute').val();
+                        return window[tNextFunc](aResult);
+                    }, 500);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                JCNxResponseError(jqXHR, textStatus, errorThrown);
             }
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            alert('ERROR');
-            JCNxCloseLoading();
-        }
-    });
+        });
+    } else {
+        JCNxShowMsgSessionExpired();
+    }
+    
 }
 
 //ไฟล์ผิด รุปแบบผิดพลาด

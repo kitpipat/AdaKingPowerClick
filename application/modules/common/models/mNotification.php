@@ -225,7 +225,7 @@ class mNotification extends CI_Model {
     // ตรวจสอบว่ามีสิทธิการใช้งาน แจ้งเตือน หรือ ข่าวสาร หรือไม่ ?
     public function FSaMMENUChkAlwNoti(){
 
-        $tRoleCodeMulti = $this->session->userdata("tSesUsrRoleCodeMulti");
+        $tRoleCodeMulti = FCNoGetCookieVal("tSesUsrRoleCodeMulti");
 
         $tSQL        = "    SELECT 
                                 A.FTGrpNoti,

@@ -1,3 +1,9 @@
+<?php 
+    if (@$_SESSION['tSesUsername'] == false) {
+        redirect('login', 'refresh');
+        exit();
+    }
+?>
 <style>
     .layout-fullwidth #wrapper .main{
         padding-left: 60px;

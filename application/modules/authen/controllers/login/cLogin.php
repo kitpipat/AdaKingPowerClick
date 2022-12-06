@@ -1,5 +1,7 @@
 <?php defined( 'BASEPATH' ) or exit( 'No direct script access allowed' );
 
+// Last Update : Napat(Jame) 25/11/2022 เพิ่มการ Set Cookies AdaStoreBackCookies บางส่วนเพื่อใช้กับหน้าจอ ปริ้นราคา ก่อน
+
 class cLogin extends MX_Controller {
 
 	public function __construct() {
@@ -168,25 +170,33 @@ class cLogin extends MX_Controller {
 					}
 
 					// User Have Agen
+					$bIsHaveAgn = false;
 					if(!empty($aDataUsrGroup[0]['FTAgnCode'])){
 						$this->session->set_userdata("bIsHaveAgn", true);
+						$bIsHaveAgn = true;
 					}else{
 						$this->session->set_userdata("bIsHaveAgn", false);
+						$bIsHaveAgn = false;
 					}
 
 					// User level
+					$tSesUsrLevel = "";
 					$this->session->set_userdata("tSesUsrLevel", "");
 					if( empty($aDataUsrGroup[0]['FTAgnCode']) && empty($aDataUsrGroup[0]['FTBchCode']) && empty($aDataUsrGroup[0]['FTShpCode'])){ // HQ level
 						$this->session->set_userdata("tSesUsrLevel", "HQ");
+						$tSesUsrLevel = "HQ";
 					}
 					if(!empty($aDataUsrGroup[0]['FTBchCode']) && empty($aDataUsrGroup[0]['FTShpCode'])){ // BCH level
 						$this->session->set_userdata("tSesUsrLevel", "BCH");
+						$tSesUsrLevel = "BCH";
 					}
 					if(!empty($aDataUsrGroup[0]['FTBchCode']) && !empty($aDataUsrGroup[0]['FTShpCode'])){ // SHP level
 						$this->session->set_userdata("tSesUsrLevel", "SHP");
+						$tSesUsrLevel = "SHP";
 					}
                     if(!empty($aDataUsrGroup[0]['FTBchCode']) && !empty($aDataUsrGroup[0]['FTMerCode'])){ // MER & SHP level
 						$this->session->set_userdata("tSesUsrLevel", "SHP");
+						$tSesUsrLevel = "SHP";
 					}
 
 					// $aTest = array(
@@ -247,6 +257,77 @@ class cLogin extends MX_Controller {
 					}
 
 					$this->session->set_userdata("tSesUsrRoleSpcCodeMulti", $tSesUsrRoleCodeMultiSpc);
+
+					// Clear Old Cookie
+					delete_cookie("AdaStoreBackCookies");
+
+					// tSesUsrBchCom
+					// tBtnSaveStaActive
+
+					// Create By : Napat(Jame) 25/11/2022
+					// Register Cookies
+					$aValueSetCookies = array(
+
+						"tLangID"					=> $this->session->userdata("tLangEdit"),
+						"tLangEdit" 				=> $this->session->userdata("tLangEdit"),
+						"tSesUsrLevel"				=> $tSesUsrLevel,
+						"tSesSessionID"				=> $tSessionID,
+						"tSesSessionDate"			=> $tDateNow,
+
+						"tSesUserLogin" 			=> $tUsername,
+						"tSesUsrLoginLevel" 		=> $aDataUsrGroup[0]['FTLoginLevel'],
+						"tSesUsrLoginAgency" 		=> $aDataUsrGroup[0]['FTStaLoginAgn'],
+						"bSesLogIn" 				=> TRUE,
+						"tSesUserCode" 				=> $aDataUsr[0]['FTUsrCode'],
+						"tSesUsername" 				=> $aDataUsr[0]['FTUsrCode'],
+						"tSesUsrDptName" 			=> $aDataUsr[0]['FTDptName'],
+						"tSesUsrDptCode" 			=> $aDataUsr[0]['FTDptCode'],
+						"tSesUsrUsername" 			=> $aDataUsr[0]['FTUsrName'],
+						"tSesUsrImagePerson" 		=> $aDataUsr[0]['FTImgObj'],
+						// "tSesUsrInfo" 				=> $aDataUsr[0],
+
+						"tSesUsrRoleCodeMulti" 		=> $tUsrRoleMulti,
+						"nSesUsrRoleLevel" 			=> $nUsrRoleLevel,
+
+						"bIsHaveAgn"				=> $bIsHaveAgn,
+						"tSesUsrAgnCode" 			=> $tUsrAgnCodeDefult,
+						"tSesUsrAgnName" 			=> $tUsrAgnNameDefult,
+
+						"tSesUsrMerCode" 			=> $tUsrMerCodeDefult,
+						"tSesUsrMerName" 			=> $tUsrMerNameDefult,
+
+						"tSesUsrBchCodeDefault" 	=> $tUsrBchCodeDefult,
+						"tSesUsrBchNameDefault" 	=> $tUsrBchNameDefult,
+						"tSesUsrBchCodeMulti" 		=> $tUsrBchCodeMulti,
+						"tSesUsrBchNameMulti" 		=> $tUsrBchNameMulti,
+						"nSesUsrBchCount" 			=> $nUsrBchCount,
+
+						"tSesUsrShpCodeDefault" 	=> $tUsrShpCodeDefult,
+						"tSesUsrShpNameDefault" 	=> $tUsrShpNameDefult,
+						"tSesUsrShpCodeMulti" 		=> $tUsrShpCodeMulti,
+						"tSesUsrShpNameMulti" 		=> $tUsrShpNameMulti,
+						"nSesUsrShpCount" 			=> $nUsrShpCount,
+						
+						"tSesUsrWahCode" 			=> $tUsrWahCodeDefult,
+						"tSesUsrWahName" 			=> $tUsrWahNameDefult,
+						
+					);
+
+					// $aCookiePackData = array(
+					// 	'name'		=> 'AdaStoreBackCookies',
+					// 	'value' 	=> base64_encode(json_encode($aValueSetCookies)),
+					// 	'expire' 	=> 86400,
+					// 	'domain'	=> $_SERVER['SERVER_NAME'],
+					// 	'path'		=> explode("/",$_SERVER['SCRIPT_NAME'])[1]
+					// );
+					// set_cookie($aCookiePackData);
+					FCNxSetCookie("AdaStoreBackCookies",$aValueSetCookies,true);
+
+					// Web Browser						Maximum cookies					Maximum size per cookie
+					// Google Chrome						180									4096 bytes
+					// Firefox								150									4097 bytes
+					// Opera								180									4096 bytes
+					// Android								50									4096 bytes
 
 					// Set สิทธิในการมองเห็นร้านค้า
 					FCNbLoadConfigIsShpEnabled();

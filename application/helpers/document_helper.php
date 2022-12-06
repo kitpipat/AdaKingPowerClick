@@ -555,8 +555,8 @@ function FCNxHGetOptionDecimalSave(){
     $ci = &get_instance();
     $ci->load->database();
 
-    $tAgnCode   = $_SESSION['tSesUsrAgnCode'];
-    $tUsrLevel  = $_SESSION['tSesUsrLevel'];
+    $tAgnCode   = FCNoGetCookieVal('tSesUsrAgnCode'); //$_SESSION['tSesUsrAgnCode'];
+    $tUsrLevel  = FCNoGetCookieVal('tSesUsrLevel'); //$_SESSION['tSesUsrLevel'];
 
     // ถ้าเป็น HQ ให้ดึงจาก TSysConfig 
     // ถ้าต่ำกว่า HQ ให้ไปตรวจสอบจาก TCNTConfigSpc
@@ -609,8 +609,8 @@ function FCNxHGetOptionDecimalShow(){
     $ci = &get_instance();
     $ci->load->database();
 
-    $tAgnCode   = $_SESSION['tSesUsrAgnCode'];
-    $tUsrLevel  = $_SESSION['tSesUsrLevel'];
+    $tAgnCode   = FCNoGetCookieVal('tSesUsrAgnCode'); //$_SESSION['tSesUsrAgnCode'];
+    $tUsrLevel  = FCNoGetCookieVal('tSesUsrLevel'); //$_SESSION['tSesUsrLevel'];
 
     // ถ้าเป็น HQ ให้ดึงจาก TSysConfig 
     // ถ้าต่ำกว่า HQ ให้ไปตรวจสอบจาก TCNTConfigSpc

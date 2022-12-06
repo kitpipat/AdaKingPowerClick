@@ -1,3 +1,5 @@
+<!-- Last Update : Napat(Jame) 25/11/2022 เพิ่มการเรียกใช้งาน jquery.cookie.js -->
+
 <!doctype html>
 <html lang="th" class="fullscreen-bg">
     <head>
@@ -92,6 +94,8 @@
         <script src="<?php echo base_url(); ?>application/modules/common/assets/vendor/bootstrap/js/bootstrap-timepicker.min.js"></script>
         <script src="<?php echo base_url(); ?>application/modules/common/assets/vendor/textinputeffect/classie.js"></script>
         <script src="<?php echo base_url(); ?>application/modules/common/assets/js/xlsx.full.min.js"></script>
+        <script src="<?php echo base_url(); ?>application/modules/common/assets/js/jquery.cookie.js"></script>
+        
         
         <style type="text/css">
             .ldBar-label {

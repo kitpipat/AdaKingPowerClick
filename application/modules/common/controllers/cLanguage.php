@@ -27,6 +27,7 @@ class cLanguage extends MX_Controller {
 	//17-05-2018 Krit(Copter)
 	public function FSxChangeBtnSaveAction() {
 		$nStaActive = $this->input->post('nStaActive');
+		FCNxSetCookie("tBtnSaveStaActive",$nStaActive);
 		$this->session->set_userdata ( "tBtnSaveStaActive", $nStaActive );
 		echo $nStaActive;
 	}

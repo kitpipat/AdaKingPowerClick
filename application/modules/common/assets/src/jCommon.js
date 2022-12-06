@@ -71,6 +71,17 @@ function JCNxShowMsgSessionExpired() {
     });
 }
 
+// Create By : Napat(Jame) 25/11/2022
+// ฟังก์ชั่นเช็ค Cookies Exprie
+function JCNnCheckCookiesExpired() {
+    var tChkCookies = $.cookie('AdaStoreBackCookies');
+    var nStaReturn  = 1;
+    if( tChkCookies === undefined ){
+        nStaReturn = 0;
+    }
+    return nStaReturn;
+}
+
 function FSaChangeLang() {
     var tValLang = $('#ocmChangeLang').val();
 

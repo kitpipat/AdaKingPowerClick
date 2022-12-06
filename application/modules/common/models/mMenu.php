@@ -8,7 +8,7 @@ class mMenu extends CI_Model {
     //edit : 19/03/2019 Krit(Copter)
     public function FSaMMENUGetMenuGrpModulesName($tUsrID,$pnLngID){
 
-        if( $this->session->userdata("bSesAlwNews") === TRUE || $this->session->userdata("bSesAlwNoti") === TRUE ){
+        if( FCNoGetCookieVal("bSesAlwNews") === TRUE || FCNoGetCookieVal("bSesAlwNoti") === TRUE ){
             $tAlwGrpName = ",'NEW'";
         }else{
             $tAlwGrpName = "";
@@ -66,12 +66,12 @@ class mMenu extends CI_Model {
 
         // ตรวจสอบว่ามี รายงานพิเศษไหม
         $bStaRptSpc         = false;
-        $tUsrLoginLevel     = $this->session->userdata("tSesUsrLoginLevel");
-        $bIsHaveAgn         = $this->session->userdata("bIsHaveAgn");
-        $tUsrAgnCode        = $this->session->userdata("tSesUsrAgnCode");
-        $tUsrBchCodeMulti   = $this->session->userdata("tSesUsrBchCodeMulti");
-        $tUsrMerCode        = $this->session->userdata("tSesUsrMerCode");
-        $tUsrShpCodeMulti   = $this->session->userdata("tSesUsrShpCodeMulti");
+        $tUsrLoginLevel     = FCNoGetCookieVal("tSesUsrLoginLevel");
+        $bIsHaveAgn         = FCNoGetCookieVal("bIsHaveAgn");
+        $tUsrAgnCode        = FCNoGetCookieVal("tSesUsrAgnCode");
+        $tUsrBchCodeMulti   = FCNoGetCookieVal("tSesUsrBchCodeMulti");
+        $tUsrMerCode        = FCNoGetCookieVal("tSesUsrMerCode");
+        $tUsrShpCodeMulti   = FCNoGetCookieVal("tSesUsrShpCodeMulti");
         $tSQLChkRptSpc = "  SELECT TOP 1 RSPC.FTRptCode 
                             FROM TCNSRptSpc RSPC WITH(NOLOCK)
                             WHERE 1=1 AND RSPC.FTRptStaActive = '1' AND ISNULL(RSPC.FTRolCode,'') = ''
@@ -120,7 +120,7 @@ class mMenu extends CI_Model {
             $dDateExpPkg = date('Y-m-d');
         }
        
-        $tRoleCode = $this->session->userdata("tSesUsrRoleCodeMulti");
+        $tRoleCode = FCNoGetCookieVal("tSesUsrRoleCodeMulti");
         $tSQL  = "";
         $tSQL .= $tOpenKey;
         $tSQL .= "  SELECT  
@@ -213,9 +213,9 @@ class mMenu extends CI_Model {
     
         if( isset($bStaRptSpc) && !empty($bStaRptSpc) && $bStaRptSpc ){
 
-            if($this->session->userdata("tLangID") == 1){
+            if(FCNoGetCookieVal("tLangID") == 1){
                 $tLangReportSPC = 'รายงานพิเศษ';
-            }else if($this->session->userdata("tLangID") == 2){
+            }else if(FCNoGetCookieVal("tLangID") == 2){
                 $tLangReportSPC = 'Report Special';
             }else{
                 $tLangReportSPC = 'รายงานพิเศษ';
@@ -224,11 +224,11 @@ class mMenu extends CI_Model {
             $tSQL .= " UNION SELECT 10,NULL,'$tUsrID','RPT','รายงาน','RPT',NULL,'RPT','RPTSPC','$tLangReportSPC','99','0','rptReport/SPC/0/0',NULL,'1','1','$dDateExpPkg' ";
         }
 
-        if($this->session->userdata("bSesAlwNoti")){
+        if(FCNoGetCookieVal("bSesAlwNoti")){
             $tSQL .= " UNION SELECT 13,NULL,'$tUsrID','NEW','การจัดการข่าวสาร','NEW',NULL,'NEW','NEW002','ประวัติการแจ้งเตือน','2','0','mntDocSta/2',NULL,'1','1','9999-01-01' ";
         }
 
-        if($this->session->userdata("bSesAlwNews")){
+        if(FCNoGetCookieVal("bSesAlwNews")){
             $tSQL .= " UNION SELECT 13,NULL,'$tUsrID','NEW','การจัดการข่าวสาร','NEW',NULL,'NEW','NEW001','การจัดการข่าวสาร','1','0','news/0/0',NULL,'1','1','9999-01-01' ";
             $tSQL .= " UNION SELECT 13,NULL,'$tUsrID','NEW','การจัดการข่าวสาร','NEW',NULL,'NEW','NEW003','ประวัติข่าวสาร','3','0','mntNewSta/2',NULL,'1','1','9999-01-01' ";
         }
@@ -257,8 +257,8 @@ class mMenu extends CI_Model {
     //creater : 11/01/2021 Napat(Jame)
     public function FStMMENUGetBranchHQ(){
 
-        $tSesUserCode = $this->session->userdata("tSesUserCode");
-        $tSesUsrLevel = $this->session->userdata("tSesUsrLevel");
+        $tSesUserCode = FCNoGetCookieVal("tSesUserCode");
+        $tSesUsrLevel = FCNoGetCookieVal("tSesUsrLevel");
 
         // ถ้าเป็น HQ ให้ใช้สาขา HQ จาก Company ได้เลย
         if( $tSesUsrLevel != "HQ" ){
@@ -296,7 +296,7 @@ class mMenu extends CI_Model {
             if( $aResultLogIn[0]['FTUsrRefInt'] == $tUsrRefInt  ){
                 $tWhere     = " AND HQBCH.FTBchType <> '4' ";
             }else{
-                $tAgnCode   = $this->session->userdata("tSesUsrAgnCode");
+                $tAgnCode   = FCNoGetCookieVal("tSesUsrAgnCode");
                 $tWhere     = " AND HQBCH.FTAgnCode = '$tAgnCode' AND HQBCH.FTBchType = '4' ";
             }
         }else{
@@ -315,7 +315,7 @@ class mMenu extends CI_Model {
             $tResult = $oQuery->result_array()[0]['FTBchCode'];
         }else{
             // ถ้าหาสาขาสำนักงานใหญ่ไม่เจอให้ดึง สาขา Default ไปใช้งานแทน
-            $tResult = $this->session->userdata("tSesUsrBchCodeDefault");
+            $tResult = FCNoGetCookieVal("tSesUsrBchCodeDefault");
         }
         // echo $tResult;exit;
         return $tResult;

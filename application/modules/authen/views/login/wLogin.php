@@ -1,4 +1,14 @@
 <?php
+// $AdaStoreBackCookies = json_decode(base64_decode(get_cookie('AdaStoreBackCookies')), TRUE);
+// echo "<pre>"; 
+// var_dump(get_cookie('tBtnSaveStaActivea'));
+// var_dump(get_cookie('AdaStoreBackCookies'));
+// // print_r($AdaStoreBackCookies); 
+// // echo $_SERVER['SERVER_NAME']."<br>";
+// // echo $_SERVER['SCRIPT_NAME']."<br>"; 
+// echo "</pre>";
+// phpinfo();
+
 if (is_null(get_cookie('FTUsrLogin')) && is_null(get_cookie('FTUsrCode'))) {
         $tUsername = '';
         $tUsrCode = '';
@@ -462,7 +472,7 @@ if (is_null(get_cookie('FTUsrLogin')) && is_null(get_cookie('FTUsrCode'))) {
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    console.log(jqXHR, textStatus, errorThrown);
+                    JCNxResponseError(jqXHR, textStatus, errorThrown);
                 }
             });
         }else{

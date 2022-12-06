@@ -6,6 +6,8 @@ require_once(APPPATH . 'config/rabbitmq.php');
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
+// Last Update : Napat(Jame) 25/11/2022 เปลี่ยนการดึง session เป็น cookies
+
 class Printbarcode_Controller extends MX_Controller
 {
 
@@ -72,8 +74,8 @@ class Printbarcode_Controller extends MX_Controller
         //     $tSearchAll = '';
         // }
         //Lang ภาษา
-        // $nLangResort    = $this->session->userdata("tLangID");
-        $nLangEdit      = $this->session->userdata("tLangEdit");
+        // $nLangResort    = FCNoGetCookieVal("tLangID");
+        $nLangEdit      = FCNoGetCookieVal("tLangEdit");
 
 
         $aDataWhere = array(
@@ -110,7 +112,7 @@ class Printbarcode_Controller extends MX_Controller
             // 'nRow'          => 20,
             'FNLngID'       => $nLangEdit,
             // 'tSearchAll'    => $tSearchAll,
-            'tSesAgnCode'   => $this->session->userdata("tSesUsrAgnCode"),
+            'tSesAgnCode'   => FCNoGetCookieVal("tSesUsrAgnCode"),
             'aDataWhere'    => $aDataWhere,
             // 'bSeleteImport' => $bSeleteImport
         );
@@ -148,7 +150,7 @@ class Printbarcode_Controller extends MX_Controller
         }
 
         //Lang ภาษา
-        $nLangEdit      = $this->session->userdata("tLangEdit");
+        $nLangEdit      = FCNoGetCookieVal("tLangEdit");
 
         if( $tLblVerGroup == 'KPC' ){
             // KPC
@@ -181,7 +183,7 @@ class Printbarcode_Controller extends MX_Controller
             'nRow'              => 20,
             'FNLngID'           => $nLangEdit,
             'tSearchAll'        => $tSearchAll,
-            'tSesAgnCode'       => $this->session->userdata("tSesUsrAgnCode"),
+            'tSesAgnCode'       => FCNoGetCookieVal("tSesUsrAgnCode"),
             'bSeleteImport'     => $bSeleteImport,
         );
         $aResList = $this->Printbarcode_Model->FSaMPriBarListSearch($aData, $aShwColums);
@@ -270,6 +272,10 @@ class Printbarcode_Controller extends MX_Controller
         $this->Printbarcode_Model->FSaMPriBarUpdateLableCode($tPrnBarPrnLableCode);
         $aGetPage = $this->Printbarcode_Model->FSaMPRNGetPageInPriType();
         if( $aGetPage['tCode'] == '1' ){
+
+            $oConnection = new AMQPStreamConnection(MQ_PRINT_HOST, MQ_PRINT_PORT, MQ_PRINT_USER, MQ_PRINT_PASS, MQ_PRINT_VHOST);
+            $oChannel = $oConnection->channel();
+            $oChannel->queue_declare($tQueueName, false, true, false, false);
             // echo "<pre>";
             foreach($aGetPage['aItems'] as $nKey => $aValue){ // loop ประเภทราคา loop จำนวนหน้า ตามประเภทราคา
                 $tPriType   = $aValue['FTPlbPriType'];
@@ -277,7 +283,13 @@ class Printbarcode_Controller extends MX_Controller
                 $nMaxPage   = $aValue['FNMaxPage'];
                 $nSeqSend   = $aValue['FNSeqSend'];
 
+                // get data
                 $aData =  $this->Printbarcode_Model->FSaMPriBarListDataMQ($tPriType,$nPage);
+
+                // settings unique key
+                $tDateNow = date('Y-m-d H:i:s');
+                $tUniqueKey = FCNoGetCookieVal("tSesUserCode").date('YmdHis', strtotime($tDateNow));
+
                 $aMQParams = [
                     "queueName" => $tPrnBarPrnSrvCode,
                     "tVhostType" => "MQ",
@@ -285,26 +297,24 @@ class Printbarcode_Controller extends MX_Controller
                         'ptFunction'    => 'PrintLabel',
                         'ptSource'      => 'AdaStoreBack',
                         'ptDest'        => 'AdaBarPrintSrv',
-                        'ptFilter'      => $this->session->userdata('tSesSessionID'),
+                        'ptFilter'      => $tUniqueKey,
                         'ptData'        => json_encode($aData['raItems']),
                         'pnPage'        => $nSeqSend,
                         'pnTotalPage'   => $nMaxPage
 
                     ]
                 ];
-                // print_r($aMQParams);
+                // print_r($aMQParams);exit;
 
                 $tQueueName = (isset($aMQParams['queueName'])) ? $aMQParams['queueName'] : '';
                 $aParams = (isset($aMQParams['params'])) ? $aMQParams['params'] : [];
 
-                $oConnection = new AMQPStreamConnection(MQ_PRINT_HOST, MQ_PRINT_PORT, MQ_PRINT_USER, MQ_PRINT_PASS, MQ_PRINT_VHOST);
-                $oChannel = $oConnection->channel();
-                $oChannel->queue_declare($tQueueName, false, true, false, false);
                 $oMessage = new AMQPMessage(json_encode($aParams));
                 $oChannel->basic_publish($oMessage, "", $tQueueName);
-                $oChannel->close();
-                $oConnection->close();
             }
+
+            $oChannel->close();
+            $oConnection->close();
         }
         
         return 1;
@@ -320,9 +330,9 @@ class Printbarcode_Controller extends MX_Controller
     {
         $aDataSearch = array(
             'nPageNumber'    => ($this->input->post('nPageNumber') == 0) ? 1 : $this->input->post('nPageNumber'),
-            'nLangEdit'        => $this->session->userdata("tLangEdit"),
+            'nLangEdit'        => FCNoGetCookieVal("tLangEdit"),
             'tTableKey'        => 'TCNMBranch',
-            'tSessionID'    => $this->session->userdata("tSesSessionID"),
+            'tSessionID'    => FCNoGetCookieVal("tSesSessionID"),
             'tTextSearch'    => $this->input->post('tSearch')
         );
         $aGetData                     = $this->Printbarcode_Model->FSaMPRIGetTempData($aDataSearch);
@@ -339,7 +349,7 @@ class Printbarcode_Controller extends MX_Controller
         $aDataMaster = array(
             'FNTmpSeq'         => $this->input->post('FNTmpSeq'),
             'tTableKey'        => 'TCNMBranch',
-            'tSessionID'    => $this->session->userdata("tSesSessionID")
+            'tSessionID'    => FCNoGetCookieVal("tSesSessionID")
         );
         $aResDel   = $this->Printbarcode_Model->FSaMPRIImportDelete($aDataMaster);
 
@@ -348,7 +358,7 @@ class Printbarcode_Controller extends MX_Controller
         if (is_array($tBchCode)) {
             foreach ($tBchCode as $tValue) {
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTBchCode',
                     'tFieldValue'        => $tValue
                 );
@@ -356,7 +366,7 @@ class Printbarcode_Controller extends MX_Controller
             }
         } else {
             $aValidateData = array(
-                'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                 'tFieldName'        => 'FTBchCode',
                 'tFieldValue'        => $tBchCode
             );
@@ -365,7 +375,7 @@ class Printbarcode_Controller extends MX_Controller
 
         //ให้มันวิ่งเข้าไปหาในตารางจริงอีกรอบ
         $aValidateData = array(
-            'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+            'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
             'tFieldName'        => 'FTBchCode',
             'tTableName'        => 'TCNMBranch'
         );
@@ -381,13 +391,13 @@ class Printbarcode_Controller extends MX_Controller
         $tTypeCaseDuplicate = $this->input->post('tTypeCaseDuplicate');
 
         $aDataMaster = array(
-            'nLangEdit'                => $this->session->userdata("tLangEdit"),
+            'nLangEdit'                => FCNoGetCookieVal("tLangEdit"),
             'tTableKey'                => 'TCNMBranch',
-            'tSessionID'            => $this->session->userdata("tSesSessionID"),
+            'tSessionID'            => FCNoGetCookieVal("tSesSessionID"),
             'dDateOn'                => date('Y-m-d H:i:s'),
             'dBchDateStart'            => date('Y-m-d'),
             'dBchDateStop'            => date('Y-m-d', strtotime('+1 year')),
-            'tUserBy'                => $this->session->userdata("tSesUsername"),
+            'tUserBy'                => FCNoGetCookieVal("tSesUsername"),
             'tTypeCaseDuplicate'     => $this->input->post('tTypeCaseDuplicate')
         );
 
@@ -399,8 +409,8 @@ class Printbarcode_Controller extends MX_Controller
         $this->Printbarcode_Model->FSaMPRIImportMove2MasterDeleteTemp($aDataMaster);
 
         // Update Session Branch
-        if ($this->session->userdata('tSesUsrLevel') != "HQ") {
-            $tSesUserCode  =  $this->session->userdata('tSesUserCode');
+        if (FCNoGetCookieVal('tSesUsrLevel') != "HQ") {
+            $tSesUserCode  =  FCNoGetCookieVal('tSesUserCode');
             $aDataUsrGroup         = $this->mLogin->FSaMLOGGetDataUserLoginGroup($tSesUserCode);
             $tUsrBchCodeMulti     = $this->mLogin->FStMLOGMakeArrayToString($aDataUsrGroup, 'FTBchCode', 'value');
             $tUsrBchNameMulti     = $this->mLogin->FStMLOGMakeArrayToString($aDataUsrGroup, 'FTBchName', 'value');
@@ -591,5 +601,11 @@ class Printbarcode_Controller extends MX_Controller
         $this->Printbarcode_Model->FSxMPRNUpdStaSelHDTmp($aData);
         $aDataSummary = $this->Printbarcode_Model->FSaMPRNGetSummaryHDTmp($aData['tPriType']);
         echo json_encode($aDataSummary);
+    }
+
+    // Create By: Napat(Jame) 01/12/2022
+    // กรณี KPC รหัส L015 ให้ส่ง Url ไปสร้าง QR Code
+    function FSoPRNUpdPlbUrl(){
+        $this->Printbarcode_Model->FSxMPRNUpdPlbUrl();
     }
 }

@@ -133,6 +133,7 @@ $route['PrintBarCodeDataTableSearch']         = 'settingconfig/settingprint/Prin
 $route['PrintBarCodeEventGenHD']              = 'settingconfig/settingprint/Printbarcode_Controller/FSoPRNEventGenHD';
 $route['PrintBarCodePagePreviewList']         = 'settingconfig/settingprint/Printbarcode_Controller/FSvPriPagePreviewList';
 $route['PrintBarCodeUpdStaSelHDTmp']          = 'settingconfig/settingprint/Printbarcode_Controller/FSoPRNUpdStaSelHDTmp';
+$route['PrintBarCodeUpdPlbUrl']               = 'settingconfig/settingprint/Printbarcode_Controller/FSoPRNUpdPlbUrl';
 
 
   //  Print Barcode Import

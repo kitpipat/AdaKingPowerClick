@@ -8,7 +8,11 @@ class cHome extends MX_Controller
         parent::__construct();
         $this->load->helper('url');
         $this->load->library("session");
-        if (@$_SESSION['tSesUsername'] == false) {
+        // if (@$_SESSION['tSesUsername'] == false) {
+        //     redirect('login', 'refresh');
+        //     exit();
+        // }
+        if( get_cookie('AdaStoreBackCookies') === NULL ){
             redirect('login', 'refresh');
             exit();
         }
@@ -22,9 +26,9 @@ class cHome extends MX_Controller
     public function index($nMsgResp = '')
     {
         $nMsgResp       =  array('title' => "Home");
-        $tUsrID         =  $this->session->userdata("tSesUsername");
-        $nLngID         =  $this->session->userdata("tLangID");
-        $nOwner         =  $this->session->userdata('tSesUserCode');
+        $tUsrID         =  FCNoGetCookieVal("tSesUsername");
+        $nLngID         =  FCNoGetCookieVal("tLangID");
+        $nOwner         =  FCNoGetCookieVal('tSesUserCode');
 
         $aAlwNoti       =  $this->mNotification->FSaMMENUChkAlwNoti();
         if ($aAlwNoti['tCode'] == '1') {
@@ -39,9 +43,11 @@ class cHome extends MX_Controller
                 switch ($aValue['FTGrpNoti']) {
                     case 'NEWS':
                         $this->session->set_userdata("bSesAlwNews", $bAlwActive);
+                        FCNxAddCookie("bSesAlwNews",$bAlwActive);
                         break;
                     default:
                         $this->session->set_userdata("bSesAlwNoti", $bAlwActive);
+                        FCNxAddCookie("bSesAlwNoti",$bAlwActive);
                         break;
                 }
             }
@@ -54,7 +60,7 @@ class cHome extends MX_Controller
         $this->load->view('common/wTopBar', array('nMsgResp' => $nMsgResp));
 
         if (isset($nLngID) && !empty($nLngID)) {
-            $nLngID = $this->session->userdata("tLangID");
+            $nLngID = FCNoGetCookieVal("tLangID");
         } else {
             $nLngID = 1;
         }
@@ -65,6 +71,7 @@ class cHome extends MX_Controller
 
         //set seesion HQBch
         $this->session->set_userdata("tSesHQBchCode", $tBranchHQ);
+        FCNxAddCookie("tSesHQBchCode",$tBranchHQ);
 
         // echo "<pre>";
         // print_r($tBranchHQ);
@@ -79,25 +86,33 @@ class cHome extends MX_Controller
             // สมัครสมาชิก + อนมัติแล้ว
             $tCstKey = $aChkLic['aItems'][0]['FTCstKey'];
             $this->session->set_userdata("bSesRegStaLicense", true);
+            FCNxAddCookie("bSesRegStaLicense",true);
             //$tCstKey = '7a05f6eb2e9e';
 
             $this->session->set_userdata("tSesCstKey", $tCstKey);
+            FCNxAddCookie("tSesCstKey",$tCstKey);
 
             $aMenuFav       = $this->mFavorites->FSaFavGetdataList($nOwner, $nLngID);
             $oGrpModules    = $this->mMenu->FSaMMENUGetMenuGrpModulesName($tUsrID, $nLngID);
-            $oMenuList         = $this->mMenu->FSoMMENUGetMenuList($tUsrID, $nLngID, $tCstKey);
+            $oMenuList      = $this->mMenu->FSoMMENUGetMenuList($tUsrID, $nLngID, $tCstKey);
             $aChkBuyPackage = $this->mMenu->FSaMMENUCheckBuyPackage($tCstKey);
 
             if ($aChkBuyPackage['tCode'] == '1') {
                 $this->session->set_userdata("bSesRegStaBuyPackage", true);
+                FCNxAddCookie("bSesRegStaBuyPackage",true);
             } else {
                 $this->session->set_userdata("bSesRegStaBuyPackage", false);
+                FCNxAddCookie("bSesRegStaBuyPackage",false);
             }
         } else {
             // สมัครสมาชิก + ยังไม่อนุมัติ หรือ ยังไม่ได้สมัครสมาชิก
             $this->session->set_userdata("bSesRegStaLicense", false);
             $this->session->set_userdata("bSesRegStaBuyPackage", false);
             $this->session->set_userdata("tSesCstKey", '');
+
+            FCNxAddCookie("bSesRegStaLicense",false);
+            FCNxAddCookie("bSesRegStaBuyPackage",false);
+            FCNxAddCookie("tSesCstKey",'');
 
             $aMenuFav       = false;
             $oGrpModules    = false;
@@ -133,16 +148,16 @@ class cHome extends MX_Controller
 
             $aData = array(
                 'FTMsgID'       => $aResData['ptFunction'],
-                'FTBchCode'     => $this->session->userdata('tSesUsrBchCom'),
+                'FTBchCode'     => FCNoGetCookieVal('tSesUsrBchCom'),
                 'FDNtiSendDate' => $aResData['ptData']['ptFDSendDate'],
                 'FTNtiID'       => $aResData['ptData']['ptFTNotiId'],
                 'FTNtiTopic'    => $aResData['ptData']['ptFTTopic'],
                 'FTNtiContents' => json_encode($aResData['ptData']['paContents']),
                 'FTNtiUsrRole'  => $aResData['ptData']['ptFTUsrRole'],
                 'FDLastUpdOn'   => date('Y-m-d H:i:s'),
-                'FTLastUpdBy'   => $this->session->userdata('tSesUsername'),
+                'FTLastUpdBy'   => FCNoGetCookieVal('tSesUsername'),
                 'FDCreateOn'    => date('Y-m-d H:i:s'),
-                'FTCreateBy'    => $this->session->userdata('tSesUsername'),
+                'FTCreateBy'    => FCNoGetCookieVal('tSesUsername'),
                 'tSource'       => $aResData['ptSource'],
                 'tDest'         => $aResData['ptDest'],
                 'tFilter'       => $aResData['ptFilter']
@@ -172,7 +187,7 @@ class cHome extends MX_Controller
                 } else {
                     $this->db->trans_commit();
                     $aReturn = array(
-                        'nStaCallBack'    => $this->session->userdata('tBtnSaveStaActive'),
+                        'nStaCallBack'     => get_cookie('tBtnSaveStaActive'),
                         'nStaEvent'        => '1',
                         'tStaMessg'        => 'Success Add Data',
                     );
@@ -303,12 +318,12 @@ class cHome extends MX_Controller
         //เงื่อนไข ที่มีผลต่อตาราง
         $aWhereData = array(
             'tTableRefPK'       => $tTableRefPK,
-            'tTableNameTmp'        => $tTableName,
+            'tTableNameTmp'     => $tTableName,
             'tTableFhnNameTmp'  => $tTableFhnName,
             'tFlagClearTmp'     => $tFlagClearTmp,
             'tTypeModule'       => $tTypeModule,
-            'tNameModule'        => $tNameModule,
-            'tSessionID'        => $this->session->userdata("tSesSessionID")
+            'tNameModule'       => $tNameModule,
+            'tSessionID'        => FCNoGetCookieVal("tSesSessionID"), //$this->session->userdata("tSesSessionID")
         );
 
 
@@ -323,11 +338,11 @@ class cHome extends MX_Controller
                 for ($tTGROUP = 0; $tTGROUP < FCNnHSizeOf($aPackData[7]); $tTGROUP++) {
                     $aTGroup = array(
                         'FTTmpTableKey'     => 'TCNMPdtTouchGrp',
-                        'FTAgnCode'         => $this->session->userdata("tSesUsrAgnCode"),
+                        'FTAgnCode'         => FCNoGetCookieVal("tSesUsrAgnCode"),
                         'FNTmpSeq'          => $tTGROUP + 1,
                         'FTTcgCode'         => $aPackData[7][$tTGROUP][0],
                         'FTTcgName'         => $aPackData[7][$tTGROUP][1],
-                        'FTSessionID'       => $this->session->userdata("tSesSessionID"),
+                        'FTSessionID'       => FCNoGetCookieVal("tSesSessionID"),
                         'FTTmpStatus'       => (isset($aPackData[7][$tTGROUP][2]) == '') ? '' : $aPackData[7][$tTGROUP][2],
                         'FTTmpRemark'       => (isset($aPackData[7][$tTGROUP][3]) == '') ? '' : $aPackData[7][$tTGROUP][3],
                         'FDCreateOn'        => date('Y-m-d')
@@ -340,14 +355,14 @@ class cHome extends MX_Controller
 
                 //validate ข้อมูลซ้ำในตาราง Tmp _ ทัสกลุ่ม
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTTcgCode'
                 );
                 FCNnMasTmpChkCodeDupInTemp($aValidateData);
 
                 //validate มีข้อมูลอยู่เเล้วในตารางจริง _ ทัสกลุ่ม
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTTcgCode',
                     'tTableName'        => 'TCNMPdtTouchGrp'
                 );
@@ -360,11 +375,11 @@ class cHome extends MX_Controller
                 for ($tPdtGroup = 0; $tPdtGroup < FCNnHSizeOf($aPackData[6]); $tPdtGroup++) {
                     $aPdtGroup = array(
                         'FTTmpTableKey'     => 'TCNMPdtGrp',
-                        'FTAgnCode'         => $this->session->userdata("tSesUsrAgnCode"),
+                        'FTAgnCode'         => FCNoGetCookieVal("tSesUsrAgnCode"),
                         'FNTmpSeq'          => $tPdtGroup + 1,
                         'FTPgpChain'        => $aPackData[6][$tPdtGroup][0],
                         'FTPgpName'         => $aPackData[6][$tPdtGroup][1],
-                        'FTSessionID'       => $this->session->userdata("tSesSessionID"),
+                        'FTSessionID'       => FCNoGetCookieVal("tSesSessionID"),
                         'FTTmpStatus'       => (isset($aPackData[6][$tPdtGroup][2]) == '') ? '' : $aPackData[6][$tPdtGroup][2],
                         'FTTmpRemark'       => (isset($aPackData[6][$tPdtGroup][3]) == '') ? '' : $aPackData[6][$tPdtGroup][3],
                         'FDCreateOn'        => date('Y-m-d')
@@ -377,14 +392,14 @@ class cHome extends MX_Controller
 
                 //validate ข้อมูลซ้ำในตาราง Tmp _ กลุ่มสินค้า
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTPgpChain'
                 );
                 FCNnMasTmpChkCodeDupInTemp($aValidateData);
 
                 //validate มีข้อมูลอยู่เเล้วในตารางจริง _ กลุ่มสินค้า
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTPgpChain',
                     'tTableName'        => 'TCNMPdtGrp'
                 );
@@ -397,11 +412,11 @@ class cHome extends MX_Controller
                 for ($tPdtModel = 0; $tPdtModel < FCNnHSizeOf($aPackData[5]); $tPdtModel++) {
                     $aPdtModel = array(
                         'FTTmpTableKey'     => 'TCNMPdtModel',
-                        'FTAgnCode'         => $this->session->userdata("tSesUsrAgnCode"),
+                        'FTAgnCode'         => FCNoGetCookieVal("tSesUsrAgnCode"),
                         'FNTmpSeq'          => $tPdtModel + 1,
                         'FTPmoCode'         => $aPackData[5][$tPdtModel][0],
                         'FTPmoName'         => $aPackData[5][$tPdtModel][1],
-                        'FTSessionID'       => $this->session->userdata("tSesSessionID"),
+                        'FTSessionID'       => FCNoGetCookieVal("tSesSessionID"),
                         'FTTmpStatus'       => (isset($aPackData[5][$tPdtModel][2]) == '') ? '' : $aPackData[5][$tPdtModel][2],
                         'FTTmpRemark'       => (isset($aPackData[5][$tPdtModel][3]) == '') ? '' : $aPackData[5][$tPdtModel][3],
                         'FDCreateOn'        => date('Y-m-d')
@@ -414,14 +429,14 @@ class cHome extends MX_Controller
 
                 //validate ข้อมูลซ้ำในตาราง Tmp _ รุ่นสินค้า
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTPmoCode'
                 );
                 FCNnMasTmpChkCodeDupInTemp($aValidateData);
 
                 //validate มีข้อมูลอยู่เเล้วในตารางจริง _ รุ่นสินค้า
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTPmoCode',
                     'tTableName'        => 'TCNMPdtModel'
                 );
@@ -434,11 +449,11 @@ class cHome extends MX_Controller
                 for ($tPdtType = 0; $tPdtType < FCNnHSizeOf($aPackData[4]); $tPdtType++) {
                     $aPdtType = array(
                         'FTTmpTableKey'     => 'TCNMPdtType',
-                        'FTAgnCode'         => $this->session->userdata("tSesUsrAgnCode"),
+                        'FTAgnCode'         => FCNoGetCookieVal("tSesUsrAgnCode"),
                         'FNTmpSeq'          => $tPdtType + 1,
                         'FTPtyCode'         => $aPackData[4][$tPdtType][0],
                         'FTPtyName'         => $aPackData[4][$tPdtType][1],
-                        'FTSessionID'       => $this->session->userdata("tSesSessionID"),
+                        'FTSessionID'       => FCNoGetCookieVal("tSesSessionID"),
                         'FTTmpStatus'       => (isset($aPackData[4][$tPdtType][2]) == '') ? '' : $aPackData[4][$tPdtType][2],
                         'FTTmpRemark'       => (isset($aPackData[4][$tPdtType][3]) == '') ? '' : $aPackData[4][$tPdtType][3],
                         'FDCreateOn'        => date('Y-m-d')
@@ -451,14 +466,14 @@ class cHome extends MX_Controller
 
                 //validate ข้อมูลซ้ำในตาราง Tmp _ ประเภทสินค้า
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTPtyCode'
                 );
                 FCNnMasTmpChkCodeDupInTemp($aValidateData);
 
                 //validate มีข้อมูลอยู่เเล้วในตารางจริง _ ประเภทสินค้า
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTPtyCode',
                     'tTableName'        => 'TCNMPdtType'
                 );
@@ -471,11 +486,11 @@ class cHome extends MX_Controller
                 for ($tBrand = 0; $tBrand < FCNnHSizeOf($aPackData[3]); $tBrand++) {
                     $aBrand = array(
                         'FTTmpTableKey'     => 'TCNMPdtBrand',
-                        'FTAgnCode'         => $this->session->userdata("tSesUsrAgnCode"),
+                        'FTAgnCode'         => FCNoGetCookieVal("tSesUsrAgnCode"),
                         'FNTmpSeq'          => $tBrand + 1,
                         'FTPbnCode'         => $aPackData[3][$tBrand][0],
                         'FTPbnName'         => $aPackData[3][$tBrand][1],
-                        'FTSessionID'       => $this->session->userdata("tSesSessionID"),
+                        'FTSessionID'       => FCNoGetCookieVal("tSesSessionID"),
                         'FTTmpStatus'       => (isset($aPackData[3][$tBrand][2]) == '') ? '' : $aPackData[3][$tBrand][2],
                         'FTTmpRemark'       => (isset($aPackData[3][$tBrand][3]) == '') ? '' : $aPackData[3][$tBrand][3],
                         'FDCreateOn'        => date('Y-m-d')
@@ -488,14 +503,14 @@ class cHome extends MX_Controller
 
                 //validate ข้อมูลซ้ำในตาราง Tmp _ แบรนด์
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTPbnCode'
                 );
                 FCNnMasTmpChkCodeDupInTemp($aValidateData);
 
                 //validate มีข้อมูลอยู่เเล้วในตารางจริง _ แบรนด์
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTPbnCode',
                     'tTableName'        => 'TCNMPdtBrand'
                 );
@@ -508,11 +523,11 @@ class cHome extends MX_Controller
                 for ($tUnit = 0; $tUnit < FCNnHSizeOf($aPackData[2]); $tUnit++) {
                     $aUnit = array(
                         'FTTmpTableKey'     => 'TCNMPdtUnit',
-                        'FTAgnCode'         => $this->session->userdata("tSesUsrAgnCode"),
+                        'FTAgnCode'         => FCNoGetCookieVal("tSesUsrAgnCode"),
                         'FNTmpSeq'          => $tUnit + 1,
                         'FTPunCode'         => $aPackData[2][$tUnit][0],
                         'FTPunName'         => $aPackData[2][$tUnit][1],
-                        'FTSessionID'       => $this->session->userdata("tSesSessionID"),
+                        'FTSessionID'       => FCNoGetCookieVal("tSesSessionID"),
                         'FTTmpStatus'       => (isset($aPackData[2][$tUnit][2]) == '') ? '' : $aPackData[2][$tUnit][2],
                         'FTTmpRemark'       => (isset($aPackData[2][$tUnit][3]) == '') ? '' : $aPackData[2][$tUnit][3],
                         'FDCreateOn'        => date('Y-m-d')
@@ -525,14 +540,14 @@ class cHome extends MX_Controller
 
                 //validate ข้อมูลซ้ำในตาราง Tmp _ หน่วยสินค้า
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTPunCode'
                 );
                 FCNnMasTmpChkCodeDupInTemp($aValidateData);
 
                 //validate มีข้อมูลอยู่เเล้วในตารางจริง _ หน่วยสินค้า
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTPunCode',
                     'tTableName'        => 'TCNMPdtUnit'
                 );
@@ -548,7 +563,7 @@ class cHome extends MX_Controller
                 for ($tPDT = 0; $tPDT < FCNnHSizeOf($aPackData[1]); $tPDT++) {
                     $aPDT = array(
                         'FTTmpTableKey'     => 'TCNMPdt',
-                        'FTAgnCode'         => $this->session->userdata("tSesUsrAgnCode"),
+                        'FTAgnCode'         => FCNoGetCookieVal("tSesUsrAgnCode"),
                         'FNTmpSeq'          => $tPDT + 1,
                         'FTPdtCode'         => (isset($aPackData[1][$tPDT][0]) == '') ? '' : trim($aPackData[1][$tPDT][0]),
                         'FTPdtName'         => (isset($aPackData[1][$tPDT][1]) == '') ? '' : $aPackData[1][$tPDT][1],
@@ -562,20 +577,20 @@ class cHome extends MX_Controller
                         'FTPmoCode'         => (isset($aPackData[1][$tPDT][9]) == '') ? '' : $aPackData[1][$tPDT][9],
                         'FTPgpChain'        => (isset($aPackData[1][$tPDT][10]) == '') ? '' : $aPackData[1][$tPDT][10],
                         'FTTcgCode'         => (isset($aPackData[1][$tPDT][11]) == '') ? '' : $aPackData[1][$tPDT][11],
-                        'FTSessionID'       => $this->session->userdata("tSesSessionID"),
+                        'FTSessionID'       => FCNoGetCookieVal("tSesSessionID"),
                         'FTTmpStatus'       => (isset($aPackData[1][$tPDT][12]) == '') ? '' : $aPackData[1][$tPDT][12],
                         'FTTmpRemark'       => (isset($aPackData[1][$tPDT][13]) == '') ? '' : $aPackData[1][$tPDT][13],
                         'FDCreateOn'        => date('Y-m-d')
                     );
                     array_push($aSumSheetPDT, $aPDT);
 
-                    if ($this->session->userdata("bIsHaveAgn")) {
+                    if (FCNoGetCookieVal("bIsHaveAgn")) {
                         $aPdtSpcBch = array(
                             'FTTmpTableKey'     => 'TCNMPdtSpcBch',
                             'FTPdtCode'         => (isset($aPackData[1][$tPDT][0]) == '') ? '' : trim($aPackData[1][$tPDT][0]),
                             'FTTmpStatus'       => (isset($aPackData[1][$tPDT][12]) == '') ? '' : $aPackData[1][$tPDT][12],
-                            'FTAgnCode'         => $this->session->userdata("tSesUsrAgnCode"),
-                            'FTSessionID'       => $this->session->userdata("tSesSessionID"),
+                            'FTAgnCode'         => FCNoGetCookieVal("tSesUsrAgnCode"),
+                            'FTSessionID'       => FCNoGetCookieVal("tSesSessionID"),
                             'FDCreateOn'        => date('Y-m-d')
                         );
                         array_push($aPackPdtSpcBch, $aPdtSpcBch);
@@ -601,7 +616,7 @@ class cHome extends MX_Controller
 
                 //validate มีข้อมูลอยู่เเล้วในตารางห้ามซ้ำกับ AD อื่น
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTPdtCode',
                     'tTableCheck'       => 'TCNMPdt'
                 );
@@ -609,7 +624,7 @@ class cHome extends MX_Controller
 
                 //validate รหัสสินค้าซ้ำใน AD ตัวเอง
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTPdtCode',
                     'tTableCheck'       => 'TCNMPdt_AD'
                 );
@@ -633,7 +648,7 @@ class cHome extends MX_Controller
 
                 //Check หน่วยสินค้าจาก Temp ก่อนเเล้วค่อยเช็คจาก master (เช็คว่าหน่วยนิมีจริงไหม)
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTPunCode',
                     'tTableCheck'       => 'TCNMPdtUnit'
                 );
@@ -682,8 +697,8 @@ class cHome extends MX_Controller
             $aObjectPdtDupBaCallBack = array();
             if ($nPackData > 1) {
 
-                $tDefAgnCode = $this->session->userdata("tSesUsrAgnCode");
-                $tStaUsrAgn  = $this->session->userdata("tSesUsrLoginAgency");
+                $tDefAgnCode = FCNoGetCookieVal("tSesUsrAgnCode");
+                $tStaUsrAgn  = FCNoGetCookieVal("tSesUsrLoginAgency");
 
                 
                 for ($i = 1; $i < $nPackData; $i++) {
@@ -707,7 +722,7 @@ class cHome extends MX_Controller
                                 'FTPplCode'         => (isset($aPackData[$i][3]) == '') ? '' : $aPackData[$i][3],
                                 'FTTmpStatus'       => (isset($aPackData[$i][4]) == '') ? '' : $aPackData[$i][4],
                                 'FTTmpRemark'       => (isset($aPackData[$i][5]) == '') ? '' : $aPackData[$i][5],
-                                'FTSessionID'       => $this->session->userdata("tSesSessionID"),
+                                'FTSessionID'       => FCNoGetCookieVal("tSesSessionID"),
                                 'FDCreateOn'        => date('Y-m-d')
                             );
                             // print_r($aObject);
@@ -715,7 +730,7 @@ class cHome extends MX_Controller
                             break;
                         case "adjprice":
                             $aObject = array(
-                                'FTBchCode'         => $this->session->userdata("tSesUsrBchCodeDefault"),
+                                'FTBchCode'         => FCNoGetCookieVal("tSesUsrBchCodeDefault"),
                                 'FTXthDocKey'       => $tTableRefPK,
                                 'FNXtdSeqNo'        => $i,
                                 'FTPdtCode'         => $aPackData[$i][0],
@@ -723,7 +738,7 @@ class cHome extends MX_Controller
                                 'FCXtdPriceRet'     => (isset($aPackData[$i][2]) == '') ? '' : $aPackData[$i][2],
                                 'FTTmpStatus'       => (isset($aPackData[$i][3]) == '') ? '' : $aPackData[$i][3],
                                 'FTTmpRemark'       => (isset($aPackData[$i][4]) == '') ? '' : $aPackData[$i][4],
-                                'FTSessionID'       => $this->session->userdata("tSesSessionID"),
+                                'FTSessionID'       => FCNoGetCookieVal("tSesSessionID"),
                                 'FDCreateOn'        => date('Y-m-d')
                             );
                             break;
@@ -752,7 +767,7 @@ class cHome extends MX_Controller
                                 'FTUsrEmail'        => (isset($aPackData[$i][9]) == '') ? '' : $aPackData[$i][9],
                                 'FTTmpStatus'       => (isset($aPackData[$i][10]) == '') ? '' : $aPackData[$i][10],
                                 'FTTmpRemark'       => (isset($aPackData[$i][11]) == '') ? '' : $aPackData[$i][11],
-                                'FTSessionID'       => $this->session->userdata("tSesSessionID"),
+                                'FTSessionID'       => FCNoGetCookieVal("tSesSessionID"),
                                 'FDCreateOn'        => date('Y-m-d')
                             );
                             break;
@@ -767,7 +782,7 @@ class cHome extends MX_Controller
                                 'FTPosRegNo'        => (isset($aPackData[$i][4]) == '') ? '' : $aPackData[$i][4],
                                 'FTTmpStatus'       => (isset($aPackData[$i][5]) == '') ? '' : $aPackData[$i][5],
                                 'FTTmpRemark'       => (isset($aPackData[$i][6]) == '') ? '' : $aPackData[$i][6],
-                                'FTSessionID'       => $this->session->userdata("tSesSessionID"),
+                                'FTSessionID'       => FCNoGetCookieVal("tSesSessionID"),
                                 'FDCreateOn'        => date('Y-m-d')
                             );
                             break;
@@ -788,7 +803,7 @@ class cHome extends MX_Controller
                             }
                             $aDataPdtParams = array(
                                 'tDocNo'            => '',
-                                'tBchCode'          => $this->session->userdata("tSesUsrBchCodeDefault"),
+                                'tBchCode'          => FCNoGetCookieVal("tSesUsrBchCodeDefault"),
                                 'tPdtCode'          => $tPdtCode,
                                 'tBarCode'          => $tBarCode,
                                 'tPunCode'          => $tPunCode,
@@ -820,11 +835,11 @@ class cHome extends MX_Controller
                                     'FCXtdNet'          => $cPrice * $cQty,
                                     'FCXtdNetAfHD'      => $cPrice * $cQty,
                                     'FTSrnCode'         => $nSrnCode,
-                                    'FTSessionID'       => $this->session->userdata("tSesSessionID"),
+                                    'FTSessionID'       => FCNoGetCookieVal("tSesSessionID"),
                                     'FDLastUpdOn'       => date('Y-m-d h:i:s'),
-                                    'FTLastUpdBy'       => $this->session->userdata('tSesUsername'),
+                                    'FTLastUpdBy'       => FCNoGetCookieVal('tSesUsername'),
                                     'FDCreateOn'        => date('Y-m-d h:i:s'),
-                                    'FTCreateBy'        => $this->session->userdata('tSesUsername'),
+                                    'FTCreateBy'        => FCNoGetCookieVal('tSesUsername'),
                                     'FTTmpRemark'       => $tErrDes,
                                 );
                             } else {
@@ -852,11 +867,11 @@ class cHome extends MX_Controller
                                     'FCXtdNet'          => $cPrice * $cQty,
                                     'FCXtdNetAfHD'      => $cPrice * $cQty,
                                     'FTSrnCode'         => '0',
-                                    'FTSessionID'       => $this->session->userdata("tSesSessionID"),
+                                    'FTSessionID'       => FCNoGetCookieVal("tSesSessionID"),
                                     'FDLastUpdOn'       => date('Y-m-d h:i:s'),
-                                    'FTLastUpdBy'       => $this->session->userdata('tSesUsername'),
+                                    'FTLastUpdBy'       => FCNoGetCookieVal('tSesUsername'),
                                     'FDCreateOn'        => date('Y-m-d h:i:s'),
-                                    'FTCreateBy'        => $this->session->userdata('tSesUsername'),
+                                    'FTCreateBy'        => FCNoGetCookieVal('tSesUsername'),
                                     'FTTmpRemark'       => language('document/purchaseorder/purchaseorder', 'tPONotFoundPdtCodeAndBarcodeImp'),
                                 );
                             }
@@ -962,11 +977,11 @@ class cHome extends MX_Controller
                                     'FCXtdNetAfHD'      => $cPrice * $cQty,
                                     'FTSrnCode'         => 1,
                                     'FTTmpStatus'       => $aDataPdtMaster['raItem']['FTPdtForSystem'],
-                                    'FTSessionID'       => $this->session->userdata("tSesSessionID"),
+                                    'FTSessionID'       => FCNoGetCookieVal("tSesSessionID"),
                                     'FDLastUpdOn'       => date('Y-m-d h:i:s'),
-                                    'FTLastUpdBy'       => $this->session->userdata('tSesUsername'),
+                                    'FTLastUpdBy'       => FCNoGetCookieVal('tSesUsername'),
                                     'FDCreateOn'        => date('Y-m-d h:i:s'),
-                                    'FTCreateBy'        => $this->session->userdata('tSesUsername'),
+                                    'FTCreateBy'        => FCNoGetCookieVal('tSesUsername'),
                                 );
 
                                 if ($aDataPdtMaster['raItem']['FTPdtForSystem'] == '5') { //กรณีเป็นสินค้าแฟชั่น ให้เก็บ DTFhn ด้วย
@@ -980,9 +995,9 @@ class cHome extends MX_Controller
                                         'FTXtdPdtName'      => $aDataPdtMaster['raItem']['FTPdtName'],
                                         'FCXtdQty'          => $cQty,
                                         'FTFhnRefCode'      => $tFhnRefCode,
-                                        'FTSessionID'       => $this->session->userdata("tSesSessionID"),
+                                        'FTSessionID'       => FCNoGetCookieVal("tSesSessionID"),
                                         'FDCreateOn'        => date('Y-m-d h:i:s'),
-                                        'FTCreateBy'        => $this->session->userdata('tSesUsername'),
+                                        'FTCreateBy'        => FCNoGetCookieVal('tSesUsername'),
                                     );
                                 }
                             } else {
@@ -1010,17 +1025,17 @@ class cHome extends MX_Controller
                                     'FCXtdNetAfHD'      => $cPrice * $cQty,
                                     'FTSrnCode'         => 0,
                                     'FTTmpStatus'       => 1,
-                                    'FTSessionID'       => $this->session->userdata("tSesSessionID"),
+                                    'FTSessionID'       => FCNoGetCookieVal("tSesSessionID"),
                                     'FDLastUpdOn'       => date('Y-m-d h:i:s'),
-                                    'FTLastUpdBy'       => $this->session->userdata('tSesUsername'),
+                                    'FTLastUpdBy'       => FCNoGetCookieVal('tSesUsername'),
                                     'FDCreateOn'        => date('Y-m-d h:i:s'),
-                                    'FTCreateBy'        => $this->session->userdata('tSesUsername'),
+                                    'FTCreateBy'        => FCNoGetCookieVal('tSesUsername'),
                                 );
                             }
                             break;
                         case "adjcost":
                             $aObject = array(
-                                'FTBchCode'         => $this->session->userdata("tSesUsrBchCodeDefault"),
+                                'FTBchCode'         => FCNoGetCookieVal("tSesUsrBchCodeDefault"),
                                 'FTXthDocKey'       => $tTableRefPK,
                                 'FNXtdSeqNo'        => $i,
                                 'FTPdtCode'         => $aPackData[$i][0],
@@ -1028,7 +1043,7 @@ class cHome extends MX_Controller
                                 'FCXtdCostEx'       => (isset($aPackData[$i][2]) == '') ? '' : $aPackData[$i][2],
                                 'FTTmpStatus'       => (isset($aPackData[$i][3]) == '') ? '' : $aPackData[$i][3],
                                 'FTTmpRemark'       => (isset($aPackData[$i][4]) == '') ? '' : $aPackData[$i][4],
-                                'FTSessionID'       => $this->session->userdata("tSesSessionID"),
+                                'FTSessionID'       => FCNoGetCookieVal("tSesSessionID"),
                                 'FDCreateOn'        => date('Y-m-d')
                             );
                             break;
@@ -1105,7 +1120,7 @@ class cHome extends MX_Controller
                             $aStoreParam = array(
                                 "tTblName"    => 'TFNTCouponHD',                           
                                 "tDocType"    => 0,                                          
-                                "tBchCode"    => $this->session->userdata("tSesUsrBchCodeDefault"),                                 
+                                "tBchCode"    => FCNoGetCookieVal("tSesUsrBchCodeDefault"),                                 
                                 "tShpCode"    => "",                               
                                 "tPosCode"    => "",                     
                                 "dDocDate"    => date("Y-m-d H:i:s")       
@@ -1121,7 +1136,7 @@ class cHome extends MX_Controller
                                 $aSumSheet0 = array();
                                 for ($nIndex = 0; $nIndex < FCNnHSizeOf($aPackData[0]); $nIndex++) {
                                     $aTab0 = array(
-                                        'FTBchCode'             => $this->session->userdata("tSesUsrBchCodeDefault"),
+                                        'FTBchCode'             => FCNoGetCookieVal("tSesUsrBchCodeDefault"),
                                         'FTCphDocNo'            => $aAutogen[0]["FTXxhDocNo"],
                                         'FTCptCode'             => $aPackData[0][$nIndex][0],
                                         'FTCpnName'             => $aPackData[0][$nIndex][1],
@@ -1140,7 +1155,7 @@ class cHome extends MX_Controller
                                         'FTCphStaOnTopPmt'      => $aPackData[0][$nIndex][14],
                                         'FTStaChkMember'        => $aPackData[0][$nIndex][15],
                                         'FTCphStaClosed'        => '1',
-                                        'FTUsrCode'             => $this->session->userdata("tSesUsername"),
+                                        'FTUsrCode'             => FCNoGetCookieVal("tSesUsername"),
                                         'FDCphDocDate'          => date("Y-m-d H:i:s"),
                                         'FTCphUsrApv'           => null,
                                         'FTCphStaDoc'           => '1',
@@ -1149,7 +1164,7 @@ class cHome extends MX_Controller
                                         'FTCphStaDelMQ'	        => '',
                                         'FTTmpStatus'           => (empty($aPackData[0][$nIndex][16])) ? '' : $aPackData[0][$nIndex][16],
                                         'FTTmpRemark'           => (empty($aPackData[0][$nIndex][17])) ? '' : $aPackData[0][$nIndex][17],
-                                        'FTSessionID'           => $this->session->userdata("tSesSessionID"),
+                                        'FTSessionID'           => FCNoGetCookieVal("tSesSessionID"),
                                         'FDCreateOn'            => date("Y-m-d H:i:s"),
                                         'FTTmpTableKey'         => 'TFNTCouponHD',
                                         'FNTmpSeq'              => $nIndex + 1,
@@ -1163,14 +1178,14 @@ class cHome extends MX_Controller
                                 $aSumSheet1 = array();
                                 for ($nIndex = 0; $nIndex < FCNnHSizeOf($aPackData[1]); $nIndex++) {
                                     $aTab1 = array(
-                                        'FTBchCode'             => $this->session->userdata("tSesUsrBchCodeDefault"),
+                                        'FTBchCode'             => FCNoGetCookieVal("tSesUsrBchCodeDefault"),
                                         'FTCphDocNo'            => $aAutogen[0]["FTXxhDocNo"],
                                         'FTCpdBarCpn'           => (empty($aPackData[1][$nIndex][0])) ? '' : $aPackData[1][$nIndex][0],
                                         'FNCpdSeqNo'            => $nIndex + 1,
                                         'FNCpdAlwMaxUse'        => (empty($aPackData[1][$nIndex][1])) ? '' : $aPackData[1][$nIndex][1],
                                         'FTTmpStatus'           => (empty($aPackData[1][$nIndex][2])) ? '' : $aPackData[1][$nIndex][2],
                                         'FTTmpRemark'           => (empty($aPackData[1][$nIndex][3])) ? '' : $aPackData[1][$nIndex][3],
-                                        'FTSessionID'           => $this->session->userdata("tSesSessionID"),
+                                        'FTSessionID'           => FCNoGetCookieVal("tSesSessionID"),
                                         'FDCreateOn'            => date("Y-m-d H:i:s"),
                                         'FTTmpTableKey'         => 'TFNTCouponDT',
                                         'FNTmpSeq'              => $nIndex + 1,
@@ -1281,14 +1296,14 @@ class cHome extends MX_Controller
             case "branch":
                 //validate ข้อมูลซ้ำในตาราง Tmp
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTBchCode'
                 );
                 FCNnMasTmpChkCodeDupInTemp($aValidateData);
 
                 //validate มีข้อมูลอยู่เเล้วในตารางจริง
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTBchCode',
                     'tTableName'        => 'TCNMBranch'
                 );
@@ -1296,7 +1311,7 @@ class cHome extends MX_Controller
 
                 //validate ข้อมูลอ้างอิงมีจริงไหม _ FTPplCode
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTPplCode',
                     'tTableName'        => 'TCNMPdtPriList',
                     'tErrMsg'           => 'ไม่พบกลุ่มราคาในระบบ'
@@ -1305,7 +1320,7 @@ class cHome extends MX_Controller
 
                 //validate ข้อมูลอ้างอิงมีจริงไหม
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTAgnCode',
                     'tTableName'        => 'TCNMAgency',
                     'tErrMsg'           => 'ไม่พบตัวแทนขายในระบบ'
@@ -1315,7 +1330,7 @@ class cHome extends MX_Controller
             case "adjprice":
                 //validate ข้อมูลอ้างอิงมีจริงไหม _ FTPdtCode
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTPdtCode',
                     'tTableName'        => 'TCNMPDT',
                     'tErrMsg'           => 'ไม่พบสินค้าในระบบ'
@@ -1324,7 +1339,7 @@ class cHome extends MX_Controller
 
                 //validate ข้อมูลอ้างอิงมีจริงไหม _ FTPunCode
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTPunCode',
                     'tTableName'        => 'TCNMPdtUnit',
                     'tErrMsg'           => 'ไม่พบหน่วยสินค้าในระบบ'
@@ -1333,7 +1348,7 @@ class cHome extends MX_Controller
 
                 //validate เช็คซ้ำกันใน temp
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'aFieldName'        => ['FTPdtCode', 'FTPunCode']
                 );
                 FCNnDocTmpChkCodeMultiDupInTemp($aValidateData, $aWhereData);
@@ -1342,14 +1357,14 @@ class cHome extends MX_Controller
 
                 //validate ข้อมูลซ้ำในตาราง Tmp _ รหัสผู้ใช้
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTUsrCode'
                 );
                 FCNnMasTmpChkCodeDupInTemp($aValidateData);
 
                 //validate มีข้อมูลอยู่เเล้วในตารางจริง _ รหัสผู้ใช้
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTUsrCode',
                     'tTableName'        => 'TCNMUser'
                 );
@@ -1357,7 +1372,7 @@ class cHome extends MX_Controller
 
                 //validate ข้อมูลอ้างอิงมีจริงไหม _ สาขา
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTBchCode',
                     'tTableName'        => 'TCNMBranch',
                     'tErrMsg'           => 'ไม่พบรหัสสาขาในระบบ'
@@ -1368,7 +1383,7 @@ class cHome extends MX_Controller
                 // validate ข้อมูลอ้างอิงมีจริงไหม _ สาขา + ตัวแทนขาย
                 $aValidateData = array(
                     'tImportFrom'       => 'user',
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tTableName'        => 'TCNMBranch',
                     'aFieldName'        => ['FTBchCode', 'FTAgnCode'],
                     'tErrMsg'           => 'ไม่พบสาขาที่อยู่ภายใต้ตัวแทนขายในระบบ'
@@ -1377,7 +1392,7 @@ class cHome extends MX_Controller
 
                 //validate ข้อมูลอ้างอิงมีจริงไหม _ กลุ่มสิทธิ
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTRolCode',
                     'tTableName'        => 'TCNMUsrRole',
                     'tErrMsg'           => 'ไม่พบกลุ่มสิทธิ์ในระบบ'
@@ -1386,7 +1401,7 @@ class cHome extends MX_Controller
 
                 //validate ข้อมูลอ้างอิงมีจริงไหม _ รหัสตัวแทนขาย	
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTAgnCode',
                     'tTableName'        => 'TCNMAgency',
                     'tErrMsg'           => 'ไม่พบตัวแทนขายในระบบ'
@@ -1395,7 +1410,7 @@ class cHome extends MX_Controller
 
                 //validate ข้อมูลอ้างอิงมีจริงไหม _ กลุ่มธุรกิจ	
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTMerCode',
                     'tTableName'        => 'TCNMMerchant',
                     'tErrMsg'           => 'ไม่พบกลุ่มธุรกิจในระบบ'
@@ -1404,7 +1419,7 @@ class cHome extends MX_Controller
 
                 //validate ข้อมูลอ้างอิงมีจริงไหม _ ร้านค้า	
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTShpCode',
                     'tTableName'        => 'TCNMShop_L',
                     'tErrMsg'           => 'ไม่พบร้านค้าในระบบ'
@@ -1413,7 +1428,7 @@ class cHome extends MX_Controller
 
                 //validate ข้อมูลอ้างอิงมีจริงไหม _ แผนก	
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTDptCode',
                     'tTableName'        => 'TCNMUsrDepart_L',
                     'tErrMsg'           => 'ไม่พบแผนกในระบบ'
@@ -1424,7 +1439,7 @@ class cHome extends MX_Controller
 
                 // ตรวจสอบสาขาว่ามีอยู่จริงหรือไม่
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTBchCode',
                     'tTableName'        => 'TCNMBranch',
                     'tErrMsg'           => 'ไม่พบสาขาในระบบ'
@@ -1433,14 +1448,14 @@ class cHome extends MX_Controller
 
                 // ตรวจสอบข้อมูลซ้ำในตาราง Temp
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'aFieldName'        => ['FTBchCode', 'FTPosCode']
                 );
                 FCNnMasTmpChkCodeMultiDupInTemp($aValidateData);
 
                 // ตรวจสอบข้อมูลซ้ำในตาราง Master
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tTableName'        => 'TCNMPos',
                     'aFieldName'        => ['FTBchCode', 'FTPosCode']
                 );
@@ -1449,7 +1464,7 @@ class cHome extends MX_Controller
             case "purchaseorder":
                 //validate ข้อมูลอ้างอิงมีจริงไหม _ FTPdtCode
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTPdtCode',
                     'tTableName'        => 'TCNMPDT',
                     'tErrMsg'           => 'ไม่พบสินค้าในระบบ'
@@ -1458,7 +1473,7 @@ class cHome extends MX_Controller
 
                 //validate ข้อมูลอ้างอิงมีจริงไหม _ FTPunCode
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTPunCode',
                     'tTableName'        => 'TCNMPdtUnit',
                     'tErrMsg'           => 'ไม่พบหน่วยสินค้าในระบบ'
@@ -1483,7 +1498,7 @@ class cHome extends MX_Controller
                 break;
             case "purchaseinvoice":
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTPdtCode',
                     'tTableName'        => 'TCNMPDT',
                     'tErrMsg'           => 'ไม่พบสินค้าในระบบ'
@@ -1491,7 +1506,7 @@ class cHome extends MX_Controller
                 FCNnDocTmpChkCodeInDB($aValidateData);
 
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTPunCode',
                     'tTableName'        => 'TCNMPdtUnit',
                     'tErrMsg'           => 'ไม่พบหน่วยสินค้าในระบบ'
@@ -1501,7 +1516,7 @@ class cHome extends MX_Controller
             case "adjcost":
                 //validate ข้อมูลอ้างอิงมีจริงไหม _ FTPdtCode
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTPdtCode',
                     'tTableName'        => 'TCNMPDT',
                     'tErrMsg'           => 'ไม่พบสินค้าในระบบ'
@@ -1510,7 +1525,7 @@ class cHome extends MX_Controller
 
                 //validate ข้อมูลอ้างอิงมีจริงไหม _ FTPunCode
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTPunCode',
                     'tTableName'        => 'TCNMPdtUnit',
                     'tErrMsg'           => 'ไม่พบหน่วยสินค้าในระบบ'
@@ -1519,7 +1534,7 @@ class cHome extends MX_Controller
 
                 //validate เช็คซ้ำกันใน temp
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'aFieldName'        => ['FTPdtCode', 'FTPunCode']
                 );
                 FCNnDocTmpChkCodeMultiDupInTemp($aValidateData, $aWhereData);
@@ -1547,7 +1562,7 @@ class cHome extends MX_Controller
             case 'coupon':
                 //Validate ข้อมูลซ้ำในตาราง Tmp รหัสคูปอง
                 $aValidateData = array(
-                    'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
+                    'tUserSessionID'    => FCNoGetCookieVal("tSesSessionID"),
                     'tFieldName'        => 'FTCpdBarCpn',
                     'tTableKey'         => 'TFNTCouponDT',
                     'tTableTmp'         => 'TCNTImpCouponTmp'

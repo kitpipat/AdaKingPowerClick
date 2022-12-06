@@ -100,8 +100,9 @@ class mCommon extends CI_Model
             if ($tTypeModule == 'document' && $tFlagClearTmp == 1) {
                 //ลบช้อมูลของ document
                 if ($tTableNameTmp == 'TCNTPrnLabelTmp') {
-                    $tIP = $this->input->ip_address();
-                    $tFullHost = gethostbyaddr($tIP);
+                    // $tIP = $this->input->ip_address();
+                    // $tFullHost = gethostbyaddr($tIP);
+                    $tFullHost      = FCNoGetCookieVal('tSesSessionID');
                     $this->db->where_in('FTComName', $tFullHost);
                     $this->db->delete($tTableNameTmp);
                 } else {
@@ -183,9 +184,10 @@ class mCommon extends CI_Model
         $tPrnBarEffectiveDate   = trim($aImportParams['tPrnBarEffectiveDate']);
         $tVerGroup              = trim($aImportParams['tVerGroup']);
 
-        $tIP                = $this->input->ip_address();
-        $tFullHost          = gethostbyaddr($tIP);
-        $nLngID             = $this->session->userdata("tLangEdit");
+        // $tIP                = $this->input->ip_address();
+        // $tFullHost          = gethostbyaddr($tIP);
+        $tFullHost          = FCNoGetCookieVal('tSesSessionID');
+        $nLngID             = FCNoGetCookieVal("tLangEdit"); //$this->session->userdata("tLangEdit");
         $nOptDecimalShow    = FCNxHGetOptionDecimalShow();
 
         if( $tVerGroup == 'KPC' ){
@@ -208,7 +210,7 @@ class mCommon extends CI_Model
         if( $tLblCode == 'L015' ){
             $tSQL = " SELECT TOP 1 FTSysStaUsrValue FROM TSysConfig WITH(NOLOCK) WHERE FTSysCode = 'tCN_PlbUrl' AND FTSysApp = 'CN' AND FTSysKey = 'Company' ";
             $tUrl = $this->db->query($tSQL)->row_array()['FTSysStaUsrValue'];
-            $tSesUsrBchCodeDefault = $this->session->userdata("tSesUsrBchCodeDefault");
+            $tSesUsrBchCodeDefault = FCNoGetCookieVal("tSesUsrBchCodeDefault"); //$this->session->userdata("tSesUsrBchCodeDefault");
 
             $tUrl = str_replace("{FTPdtCode}", "'+CONVERT(VARCHAR,Pdt.FTPdtCode)+'", $tUrl);
             $tUrl = str_replace("{FTBchCode}", "'+CONVERT(VARCHAR,'".$tSesUsrBchCodeDefault."')+'", $tUrl);
@@ -375,8 +377,9 @@ class mCommon extends CI_Model
     // Create By : Napat(Jame) 01/11/2022 เอารหัสบาร์โค้ดที่ถูกดีดออกจาก process การ import ข้อมูล
     // Last Update : Napat(Jame) 02/11/2022 join เคส หาสาเหตุที่นำเข้าไม่ได้
     public function FCNaMCMMPrintBarGetDataNotIn($ptBarCodeIn){
-        $tIP        = $this->input->ip_address();
-        $tFullHost  = gethostbyaddr($tIP);
+        // $tIP        = $this->input->ip_address();
+        // $tFullHost  = gethostbyaddr($tIP);
+        $tFullHost      = FCNoGetCookieVal('tSesSessionID');
 
         // $tSQL = "   SELECT DISTINCT BAR.FTBarCode FROM TCNMPdtBar BAR WITH(NOLOCK)
         //             LEFT JOIN TCNTPrnLabelTmp TMP WITH(NOLOCK) ON TMP.FTBarCode = BAR.FTBarCode AND TMP.FTComName = '".$tFullHost."'
@@ -424,8 +427,9 @@ class mCommon extends CI_Model
 
     public function FCNaMCMMListDataPrintBarCodeCheckValidate()
     {
-        $tIP = $this->input->ip_address();
-        $tFullHost = gethostbyaddr($tIP);
+        // $tIP = $this->input->ip_address();
+        // $tFullHost = gethostbyaddr($tIP);
+        $tFullHost      = FCNoGetCookieVal('tSesSessionID');
 
         $tSQL = "UPDATE TCNTPrnLabelTmp
         SET FTPlbStaImport = 2,FTPlbStaSelect = null,FTPlbImpDesc =  '[2]ไม่พบสินค้า'
@@ -646,8 +650,9 @@ class mCommon extends CI_Model
         try {
             $tTableNameTmp  = $paPackData['tTableNameTmp'];
             if( $tTableNameTmp == 'TCNTPrnLabelTmp' ){
-                $tIP        = $this->input->ip_address();
-                $tFullHost  = gethostbyaddr($tIP);
+                // $tIP        = $this->input->ip_address();
+                // $tFullHost  = gethostbyaddr($tIP);
+                $tFullHost      = FCNoGetCookieVal('tSesSessionID');
                 $this->db->where_in('FTComName', $tFullHost);
                 $this->db->delete($tTableNameTmp);
             }else{

@@ -1,12 +1,15 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+// Last Update : Napat(Jame) 25/11/2022 เปลี่ยนการดึง session เป็น cookies
+
 class Printbarcode_Model extends CI_Model
 {
     function FSxMPriBarMoveDataIntoTable($paData)
     {
-        $tIP            = $this->input->ip_address();
-        $tFullHost      = gethostbyaddr($tIP);
+        // $tIP            = $this->input->ip_address();
+        // $tFullHost      = gethostbyaddr($tIP);
+        $tFullHost      = FCNoGetCookieVal('tSesSessionID');
 
         // return null;
         // $aRowLen        = FCNaHCallLenData($paData['nRow'], $paData['nPage']);
@@ -63,7 +66,7 @@ class Printbarcode_Model extends CI_Model
         if( $tPRNLblCode == 'L015' ){
             $tSQL = " SELECT TOP 1 FTSysStaUsrValue FROM TSysConfig WITH(NOLOCK) WHERE FTSysCode = 'tCN_PlbUrl' AND FTSysApp = 'CN' AND FTSysKey = 'Company' ";
             $tUrl = $this->db->query($tSQL)->row_array()['FTSysStaUsrValue'];
-            $tSesUsrBchCodeDefault = $this->session->userdata("tSesUsrBchCodeDefault");
+            $tSesUsrBchCodeDefault = FCNoGetCookieVal("tSesUsrBchCodeDefault");
 
             $tUrl = str_replace("{FTPdtCode}", "'+CONVERT(VARCHAR,Pdt.FTPdtCode)+'", $tUrl);
             $tUrl = str_replace("{FTBchCode}", "'+CONVERT(VARCHAR,'".$tSesUsrBchCodeDefault."')+'", $tUrl);
@@ -352,8 +355,9 @@ class Printbarcode_Model extends CI_Model
 
     function FSaMPriBarListSearch($paData)
     {
-        $tIP = $this->input->ip_address();
-        $tFullHost = gethostbyaddr($tIP);
+        // $tIP = $this->input->ip_address();
+        // $tFullHost = gethostbyaddr($tIP);
+        $tFullHost      = FCNoGetCookieVal('tSesSessionID');
 
         // return null;
         $aRowLen    = FCNaHCallLenData($paData['nRow'], $paData['nPage']);
@@ -417,8 +421,9 @@ class Printbarcode_Model extends CI_Model
     public function FSnMPriBarGetPageAllSearch($ptSearchList, $ptLngID)
     {
 
-        $tIP = $this->input->ip_address();
-        $tFullHost = gethostbyaddr($tIP);
+        // $tIP = $this->input->ip_address();
+        // $tFullHost = gethostbyaddr($tIP);
+        $tFullHost      = FCNoGetCookieVal('tSesSessionID');
 
         $tSQL = "   SELECT COUNT (FTBarCode) AS counts
                     FROM TCNTPrnLabelTmp PLT WITH(NOLOCK)
@@ -452,8 +457,9 @@ class Printbarcode_Model extends CI_Model
     public function FSnMPriBarGetPageAll($ptSearchList, $ptLngID)
     {
 
-        $tIP = $this->input->ip_address();
-        $tFullHost = gethostbyaddr($tIP);
+        // $tIP = $this->input->ip_address();
+        // $tFullHost = gethostbyaddr($tIP);
+        $tFullHost      = FCNoGetCookieVal('tSesSessionID');
 
         $tSQL = "SELECT COUNT (FTBarCode) AS counts
           FROM [TCNTPrnLabelTmp] PLT 
@@ -473,8 +479,9 @@ class Printbarcode_Model extends CI_Model
 
     function FSaMPriBarUpdateEditInLine($nValue, $tPdtCode, $tPdtBarCode, $tPriType)
     {
-        $tIP = $this->input->ip_address();
-        $tFullHost = gethostbyaddr($tIP);
+        // $tIP = $this->input->ip_address();
+        // $tFullHost = gethostbyaddr($tIP);
+        $tFullHost      = FCNoGetCookieVal('tSesSessionID');
 
         $this->db->set('FNPlbQty', $nValue);
         $this->db->where('FTPdtCode', $tPdtCode);
@@ -486,8 +493,9 @@ class Printbarcode_Model extends CI_Model
 
     function FSaMPriBarUpdateCheckedAll($bCheckedAll)
     {
-        $tIP = $this->input->ip_address();
-        $tFullHost = gethostbyaddr($tIP);
+        // $tIP = $this->input->ip_address();
+        // $tFullHost = gethostbyaddr($tIP);
+        $tFullHost      = FCNoGetCookieVal('tSesSessionID');
 
 
         if ($bCheckedAll == 'true') {
@@ -504,8 +512,9 @@ class Printbarcode_Model extends CI_Model
     // Last Update: Napat(Jame) 27/07/2022 Where PriType เพิ่ม
     function FSaMPriBarUpdateChecked($tValueChecked, $tPdtCode, $tBarCode, $ptPriType)
     {
-        $tIP = $this->input->ip_address();
-        $tFullHost = gethostbyaddr($tIP);
+        // $tIP = $this->input->ip_address();
+        // $tFullHost = gethostbyaddr($tIP);
+        $tFullHost      = FCNoGetCookieVal('tSesSessionID');
 
         if ($tValueChecked == 'true') {
             $bCheckedUp = 1;
@@ -525,8 +534,9 @@ class Printbarcode_Model extends CI_Model
     function FSaMPriBarUpdateLableCode($tPrnBarPrnLableCode)
     {
 
-        $tIP = $this->input->ip_address();
-        $tFullHost = gethostbyaddr($tIP);
+        // $tIP = $this->input->ip_address();
+        // $tFullHost = gethostbyaddr($tIP);
+        $tFullHost      = FCNoGetCookieVal('tSesSessionID');
 
         $this->db->set('FTPlbCode', $tPrnBarPrnLableCode);
         $this->db->where('FTComName', $tFullHost);
@@ -537,15 +547,23 @@ class Printbarcode_Model extends CI_Model
     function FSaMPriBarListDataMQ($ptPriType,$pnPageReq){
         try {
 
-            $tIP = $this->input->ip_address();
-            $tFullHost = gethostbyaddr($tIP);
+            // $tIP = $this->input->ip_address();
+            // $tFullHost = gethostbyaddr($tIP);
+            $tFullHost      = FCNoGetCookieVal('tSesSessionID');
 
-            $tSQLDT     = " SELECT * FROM TCNTPrnLabelTmp WITH(NOLOCK) 
+            $tSQLDT     = " SELECT 
+                                FTComName,FTPdtCode,FTPdtName,FTBarCode,FTPlcCode,GETDATE() AS FDPrnDate,FTPdtContentUnit,FTPlbCode,FNPlbQty,
+                                FTPdtTime,FTPdtMfg,FTPdtImporter,FTPdtRefNo,FTPdtValue,FTPbnDesc,FTPdtNameOth,FTPlbSubDept,FTPlbRepleType,
+                                FTPlbPriStatus,FTPlbSellingUnit,FCPdtPrice,FCPdtOldPrice,FTPlbPhasing,FTPlbPriPerUnit,FTPlbCapFree,
+                                FTPlbPdtChain,FTPlbCapNamePmt,FTPlbPmtInterval,FCPlbPmtGetCond,FCPlbPmtGetValue,FDPlbPmtDStart,FDPlbPmtDStop,
+                                FTPlbPmtCode,FCPlbPmtBuyQty,FTPlbClrName,FTPlbPszName,FTPlbPriType,FTPlbStaImport,FTPlbImpDesc,FTPlbUrl,FTPlbStaSelect 
+                            FROM TCNTPrnLabelTmp WITH(NOLOCK) 
                             WHERE FTComName = '$tFullHost' AND FTPlbPriType = '$ptPriType' AND  FTPlbStaSelect = '1'
                             AND FTBarCode IN (SELECT FTBarCode FROM TCNTPrnLabelHDTmp WITH(NOLOCK) WHERE FTComName = '$tFullHost' AND FTPlbPriType = '$ptPriType' AND FNPage = $pnPageReq AND  FTPlbStaSelect = '1') ";
             $oQueryDT   = $this->db->query($tSQLDT);
 
-            $tSQLHD     = " SELECT * FROM TCNTPrnLabelHDTmp WITH(NOLOCK) WHERE FTComName = '$tFullHost' AND FTPlbPriType = '$ptPriType' AND FNPage = $pnPageReq AND  FTPlbStaSelect = '1' ";
+            $tSQLHD     = " SELECT FTComName,FTPlbPriType,FNPage,FNSeq,FTBarCode,FTPdtName,FTPdtContentUnit,FNPlbQty,FTPlbStaSelect
+                            FROM TCNTPrnLabelHDTmp WITH(NOLOCK) WHERE FTComName = '$tFullHost' AND FTPlbPriType = '$ptPriType' AND FNPage = $pnPageReq AND  FTPlbStaSelect = '1' ";
             $oQueryHD   = $this->db->query($tSQLHD);
 
             if( $oQueryDT->num_rows() > 0 && $oQueryHD->num_rows() > 0 ){
@@ -575,8 +593,9 @@ class Printbarcode_Model extends CI_Model
 
     function FSaMPriBarClearDataMQ()
     {
-        $tIP = $this->input->ip_address();
-        $tFullHost = gethostbyaddr($tIP);
+        // $tIP = $this->input->ip_address();
+        // $tFullHost = gethostbyaddr($tIP);
+        $tFullHost      = FCNoGetCookieVal('tSesSessionID');
 
         $this->db->where('FTComName', $tFullHost);
         $this->db->delete('TCNTPrnLabelTmp');
@@ -920,7 +939,7 @@ class Printbarcode_Model extends CI_Model
     public function FSaMPRIGetTempDataAtAll()
     {
         try {
-            $tSesSessionID = $this->session->userdata("tSesSessionID");
+            $tSesSessionID = FCNoGetCookieVal("tSesSessionID");
             $tSQL   = "SELECT TOP 1
                         (SELECT COUNT(FTTmpTableKey) AS TYPESIX FROM TCNTImpMasTmp IMP
                         WHERE IMP.FTSessionID     = '$tSesSessionID'
@@ -947,8 +966,9 @@ class Printbarcode_Model extends CI_Model
     // Create By: Napat(Jame) 26/07/2022
     public function FSaMPRNGetAllData($pnPrnType){
 
-        $tIP = $this->input->ip_address();
-        $tFullHost = gethostbyaddr($tIP);
+        // $tIP = $this->input->ip_address();
+        // $tFullHost = gethostbyaddr($tIP);
+        $tFullHost      = FCNoGetCookieVal('tSesSessionID');
 
         // เคลียร์ tmp ก่อน insert
         $this->db->where('FTPlbPriType', $pnPrnType);
@@ -975,8 +995,9 @@ class Printbarcode_Model extends CI_Model
     // Create By: Napat(Jame) 27/07/2022
     public function FSxMPRNEventGenHD($paData){
 
-        $tIP = $this->input->ip_address();
-        $tFullHost = gethostbyaddr($tIP);
+        // $tIP = $this->input->ip_address();
+        // $tFullHost = gethostbyaddr($tIP);
+        $tFullHost      = FCNoGetCookieVal('tSesSessionID');
 
         // insert
         $this->db->insert_batch('TCNTPrnLabelHDTmp', $paData['aNewData']); 
@@ -985,8 +1006,9 @@ class Printbarcode_Model extends CI_Model
     // Create By: Napat(Jame) 27/07/2022
     public function FSaMPRNGetDataHDTmp($pnPrnType){
 
-        $tIP = $this->input->ip_address();
-        $tFullHost = gethostbyaddr($tIP);
+        // $tIP = $this->input->ip_address();
+        // $tFullHost = gethostbyaddr($tIP);
+        $tFullHost      = FCNoGetCookieVal('tSesSessionID');
 
         $tSQL = "   SELECT 
                         ROW_NUMBER() OVER(PARTITION BY FNPage ORDER BY FNPage, FNSeq) AS FNGroupPage,
@@ -1018,8 +1040,9 @@ class Printbarcode_Model extends CI_Model
     // Create By: Napat(Jame) 27/07/2022
     public function FSaMPRNGetSummaryHDTmp($pnPrnType){
 
-        $tIP = $this->input->ip_address();
-        $tFullHost = gethostbyaddr($tIP);
+        // $tIP = $this->input->ip_address();
+        // $tFullHost = gethostbyaddr($tIP);
+        $tFullHost      = FCNoGetCookieVal('tSesSessionID');
 
         $tSQL = "   SELECT DISTINCT
                         ISNULL(QTY.FNSumQty,0) AS FNSumQty,
@@ -1070,8 +1093,9 @@ class Printbarcode_Model extends CI_Model
 
     // Create By: Napat(Jame) 27/07/2022
     public function FSxMPRNUpdStaSelHDTmp($paData){
-        $tIP = $this->input->ip_address();
-        $tFullHost = gethostbyaddr($tIP);
+        // $tIP = $this->input->ip_address();
+        // $tFullHost = gethostbyaddr($tIP);
+        $tFullHost      = FCNoGetCookieVal('tSesSessionID');
 
         if( $paData['tValueChecked'] == 'true' ){
             $bCheckedUp = 1;
@@ -1090,8 +1114,9 @@ class Printbarcode_Model extends CI_Model
 
     // Create By: Napat(Jame) 08/08/2022
     public function FSaMPRNGetPageInPriType(){
-        $tIP = $this->input->ip_address();
-        $tFullHost = gethostbyaddr($tIP);
+        // $tIP = $this->input->ip_address();
+        // $tFullHost = gethostbyaddr($tIP);
+        $tFullHost      = FCNoGetCookieVal('tSesSessionID');
 
         // $tSQL = " SELECT FTPlbPriType,MAX(FNPage) AS FNMaxPage FROM TCNTPrnLabelHDTmp WITH(NOLOCK) WHERE FTComName = '".$tFullHost."' AND FTPlbStaSelect = '1' GROUP BY FTPlbPriType ";
         $tSQL = " SELECT FTPlbPriType,ROW_NUMBER() OVER(PARTITION BY FTPlbPriType ORDER BY FNPage ASC) AS FNSeqSend,FNPage,SUM(1) OVER(PARTITION BY FTPlbPriType) AS FNMaxPage FROM TCNTPrnLabelHDTmp WITH(NOLOCK) WHERE FTComName = '".$tFullHost."' AND FTPlbStaSelect = '1' GROUP BY FTPlbPriType,FNPage ";
@@ -1109,6 +1134,29 @@ class Printbarcode_Model extends CI_Model
             );
         }
         return $aResult;
+    }
+
+    // Create By: Napat(Jame) 01/12/2022
+    // กรณี KPC รหัส L015 ให้ส่ง Url ไปสร้าง QR Code
+    public function FSxMPRNUpdPlbUrl(){
+        $tSQL = " SELECT TOP 1 FTSysStaUsrValue FROM TSysConfig WITH(NOLOCK) WHERE FTSysCode = 'tCN_PlbUrl' AND FTSysApp = 'CN' AND FTSysKey = 'Company' ";
+        $tUrl = $this->db->query($tSQL)->row_array()['FTSysStaUsrValue'];
+        $tSesUsrBchCodeDefault = FCNoGetCookieVal("tSesUsrBchCodeDefault");
+
+        $tUrl = str_replace("{FTPdtCode}", "'+CONVERT(VARCHAR,Pdt.FTPdtCode)+'", $tUrl);
+        $tUrl = str_replace("{FTBchCode}", "'+CONVERT(VARCHAR,'".$tSesUsrBchCodeDefault."')+'", $tUrl);
+        $tUrl = str_replace("{FTPgpCode}", "'+CONVERT(VARCHAR,ISNULL(PGP.FTPgpCode,''))+'", $tUrl);
+        
+        // https://firster.com/product/{FTPdtCode}/?branch={FTBchCode}&bu={FTPgpCode}
+        
+        $tFullHost  = FCNoGetCookieVal('tSesSessionID');
+        $tSQL2      = " UPDATE TCNTPrnLabelTmp
+                        SET TCNTPrnLabelTmp.FTPlbUrl = '".$tUrl."'
+                        FROM TCNTPrnLabelTmp TMP WITH(NOLOCK)
+                        INNER JOIN TCNMPdt PDT WITH(NOLOCK) ON  PDT.FTPdtCode = TMP.FTPdtCode
+                        LEFT JOIN TCNMPdtGrp  PGP WITH(NOLOCK) ON PGP.FTPgpChain = PDT.FTPgpChain
+                        WHERE TMP.FTComName = '$tFullHost' ";
+        $this->db->query($tSQL2);
     }
 
 }

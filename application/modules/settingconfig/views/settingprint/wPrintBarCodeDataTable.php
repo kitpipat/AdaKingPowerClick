@@ -1,11 +1,4 @@
-<!-- <div class="row"> -->
-<style>
-    /* .table>tbody>tr>td,
-    .table>thead>tr>th {
-        border: 0 !important
-    } */
-</style>
-<!-- <div class="col-md-12"> -->
+<!-- Last Update : Napat(Jame) 25/11/2022 เปลี่ยนการตรวจสอบ session เป็นการตรวจสอบ cookies -->
 
 <div class="table-responsive" style="background-color: white;">
     <table class="table" id="otbPBPdtTemp">
@@ -172,7 +165,9 @@
     });
 
     function JSvPriBarEditInLineQTYPrint(pnValue, ptPdtCode, ptPdtBarCode, ptPriType) {
-        try {
+        // try {
+        var nStaSession = JCNnCheckCookiesExpired();
+        if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
             $.ajax({
                 type: "POST",
                 url: "PrintBarCodeUpdateEditInLine",
@@ -189,63 +184,76 @@
                     JCNxResponseError(jqXHR, textStatus, errorThrown);
                 }
             });
-        } catch (err) {
-            console.log('JSvPriBarEditInLineQTYPrint Error: ', err);
+        } else {
+            JCNxShowMsgSessionExpired();
         }
+            
+        // } catch (err) {
+        //     console.log('JSvPriBarEditInLineQTYPrint Error: ', err);
+        // }
 
     }
 
 
     function JSvPriBarUpdateCheckedAll(pbChecked) {
-        $.ajax({
-            type: "POST",
-            url: "PrintBarCodeUpdateCheckedAll",
-            data: {
-                bCheckedAll: pbChecked,
-            },
-            cache: false,
-            Timeout: 0,
-            success: function(tResult) {},
-            error: function(jqXHR, textStatus, errorThrown) {
-                JCNxResponseError(jqXHR, textStatus, errorThrown);
-            }
-        });
+        var nStaSession = JCNnCheckCookiesExpired();
+        if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
+            $.ajax({
+                type: "POST",
+                url: "PrintBarCodeUpdateCheckedAll",
+                data: {
+                    bCheckedAll: pbChecked,
+                },
+                cache: false,
+                Timeout: 0,
+                success: function(tResult) {},
+                error: function(jqXHR, textStatus, errorThrown) {
+                    JCNxResponseError(jqXHR, textStatus, errorThrown);
+                }
+            });
+        } else {
+            JCNxShowMsgSessionExpired();
+        }
     }
 
 
     $('.xWCheckMQ').click(function() {
-        if ($('.xWCheckMQ:checked').length == $('.xWCheckMQ').length) {
-            $('#otbPBPdtTemp #ocbListItemAll').prop('checked', true);
-        } else {
-            $('#otbPBPdtTemp #ocbListItemAll').prop('checked', false);
-        }
-
-        var tPdtCode = $(this).attr('data-pdtcode');
-        var tBarCode = $(this).attr('data-barcode');
-        var tPriType = $(this).attr('data-pritype');
-
-        if ($(this).is(":checked")) {
-            var tValueChecked = 'true'; 
-        } else {
-            var tValueChecked = 'false';
-        }
-
-        $.ajax({
-            type: "POST",
-            url: "PrintBarCodeUpdateChecked",
-            data: {
-                tValueChecked: tValueChecked,
-                tPdtCode: tPdtCode,
-                tBarCode: tBarCode,
-                tPriType: tPriType
-            },
-            cache: false,
-            Timeout: 0,
-            // success: function(tResult) {},
-            error: function(jqXHR, textStatus, errorThrown) {
-                JCNxResponseError(jqXHR, textStatus, errorThrown);
+        var nStaSession = JCNnCheckCookiesExpired();
+        if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
+            if ($('.xWCheckMQ:checked').length == $('.xWCheckMQ').length) {
+                $('#otbPBPdtTemp #ocbListItemAll').prop('checked', true);
+            } else {
+                $('#otbPBPdtTemp #ocbListItemAll').prop('checked', false);
             }
-        });
 
+            var tPdtCode = $(this).attr('data-pdtcode');
+            var tBarCode = $(this).attr('data-barcode');
+            var tPriType = $(this).attr('data-pritype');
+
+            if ($(this).is(":checked")) {
+                var tValueChecked = 'true'; 
+            } else {
+                var tValueChecked = 'false';
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "PrintBarCodeUpdateChecked",
+                data: {
+                    tValueChecked: tValueChecked,
+                    tPdtCode: tPdtCode,
+                    tBarCode: tBarCode,
+                    tPriType: tPriType
+                },
+                cache: false,
+                Timeout: 0,
+                // success: function(tResult) {},
+                error: function(jqXHR, textStatus, errorThrown) {
+                    JCNxResponseError(jqXHR, textStatus, errorThrown);
+                }
+            });
+        } else {
+            JCNxShowMsgSessionExpired();
+        }
     });
 </script>

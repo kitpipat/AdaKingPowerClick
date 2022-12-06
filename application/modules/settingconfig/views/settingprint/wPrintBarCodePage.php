@@ -1,3 +1,5 @@
+<!-- Last Update : Napat(Jame) 25/11/2022 เปลี่ยนการตรวจสอบ session เป็นการตรวจสอบ cookies -->
+
 <div id="odvSrvPriMainMenu" class="main-menu">
     <div class="xCNMrgNavMenu">
         <div class="row xCNavRow" style="width:inherit;">
@@ -23,8 +25,8 @@
 <div class="main-content">
     <div class="">
         <form class="contact100-form validate-form" action="javascript:void(0)" method="post" enctype="multipart/form-data" autocorrect="off" autocapitalize="off" autocomplete="off" id="ofmPrintBarCodeForm" name="ofmPrintBarCodeForm">
-            <input type="text" class="xCNHide" id="oetDepositApvCodeUsrLogin" name="oetDepositApvCodeUsrLogin" maxlength="20" value="<?php echo $this->session->userdata('tSesUsername'); ?>">
-            <input type="text" class="xCNHide" id="ohdLangEdit" name="ohdLangEdit" maxlength="1" value="<?php echo $this->session->userdata("tLangEdit"); ?>">
+            <input type="text" class="xCNHide" id="oetDepositApvCodeUsrLogin" name="oetDepositApvCodeUsrLogin" maxlength="20" value="<?php echo FCNoGetCookieVal('tSesUsername'); ?>">
+            <input type="text" class="xCNHide" id="ohdLangEdit" name="ohdLangEdit" maxlength="1" value="<?php echo FCNoGetCookieVal("tLangEdit"); ?>">
             <button style="display:none" type="submit" id="obtDepositSubmit" onclick="JSxDepositValidateForm();"></button>
 
             <div class="row">
@@ -461,9 +463,9 @@
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="tab-content">
                                 <!--ราคาปกติ-->
-                                <div id="odvPRNContentNormal" class="tab-pane fade in active" style="padding: 0px !important;">A</div>
+                                <div id="odvPRNContentNormal" class="tab-pane fade in active" style="padding: 0px !important;"></div>
                                 <!--ราคาโปรโมชั่น-->
-                                <div id="odvPRNContentPromotion" class="tab-pane fade" style="padding: 0px !important;">B</div>
+                                <div id="odvPRNContentPromotion" class="tab-pane fade" style="padding: 0px !important;"></div>
                             </div>
                         </div>
                     </div>		
@@ -517,8 +519,6 @@
 </div>
 
 <div id="odvModalBodyBrowse" class="modal-body xCNModalBodyAdd"></div>
-
-
 
 <script>
     $(document).ready(function() {
@@ -665,36 +665,42 @@
 
     // Create By : Napat(Jame) 23/03/2022
     function JSvPriBarCallDataTable(pnPage){
-        try {
-            var nPageCurrent = pnPage;
-            if (nPageCurrent == undefined || nPageCurrent == '') {
-                nPageCurrent = '1';
-            }
-            JCNxOpenLoading();
-            $.ajax({
-                type: "POST",
-                url: "PrintBarCodeDataTableSearch",
-                data: {
-                    tPlbCode        : $('#oetPrnBarPrnLableCode').val(),
-                    tSearchAll      : $('#oetSearchAllDocumentPrint').val().trim(),
-                    tPRNLblVerGroup : $('#ohdPRNLblVerGroup').val(),
-                    nPageCurrent    : nPageCurrent,
-                },
-                cache: false,
-                Timeout: 0,
-                success: function(tResult) {
-                    if (tResult != "") {
-                        $('#odvDataPagePrintBarCode').html(tResult);
-                    }
-                    JCNxCloseLoading();
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    JCNxResponseError(jqXHR, textStatus, errorThrown);
+        // try {
+            var nStaSession = JCNnCheckCookiesExpired();
+            if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
+                var nPageCurrent = pnPage;
+                if (nPageCurrent == undefined || nPageCurrent == '') {
+                    nPageCurrent = '1';
                 }
-            });
-        } catch (err) {
-            console.log('JSxPriBarMoveDataIntoTable Error: ', err);
-        }
+                JCNxOpenLoading();
+                $.ajax({
+                    type: "POST",
+                    url: "PrintBarCodeDataTableSearch",
+                    data: {
+                        tPlbCode        : $('#oetPrnBarPrnLableCode').val(),
+                        tSearchAll      : $('#oetSearchAllDocumentPrint').val().trim(),
+                        tPRNLblVerGroup : $('#ohdPRNLblVerGroup').val(),
+                        nPageCurrent    : nPageCurrent,
+                    },
+                    cache: false,
+                    Timeout: 0,
+                    success: function(tResult) {
+                        if (tResult != "") {
+                            $('#odvDataPagePrintBarCode').html(tResult);
+                        }
+                        JCNxCloseLoading();
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        JCNxResponseError(jqXHR, textStatus, errorThrown);
+                    }
+                });
+            } else {
+                JCNxShowMsgSessionExpired();
+            }
+            
+        // } catch (err) {
+        //     console.log('JSxPriBarMoveDataIntoTable Error: ', err);
+        // }
     }
 
     /**
@@ -706,7 +712,7 @@
      * Return Type : view
      */
     function JSxPriBarMoveDataIntoTable(pnPage, ptPlbCode) {
-        try {
+        // try {
 
             var tLableCode = $('#oetPrnBarPrnLableCode').val();
             var tSrvCode   = $('#oetPrnBarPrnSrvCode').val();
@@ -807,68 +813,73 @@
                     tPlbCode = tPrnBarLableCodeRef;
                 }
 
-                JCNxOpenLoading();
-                $.ajax({
-                    type: "POST",
-                    url: "PrintBarCodeMoveDataIntoTable",
-                    data: {
-                        // nPageCurrent: nPageCurrent,
-                        tPlbCode: tPlbCode,
-                        tPrnBarSheet: $('#ocbPrnBarSheet').val(),
-                        tPrnBarXthDocDateFrom: $('#oetPrnBarXthDocDateFrom').val(),
-                        tPrnBarXthDocDateTo: $('#oetPrnBarXthDocDateTo').val(),
-                        tPrnBarBrowseRptNoFromCode: $('#oetPrnBarBrowseRptNoFromCode').val(),
-                        tPrnBarBrowseRptNoToCode: $('#oetPrnBarBrowseRptNoToCode').val(),
-                        tPrnBarBrowsePdtFromCode: $('#oetPrnBarBrowsePdtFromCode').val(),
-                        tPrnBarBrowsePdtToCode: $('#oetPrnBarBrowsePdtToCode').val(),
-                        tPrnBarBrowsePdtGrpFromCode: $('#oetPrnBarBrowsePdtGrpFromCode').val(),
-                        tPrnBarBrowsePdtGrpToCode: $('#oetPrnBarBrowsePdtGrpToCode').val(),
-                        tPrnBarBrowsePdtTypeFromCode: $('#oetPrnBarBrowsePdtTypeFromCode').val(),
-                        tPrnBarBrowsePdtTypeToCode: $('#oetPrnBarBrowsePdtTypeToCode').val(),
-                        tPrnBarBrowsePdtBrandFromCode: $('#oetPrnBarBrowsePdtBrandFromCode').val(),
-                        tPrnBarBrowsePdtBrandToCode: $('#oetPrnBarBrowsePdtBrandToCode').val(),
-                        tPrnBarBrowsePdtModelFromCode: $('#oetPrnBarBrowsePdtModelFromCode').val(),
-                        tPrnBarBrowsePdtModelToCode: $('#oetPrnBarBrowsePdtModelToCode').val(),
-                        tPrnBarPdtDepartCode: $('#oetPrnBarPdtDepartCode').val(),
-                        tPrnBarPdtClassCode: $('#oetPrnBarPdtClassCode').val(),
-                        tPrnBarPdtSubClassCode: $('#oetPrnBarPdtSubClassCode').val(),
-                        tPrnBarPdtGroupCode: $('#oetPrnBarPdtGroupCode').val(),
-                        tPrnBarPdtComLinesCode: $('#oetPrnBarPdtComLinesCode').val(),
-                        tPrnBarTotalPrint: $('#oetPrnBarTotalPrint').val(),
-                        nPrnBarStaStartDate: nPrnBarStaStartDate,
-                        tPrnBarEffectiveDate: tPrnBarEffectiveDate,
-                        tPRNLblVerGroup: tPRNLblVerGroup,
-                        tPRNLblCode: $('#oetPrnBarPrnLableCodeRef').val(),
-                        // bSeleteImport: bSeleteImport
-                        // aData: $("#ofmPrintBarCodeForm").serialize()
-                    },
-                    cache: false,
-                    Timeout: 0,
-                    success: function(tResult) {
-                        // console.log(tResult)
-                        // if (tResult != "") {
-                        //     $('#odvDataPagePrintBarCode').html(tResult);
-                        // }
-                        JSvPriBarCallDataTable(1);
-                        $(window).scrollTop(0);
-                        // JCNxCloseLoading();
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        JCNxResponseError(jqXHR, textStatus, errorThrown);
-                    }
-                });
+                var nStaSession = JCNnCheckCookiesExpired();
+                if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
+                    JCNxOpenLoading();
+                    $.ajax({
+                        type: "POST",
+                        url: "PrintBarCodeMoveDataIntoTable",
+                        data: {
+                            // nPageCurrent: nPageCurrent,
+                            tPlbCode: tPlbCode,
+                            tPrnBarSheet: $('#ocbPrnBarSheet').val(),
+                            tPrnBarXthDocDateFrom: $('#oetPrnBarXthDocDateFrom').val(),
+                            tPrnBarXthDocDateTo: $('#oetPrnBarXthDocDateTo').val(),
+                            tPrnBarBrowseRptNoFromCode: $('#oetPrnBarBrowseRptNoFromCode').val(),
+                            tPrnBarBrowseRptNoToCode: $('#oetPrnBarBrowseRptNoToCode').val(),
+                            tPrnBarBrowsePdtFromCode: $('#oetPrnBarBrowsePdtFromCode').val(),
+                            tPrnBarBrowsePdtToCode: $('#oetPrnBarBrowsePdtToCode').val(),
+                            tPrnBarBrowsePdtGrpFromCode: $('#oetPrnBarBrowsePdtGrpFromCode').val(),
+                            tPrnBarBrowsePdtGrpToCode: $('#oetPrnBarBrowsePdtGrpToCode').val(),
+                            tPrnBarBrowsePdtTypeFromCode: $('#oetPrnBarBrowsePdtTypeFromCode').val(),
+                            tPrnBarBrowsePdtTypeToCode: $('#oetPrnBarBrowsePdtTypeToCode').val(),
+                            tPrnBarBrowsePdtBrandFromCode: $('#oetPrnBarBrowsePdtBrandFromCode').val(),
+                            tPrnBarBrowsePdtBrandToCode: $('#oetPrnBarBrowsePdtBrandToCode').val(),
+                            tPrnBarBrowsePdtModelFromCode: $('#oetPrnBarBrowsePdtModelFromCode').val(),
+                            tPrnBarBrowsePdtModelToCode: $('#oetPrnBarBrowsePdtModelToCode').val(),
+                            tPrnBarPdtDepartCode: $('#oetPrnBarPdtDepartCode').val(),
+                            tPrnBarPdtClassCode: $('#oetPrnBarPdtClassCode').val(),
+                            tPrnBarPdtSubClassCode: $('#oetPrnBarPdtSubClassCode').val(),
+                            tPrnBarPdtGroupCode: $('#oetPrnBarPdtGroupCode').val(),
+                            tPrnBarPdtComLinesCode: $('#oetPrnBarPdtComLinesCode').val(),
+                            tPrnBarTotalPrint: $('#oetPrnBarTotalPrint').val(),
+                            nPrnBarStaStartDate: nPrnBarStaStartDate,
+                            tPrnBarEffectiveDate: tPrnBarEffectiveDate,
+                            tPRNLblVerGroup: tPRNLblVerGroup,
+                            tPRNLblCode: $('#oetPrnBarPrnLableCodeRef').val(),
+                            // bSeleteImport: bSeleteImport
+                            // aData: $("#ofmPrintBarCodeForm").serialize()
+                        },
+                        cache: false,
+                        Timeout: 0,
+                        success: function(tResult) {
+                            // console.log(tResult)
+                            // if (tResult != "") {
+                            //     $('#odvDataPagePrintBarCode').html(tResult);
+                            // }
+                            JSvPriBarCallDataTable(1);
+                            $(window).scrollTop(0);
+                            // JCNxCloseLoading();
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            JCNxResponseError(jqXHR, textStatus, errorThrown);
+                        }
+                    });
+                } else {
+                    JCNxShowMsgSessionExpired();
+                }
+                
             }
-        } catch (err) {
-            console.log('JSxPriBarMoveDataIntoTable Error: ', err);
-        }
+        // } catch (err) {
+        //     console.log('JSxPriBarMoveDataIntoTable Error: ', err);
+        // }
     }
 
-    var nLangEdits = <?php echo $this->session->userdata("tLangEdit") ?>;
-
+    var nLangEdits = <?php echo FCNoGetCookieVal("tLangEdit") ?>;
 
     // Browse Event Product
     $('#obtPrnBarBrowsePdtFrom').unbind().click(function() {
-        var nStaSession = JCNxFuncChkSessionExpired();
+        var nStaSession = JCNnCheckCookiesExpired();
         if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
             JSxCheckPinMenuClose(); // Hidden Pin Menu
             window.oBarPrnProductFromOption = undefined;
@@ -884,7 +895,7 @@
         }
     });
     $('#obtPrnBarBrowsePdtTo').unbind().click(function() {
-        var nStaSession = JCNxFuncChkSessionExpired();
+        var nStaSession = JCNnCheckCookiesExpired();
         if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
             JSxCheckPinMenuClose(); // Hidden Pin Menu
             window.oBarPrnProductToOption = undefined;
@@ -910,9 +921,9 @@
         let tPdtNextFuncName = poReturnInputPdt.tNextFuncName;
         let aPdtArgReturn = poReturnInputPdt.aArgReturn;
         let tCondition = '';
-        var tSesUsrLevel = '<?= $this->session->userdata('tSesUsrLevel') ?>'
-        var tBchcode = "<?php echo $this->session->userdata("tSesUsrBchCodeMulti") ?>";
-        var tAgnCode = '<?php echo $this->session->userdata("tSesUsrAgnCode") ?>';
+        var tSesUsrLevel = '<?= FCNoGetCookieVal('tSesUsrLevel') ?>'
+        var tBchcode = "<?php echo FCNoGetCookieVal("tSesUsrBchCodeMulti") ?>";
+        var tAgnCode = '<?php echo FCNoGetCookieVal("tSesUsrAgnCode") ?>';
 
         tCondition += " AND TCNMPdt.FTPdtStaActive = '1' "; // สินค้าเคลื่อนไหว
         tCondition += " AND ISNULL(TCNMPdtPackSize.FTPunCode,'') != '' AND ISNULL(TCNMPdtBar.FTBarCode,'') != '' "; // บาร์โค้ด และหน่วยต้องมีข้อมูลในมาสเตอร์
@@ -1000,11 +1011,10 @@
         }
 
     }
-
-
+    
     // Browse Event ProductGroup
     $('#obtPrnBarBrowsePdtGrpFrom').unbind().click(function() {
-        var nStaSession = JCNxFuncChkSessionExpired();
+        var nStaSession = JCNnCheckCookiesExpired();
         if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
             JSxCheckPinMenuClose(); // Hidden Pin Menu
             window.oPrnBarPdtGrpOptionFrom = undefined;
@@ -1020,7 +1030,7 @@
         }
     });
     $('#obtPrnBarBrowsePdtGrpTo').unbind().click(function() {
-        var nStaSession = JCNxFuncChkSessionExpired();
+        var nStaSession = JCNnCheckCookiesExpired();
         if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
             JSxCheckPinMenuClose(); // Hidden Pin Menu
             window.oPrnBarPdtGrpOptionTo = undefined;
@@ -1045,7 +1055,7 @@
         let tPgpInputReturnName = poReturnInputPgp.tReturnInputName;
         let tWhereCondition = "";
 
-        let tSesUsrAgnCode = '<?=$this->session->userdata("tSesUsrAgnCode")?>';
+        let tSesUsrAgnCode = '<?=FCNoGetCookieVal("tSesUsrAgnCode")?>';
         if( tSesUsrAgnCode != "" ){
             tWhereCondition += " AND (TCNMPdtGrp.FTAgnCode = '"+tSesUsrAgnCode+"' OR ISNULL(TCNMPdtGrp.FTAgnCode,'') = '') ";
         }
@@ -1127,7 +1137,7 @@
 
     // Browse Event ProductType
     $('#obtPrnBarBrowsePdtTypeFrom').unbind().click(function() {
-        var nStaSession = JCNxFuncChkSessionExpired();
+        var nStaSession = JCNnCheckCookiesExpired();
         if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
             JSxCheckPinMenuClose(); // Hidden Pin Menu
             window.oPrnBarPdtTypeOptionFrom = undefined;
@@ -1144,7 +1154,7 @@
         }
     });
     $('#obtPrnBarBrowsePdtTypeTo').unbind().click(function() {
-        var nStaSession = JCNxFuncChkSessionExpired();
+        var nStaSession = JCNnCheckCookiesExpired();
         if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
             JSxCheckPinMenuClose(); // Hidden Pin Menu
             window.oPrnBarPdtTypeOptionTo = undefined;
@@ -1169,7 +1179,7 @@
         let aPtyArgReturn = poReturnInputPty.aArgReturn;
         let tCondition = '';
         // let tAgnCode = $('#oetSpcAgncyCode').val();
-        var tSesAgnCode = '<?php echo $this->session->userdata("tSesUsrAgnCode") ?>';
+        var tSesAgnCode = '<?php echo FCNoGetCookieVal("tSesUsrAgnCode") ?>';
         if (tSesAgnCode != '' && tSesAgnCode != undefined) {
             tCondition += " AND (TCNMPdtType.FTAgnCode = '" + tSesAgnCode + "' OR ISNULL(TCNMPdtType.FTAgnCode,'') = '') ";
         }
@@ -1254,7 +1264,7 @@
 
     // จากยี่ห้อ
     $('#obtPrnBarBrowsePdtBrandFrom').unbind().click(function() {
-        var nStaSession = JCNxFuncChkSessionExpired();
+        var nStaSession = JCNnCheckCookiesExpired();
         if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
             JSxCheckPinMenuClose(); // Hidden Pin Menu
             window.oPrnBarBrandOptionFrom = undefined;
@@ -1271,7 +1281,7 @@
     });
     // ถึงยี่ห้อ
     $('#obtPrnBarBrowsePdtBrandTo').unbind().click(function() {
-        var nStaSession = JCNxFuncChkSessionExpired();
+        var nStaSession = JCNnCheckCookiesExpired();
         if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
             JSxCheckPinMenuClose(); // Hidden Pin Menu
             window.oPrnBarBrandOptionTo = undefined;
@@ -1288,7 +1298,7 @@
     });
 
     var oPrnBarBrandOption = function(poReturnInputBrand) {
-        var tSesAgnCode = '<?php echo $this->session->userdata("tSesUsrAgnCode") ?>';
+        var tSesAgnCode = '<?php echo FCNoGetCookieVal("tSesUsrAgnCode") ?>';
         if (tSesAgnCode != '') {
             tWhereAngCode = " AND (TCNMPdtBrand.FTAgnCode = '" + tSesAgnCode + "' OR ISNULL(TCNMPdtBrand.FTAgnCode,'') = '') ";
         } else {
@@ -1379,7 +1389,7 @@
 
     // จากรุ่น
     $('#obtPrnBarBrowsePdtModelFrom').unbind().click(function() {
-        var nStaSession = JCNxFuncChkSessionExpired();
+        var nStaSession = JCNnCheckCookiesExpired();
         if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
             JSxCheckPinMenuClose(); // Hidden Pin Menu
             window.oPrnBarModelOptionFrom = undefined;
@@ -1397,7 +1407,7 @@
 
     // ถึงรุ่น
     $('#obtPrnBarBrowsePdtModelTo').unbind().click(function() {
-        var nStaSession = JCNxFuncChkSessionExpired();
+        var nStaSession = JCNnCheckCookiesExpired();
         if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
             JSxCheckPinMenuClose(); // Hidden Pin Menu
             window.oPrnBarModelOptionTo = undefined;
@@ -1418,7 +1428,7 @@
 
 
     var oPrnBarModelOption = function(poReturnInputModel) {
-        var tSesAgnCode = '<?php echo $this->session->userdata("tSesUsrAgnCode") ?>';
+        var tSesAgnCode = '<?php echo FCNoGetCookieVal("tSesUsrAgnCode") ?>';
         if (tSesAgnCode != '') {
             tWhereAngCode = " AND (TCNMPdtModel.FTAgnCode = '"+tSesAgnCode+"' OR ISNULL(TCNMPdtModel.FTAgnCode,'') = '') ";
         } else {
@@ -1507,7 +1517,7 @@
 
     // Click Browse Product Depart
     $('#obtPrnBarPdtDepartBrows').click(function() {
-        var nStaSession = JCNxFuncChkSessionExpired();
+        var nStaSession = JCNnCheckCookiesExpired();
         if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
             JSxCheckPinMenuClose(); // Hidden Pin Menu
             window.oPrnBarPdtDepartBrowsOption = oPrnBarCatProductBrows({
@@ -1524,7 +1534,7 @@
     });
     // Click Browse Product Class
     $('#obtPrnBarPdtClassBrows').click(function() {
-        var nStaSession = JCNxFuncChkSessionExpired();
+        var nStaSession = JCNnCheckCookiesExpired();
         if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
             JSxCheckPinMenuClose(); // Hidden Pin Menu
             window.oPrnBarPdtClassBrowsOption = oPrnBarCatProductBrows({
@@ -1541,7 +1551,7 @@
     });
     // Click Browse Product Sub Class
     $('#obtPrnBarPdtSubClassBrows').click(function() {
-        var nStaSession = JCNxFuncChkSessionExpired();
+        var nStaSession = JCNnCheckCookiesExpired();
         if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
             JSxCheckPinMenuClose(); // Hidden Pin Menu
             window.oPrnBarPdtSubClassBrowsOption = oPrnBarCatProductBrows({
@@ -1558,7 +1568,7 @@
     });
     // Click Browse Product Sub Class
     $('#obtPrnBarPdtGroupBrows').click(function() {
-        var nStaSession = JCNxFuncChkSessionExpired();
+        var nStaSession = JCNnCheckCookiesExpired();
         if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
             JSxCheckPinMenuClose(); // Hidden Pin Menu
             window.oPrnBarPdtGroupBrowsOption = oPrnBarCatProductBrows({
@@ -1576,7 +1586,7 @@
 
     // Click Browse Product Sub Class
     $('#obtPrnBarPdtComLinesBrows').click(function() {
-        var nStaSession = JCNxFuncChkSessionExpired();
+        var nStaSession = JCNnCheckCookiesExpired();
         if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
             JSxCheckPinMenuClose(); // Hidden Pin Menu
             window.oPrnBarPdtComLinesBrowsOption = oPrnBarCatProductBrows({
@@ -1599,7 +1609,7 @@
         var tInputReturnName = poReturnInput.tReturnInputName;
         var nCatLevel = poReturnInput.nCatLevel;
         var tCatParent = $('#' + poReturnInput.tCatParent).val();
-        var tSesUsrAgnCode = '<?= $this->session->userdata("tSesUsrAgnCode") ?>';
+        var tSesUsrAgnCode = '<?= FCNoGetCookieVal("tSesUsrAgnCode") ?>';
         var tLabelCode = '';
         var tLabelName = '';
         var tLabelTitle = '';
@@ -1686,7 +1696,7 @@
 
     // Click
     $('#obtPrnBarPrnLableBrowse').click(function() {
-        var nStaSession = JCNxFuncChkSessionExpired();
+        var nStaSession = JCNnCheckCookiesExpired();
         if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
             JSxCheckPinMenuClose(); // Hidden Pin Menu
             window.oPrnBarPrnLableBrowsOption = oPrnBarPrnLableBrowse({
@@ -1702,7 +1712,7 @@
     });
     // Click
     $('#obtPrnBarPrnSrvBrowse').click(function() {
-        var nStaSession = JCNxFuncChkSessionExpired();
+        var nStaSession = JCNnCheckCookiesExpired();
         if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
             JSxCheckPinMenuClose(); // Hidden Pin Menu
             window.oPrnBarPrnSrvBrowsOption = oPrnBarPrnSrvBrowse({
@@ -1723,7 +1733,7 @@
         let tPdtPriType             = poReturnInputModel.tPdtPriType;
         let tSrvCode                = poReturnInputModel.tSrvCode;
         let tWhereCondition         = "";
-        let tSesUsrAgnCode          = '<?=$this->session->userdata("tSesUsrAgnCode")?>';
+        let tSesUsrAgnCode          = '<?=FCNoGetCookieVal("tSesUsrAgnCode")?>';
 
         if( tSesUsrAgnCode != "" ){
             tWhereCondition += " AND (TCNMPrnLabel.FTAgnCode = '"+tSesUsrAgnCode+"' OR ISNULL(TCNMPrnLabel.FTAgnCode,'') = '') ";
@@ -1821,8 +1831,27 @@
             $('#oetPrnBarPrnLableCodeRef').val(tPlbCode);
             $('#ohdPRNLblVerGroup').val(tLblVerGroup);
 
-            if( $('.xWProductList').length > 0 ){
-                JSxPriBarMoveDataIntoTable(nPage, tPlbCode);
+            // if( $('.xWProductList').length > 0 ){
+            //     JSxPriBarMoveDataIntoTable(nPage, tPlbCode);
+            // }
+
+            if( aDataNextFunc[0] == "L015" ){
+                var nStaSession = JCNnCheckCookiesExpired();
+                if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
+                    $.ajax({
+                        type: "POST",
+                        url: "PrintBarCodeUpdPlbUrl",
+                        data: {},
+                        cache: false,
+                        Timeout: 0,
+                        success: function() {},
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            JCNxResponseError(jqXHR, textStatus, errorThrown);
+                        }
+                    });
+                } else {
+                    JCNxShowMsgSessionExpired();
+                }
             }
         }
     }
@@ -1832,7 +1861,7 @@
         let tPrnSrvInputReturnName  = poReturnInputModel.tReturnInputName;
         let tPlbCode                = poReturnInputModel.tPlbCode;
         let tWhereCondition         = " AND TCNMPrnServer.FTSrvStaUse = '1' ";
-        let tSesUsrAgnCode          = '<?=$this->session->userdata("tSesUsrAgnCode")?>';
+        let tSesUsrAgnCode          = '<?=FCNoGetCookieVal("tSesUsrAgnCode")?>';
 
         if( tSesUsrAgnCode != "" ){
             tWhereCondition += " AND (TCNMPrnServer.FTAgnCode = '"+tSesUsrAgnCode+"' OR ISNULL(TCNMPrnServer.FTAgnCode,'') = '') ";
@@ -1885,7 +1914,7 @@
 
     // จากเลขที่เอกสาร
     $('#obtPrnBarBrowseRptNoFrom').unbind().click(function() {
-        var nStaSession = JCNxFuncChkSessionExpired();
+        var nStaSession = JCNnCheckCookiesExpired();
         if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
             // alert($('#oetPrnBarSheet').val())
             JSxCheckPinMenuClose(); // Hidden Pin Menu
@@ -1916,7 +1945,7 @@
 
     // ถึงเลขที่เอกสาร
     $('#obtPrnBarBrowseRptNoTo').unbind().click(function() {
-        var nStaSession = JCNxFuncChkSessionExpired();
+        var nStaSession = JCNnCheckCookiesExpired();
         if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
             JSxCheckPinMenuClose(); // Hidden Pin Menu
             // if ($('#oetPrnBarSheet').val() == 'Promotion') {
@@ -1945,7 +1974,7 @@
     });
 
     var oPrnBarRptNoOption = function(poReturnInputModel) {
-        // var tSesAgnCode = '<?php echo $this->session->userdata("tSesUsrAgnCode") ?>';
+        // var tSesAgnCode = '<?php echo FCNoGetCookieVal("tSesUsrAgnCode") ?>';
         // if (tSesAgnCode != '') {
         //     tWhereAngCode = 'AND TCNMPdtModel.FTAgnCode = ' + tSesAgnCode;
         // } else {
@@ -2008,7 +2037,7 @@
 
 
     var oPrnBarRptNoAdOption = function(poReturnInputModel) {
-        // var tSesAgnCode = '<?php echo $this->session->userdata("tSesUsrAgnCode") ?>';
+        // var tSesAgnCode = '<?php echo FCNoGetCookieVal("tSesUsrAgnCode") ?>';
         // if (tSesAgnCode != '') {
         //     tWhereAngCode = 'AND TCNMPdtModel.FTAgnCode = ' + tSesAgnCode;
         // } else {
@@ -2256,106 +2285,126 @@
     }
 
     $('#odvPRNModalSendPrint #osmConfirmSendPrint').unbind().click(function() {
-        JCNxOpenLoading();
-        $.ajax({
-            type: "POST",
-            url: "PrintBarCodeMQProcess",
-            data: {
-                tPrnBarPrnLableCode : $('#oetPrnBarPrnLableCode').val(),
-                tPrnBarPrnSrvCode   : $('#oetPrnBarPrnSrvCode').val(),
-            },
-            cache: false,
-            Timeout: 0,
-            success: function(tResult) {
-                // JSvCallPagePriBar();
-                JCNxCloseLoading();
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                JCNxResponseError(jqXHR, textStatus, errorThrown);
-            }
-        });
-        $('#odvPRNModalSendPrint').modal('hide');
+        var nStaSession = JCNnCheckCookiesExpired();
+        if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
+            JCNxOpenLoading();
+            $.ajax({
+                type: "POST",
+                url: "PrintBarCodeMQProcess",
+                data: {
+                    tPrnBarPrnLableCode : $('#oetPrnBarPrnLableCode').val(),
+                    tPrnBarPrnSrvCode   : $('#oetPrnBarPrnSrvCode').val(),
+                },
+                cache: false,
+                Timeout: 0,
+                success: function(tResult) {
+                    // JSvCallPagePriBar();
+                    JCNxCloseLoading();
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    JCNxResponseError(jqXHR, textStatus, errorThrown);
+                }
+            });
+            $('#odvPRNModalSendPrint').modal('hide');
+        } else {
+            JCNxShowMsgSessionExpired();
+        }
     });
 
     
     // Create By : Napat(Jame) 26/07/2022
     // สร้างข้อมูลลงตาราง Tmp HD
     async function JSoPRNCallGenHD(nPrnType){
-        return new Promise(resolve => {
-            var aPackData = {
-                nPrnType                    : nPrnType,
-                tRptNormalQtyPerPage        : $('#ohdPRNRptNormalQtyPerPage').val(),
-                tRptPromotionQtyPerPage     : $('#ohdPRNRptPromotionQtyPerPage').val()
-            };
-            $.ajax({
-                type: "POST",
-                url: "PrintBarCodeEventGenHD",
-                data: {
-                    paPackData : aPackData
-                },
-                cache: false,
-                Timeout: 0,
-                success: function(oResult) {
-                    var aResult = JSON.parse(oResult);
-                    if( aResult['tCode'] == '1' ){
-                        JSxPRNCallPreviewList(nPrnType);
-                    }else{
-                        FSvCMNSetMsgWarningDialog(aResult['tDesc']);
+        var nStaSession = JCNnCheckCookiesExpired();
+        if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
+            return new Promise(resolve => {
+                var aPackData = {
+                    nPrnType                    : nPrnType,
+                    tRptNormalQtyPerPage        : $('#ohdPRNRptNormalQtyPerPage').val(),
+                    tRptPromotionQtyPerPage     : $('#ohdPRNRptPromotionQtyPerPage').val()
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "PrintBarCodeEventGenHD",
+                    data: {
+                        paPackData : aPackData
+                    },
+                    cache: false,
+                    Timeout: 0,
+                    success: function(oResult) {
+                        var aResult = JSON.parse(oResult);
+                        if( aResult['tCode'] == '1' ){
+                            JSxPRNCallPreviewList(nPrnType);
+                        }else{
+                            FSvCMNSetMsgWarningDialog(aResult['tDesc']);
+                        }
+                        resolve(aResult);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        JCNxResponseError(jqXHR, textStatus, errorThrown);
                     }
-                    resolve(aResult);
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    JCNxResponseError(jqXHR, textStatus, errorThrown);
-                }
+                });
             });
-        });
+        } else {
+            JCNxShowMsgSessionExpired();
+        }
     }
 
     // Create By : Napat(Jame) 26/07/2022
     // ดึงข้อมูลจาก Tmp HD มาแสดง Grid Table
     function JSxPRNCallPreviewList(nPrnType){
-        $.ajax({
-            type: "POST",
-            url: "PrintBarCodePagePreviewList",
-            data: {
-                pnPrnType : nPrnType
-            },
-            cache: false,
-            Timeout: 0,
-            success: function(tResult) {
-                if( nPrnType == 1 ){
-                    $('#odvPRNContentNormal').html(tResult);
-                }else{
-                    $('#odvPRNContentPromotion').html(tResult);
+        var nStaSession = JCNnCheckCookiesExpired();
+        if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
+            $.ajax({
+                type: "POST",
+                url: "PrintBarCodePagePreviewList",
+                data: {
+                    pnPrnType : nPrnType
+                },
+                cache: false,
+                Timeout: 0,
+                success: function(tResult) {
+                    if( nPrnType == 1 ){
+                        $('#odvPRNContentNormal').html(tResult);
+                    }else{
+                        $('#odvPRNContentPromotion').html(tResult);
+                    }
+                    // JSvCallPagePriBar();
+                    JCNxCloseLoading();
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    JCNxResponseError(jqXHR, textStatus, errorThrown);
                 }
-                // JSvCallPagePriBar();
-                JCNxCloseLoading();
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                JCNxResponseError(jqXHR, textStatus, errorThrown);
-            }
-        });
+            });
+        } else {
+            JCNxShowMsgSessionExpired();
+        }
     }
 
     function JSvCallPagePriBar() {
-        $.ajax({
-            type: "POST",
-            url: "PrintBarCode/0/0",
-            data: {},
-            cache: false,
-            Timeout: 0,
-            success: function(tView) {
-                //console.log(tView);
-                $(window).scrollTop(0);
-                $('.odvMainContent').html(tView);
+        var nStaSession = JCNnCheckCookiesExpired();
+        if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
+            $.ajax({
+                type: "POST",
+                url: "PrintBarCode/0/0",
+                data: {},
+                cache: false,
+                Timeout: 0,
+                success: function(tView) {
+                    //console.log(tView);
+                    $(window).scrollTop(0);
+                    $('.odvMainContent').html(tView);
 
-                // Chk Status Favorite
-                // JSxChkStaDisFavorite(tURL);
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                JCNxResponseError(jqXHR, textStatus, errorThrown);
-            }
-        });
+                    // Chk Status Favorite
+                    // JSxChkStaDisFavorite(tURL);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    JCNxResponseError(jqXHR, textStatus, errorThrown);
+                }
+            });
+        } else {
+            JCNxShowMsgSessionExpired();
+        }
     }
 
 
@@ -2363,38 +2412,43 @@
     //supawat 03/07/2020
     //กดนำเข้า จะวิ่งไป Modal popup ที่ center
     $('#odvEventImportFilePRT').click(function() {
-        if ($('#oetPrnBarPrnLableCode').val() != '') {
-            var tNameModule = 'printbarcode';
-            var tTypeModule = 'document';
-            var tAfterRoute = 'JSxImportExcelCallback';
-            var tFlagClearTmp = '1' // null = ไม่สนใจ 1 = ลบหมดเเล้วเพิ่มใหม่ 2 = เพิ่มต่อเนื่อง
+        var nStaSession = JCNnCheckCookiesExpired();
+        if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
+            if ($('#oetPrnBarPrnLableCode').val() != '') {
+                var tNameModule = 'printbarcode';
+                var tTypeModule = 'document';
+                var tAfterRoute = 'JSxImportExcelCallback';
+                var tFlagClearTmp = '1' // null = ไม่สนใจ 1 = ลบหมดเเล้วเพิ่มใหม่ 2 = เพิ่มต่อเนื่อง
 
-            if( $('#ocbPrnBarStaStartDate').prop("checked") ){
-                var nPrnBarStaStartDate = 1;
-            }else{
-                var nPrnBarStaStartDate = 2;
+                if( $('#ocbPrnBarStaStartDate').prop("checked") ){
+                    var nPrnBarStaStartDate = 1;
+                }else{
+                    var nPrnBarStaStartDate = 2;
+                }
+
+                var aParams = {
+                    'tLblCode'              : $('#oetPrnBarPrnLableCodeRef').val(),
+                    'tPriType'              : $('#ocbPrnBarSheet').val(),
+                    'nPrnBarStaStartDate'   : nPrnBarStaStartDate,
+                    'tPrnBarEffectiveDate'  : $('#oetPrnBarEffectiveDate').val(),
+                    'tVerGroup'             : $('#ohdPRNLblVerGroup').val()
+                };
+
+                var aPackdata = {
+                    'tNameModule'   : tNameModule,
+                    'tTypeModule'   : tTypeModule,
+                    'tAfterRoute'   : tAfterRoute,
+                    'tFlagClearTmp' : tFlagClearTmp,
+                    'aParams'       : JSON.stringify(aParams)
+                };
+                JSxImportPopUp(aPackdata);
+            } else {
+                var tTextConfrimAlertPrint = 'กรุณาเลือกรูปแบบการพิมพ์ก่อน';
+                $('#odvPRNModalAlertPrint #ospTextAlertPrint').html(tTextConfrimAlertPrint);
+                $('#odvPRNModalAlertPrint').modal('show');
             }
-
-            var aParams = {
-                'tLblCode'              : $('#oetPrnBarPrnLableCodeRef').val(),
-                'tPriType'              : $('#ocbPrnBarSheet').val(),
-                'nPrnBarStaStartDate'   : nPrnBarStaStartDate,
-                'tPrnBarEffectiveDate'  : $('#oetPrnBarEffectiveDate').val(),
-                'tVerGroup'             : $('#ohdPRNLblVerGroup').val()
-            };
-
-            var aPackdata = {
-                'tNameModule'   : tNameModule,
-                'tTypeModule'   : tTypeModule,
-                'tAfterRoute'   : tAfterRoute,
-                'tFlagClearTmp' : tFlagClearTmp,
-                'aParams'       : JSON.stringify(aParams)
-            };
-            JSxImportPopUp(aPackdata);
         } else {
-            var tTextConfrimAlertPrint = 'กรุณาเลือกรูปแบบการพิมพ์ก่อน';
-            $('#odvPRNModalAlertPrint #ospTextAlertPrint').html(tTextConfrimAlertPrint);
-            $('#odvPRNModalAlertPrint').modal('show');
+            JCNxShowMsgSessionExpired();
         }
     });
 

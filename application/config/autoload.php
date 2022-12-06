@@ -149,7 +149,8 @@ $autoload['helper'] = array(
     'count',
     'getaddressbranch',
     'fashion',
-    'interface'
+    'interface',
+    'common'
 );
 
 

@@ -4,39 +4,38 @@
 // 17/05/2018 Krit(Copter)
 function FCNaHBtnSaveActiveHTML($tMnuCtlName){
 
- $ci = &get_instance();
- $ci->load->library('session');
+   $ci = &get_instance();
+   $ci->load->library('session');
 
- //Controle Event
- $aAlwEvent = FCNaHCheckAlwFunc($tMnuCtlName);
- //Controle Event
+   //Controle Event
+   $aAlwEvent = FCNaHCheckAlwFunc($tMnuCtlName);
 
- /* Btn Save */
- $tBtnSaveStaActive = $ci->session->userdata("tBtnSaveStaActive");
- $tStyleActive = '';
- switch ($tBtnSaveStaActive) {
-  case 1 :
-   $tStyleActive1 = "xWBtnSaveActive";
-   $tStyleActive2 = "";
-   $tStyleActive3 = "";
-   break;
-  case 2:
-   $tStyleActive1 = "";
-   $tStyleActive2 = "xWBtnSaveActive";
-   $tStyleActive3 = "";
-   break;
-  case 3:
-   $tStyleActive1 = "";
-   $tStyleActive2 = "";
-   $tStyleActive3 = "xWBtnSaveActive";
-   break;
-  default:
-   $tStyleActive1 = "xWBtnSaveActive";
-   $tStyleActive2 = "";
-   $tStyleActive3 = "";
- }
+   /* Btn Save */
+   $tBtnSaveStaActive = get_cookie("tBtnSaveStaActive"); //$ci->session->userdata("tBtnSaveStaActive");
+   $tStyleActive = '';
+   switch ($tBtnSaveStaActive) {
+      case 1 :
+         $tStyleActive1 = "xWBtnSaveActive";
+         $tStyleActive2 = "";
+         $tStyleActive3 = "";
+         break;
+      case 2:
+         $tStyleActive1 = "";
+         $tStyleActive2 = "xWBtnSaveActive";
+         $tStyleActive3 = "";
+         break;
+      case 3:
+         $tStyleActive1 = "";
+         $tStyleActive2 = "";
+         $tStyleActive3 = "xWBtnSaveActive";
+         break;
+      default:
+         $tStyleActive1 = "xWBtnSaveActive";
+         $tStyleActive2 = "";
+         $tStyleActive3 = "";
+   }
 
- $vBtnSave = '<button type="button" class="btn btn-default xWBtnGrpSaveRight dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+   $vBtnSave = '<button type="button" class="btn btn-default xWBtnGrpSaveRight dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
          <span class="caret"></span>
          <span class="sr-only">Toggle Dropdown</span>
      </button>
@@ -45,6 +44,7 @@ function FCNaHBtnSaveActiveHTML($tMnuCtlName){
       $vBtnSave .= '<li  class="xWolibtnsave1 '.$tStyleActive1.'" onclick="JSvChangeBtnSaveAction(1)"><a href="#">'.language('common/main/main', 'tCMNSaveAndView').'</a></li>';
      }else{
       //ถ้าไม่มีสิทธิ Add จะเลือก 2 
+      FCNxSetCookie("tBtnSaveStaActive",2);
       $ci->session->set_userdata ( "tBtnSaveStaActive", 2 );
       $tStyleActive2 = "xWBtnSaveActive";
      }
@@ -53,20 +53,17 @@ function FCNaHBtnSaveActiveHTML($tMnuCtlName){
      }
         $vBtnSave .='<li  class="xWolibtnsave3 '.$tStyleActive3.'" onclick="JSvChangeBtnSaveAction(3)"><a href="#">'.language('common/main/main', 'tCMNSaveAndBack').'</a></li>
            </ul>';
- return $vBtnSave;
+   return $vBtnSave;
 }
-
-
-
 
 function FCNaHCheckAlwFunc($tMnuCtlName){
   
    $ci = &get_instance();
    $ci->load->database();
-   $ci->load->library('session');
+   // $ci->load->library('session');
 
-   $tUsrRoleCode = $ci->session->userdata("tSesUsrRoleCode");
-   $tUsrCode     = $ci->session->userdata("tSesUserCode");
+   // $tUsrRoleCode = FCNoGetCookieVal("tSesUsrRoleCode");
+   $tUsrCode     = FCNoGetCookieVal("tSesUserCode");
 //  $tSQLAuto = "SELECT USRMENU.FTRolCode,
 //       USRMENU.FTGmnCode,
 //       USRMENU.FTMnuParent,

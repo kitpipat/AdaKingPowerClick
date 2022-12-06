@@ -9,6 +9,8 @@ class cLogout extends MX_Controller {
 		
     public function index() {
 			@$this->session->sess_destroy ();
+			// delete_cookie("AdaStoreBackCookies",$_SERVER['SERVER_NAME'],explode("/",$_SERVER['SCRIPT_NAME'])[1]);
+			FCNxDeleteCookie("AdaStoreBackCookies");
 			// $nIP 			= $_SERVER['REMOTE_ADDR'];
 			// $nResultIP 		= str_replace(".","",$nIP);
 			// $tFormat 		= date('dmY').'-'.$nResultIP;
