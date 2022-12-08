@@ -7,10 +7,15 @@ class cLogin extends MX_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->library( "session" );
-		if(@$_SESSION['tSesUsername'] == true) {
-			redirect( '', 'refresh' );
-			exit();
-		}
+		// if(@$_SESSION['tSesUsername'] == true) {
+		// 	redirect( '', 'refresh' );
+		// 	exit();
+		// }
+
+		if( get_cookie('AdaStoreBackCookies') !== NULL ){ // ถ้า cookie มีข้อมูลอยู่ให้ รีโหลดหน้าจอเพื่อไปหน้าแรก
+            redirect('', 'refresh');
+            exit();
+        }
 	}
 
 	public function index() {

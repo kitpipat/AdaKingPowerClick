@@ -1887,3 +1887,5 @@ $lang['tRptTitleSalesDailyByCashierKPC'] = "Report - Sales Daily By Cashier (KPC
 
 $lang['tRptChnFrom'] = "From Channel";
 $lang['tRptChnTo'] = "To Channel";
+
+$lang['tRptPriceType'] = "Price Type";

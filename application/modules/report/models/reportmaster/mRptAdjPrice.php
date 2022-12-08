@@ -147,7 +147,7 @@ class mRptAdjPrice extends CI_Model {
                 --T.*
             FROM (
                 SELECT
-                    ROW_NUMBER() OVER(ORDER BY DATA.FTPdtCode ASC, DATA.FTPunCode ASC, DATA.FTBarCode ASC, DATA.FDXphDocDate DESC) AS RowID,
+                    ROW_NUMBER() OVER(ORDER BY DATA.FTPdtCode ASC, DATA.FTPunCode ASC, DATA.FTXphDocType ASC, DATA.FDXphDStart ASC, DATA.FDXphDStop ASC) AS RowID,
                     DATA.*,
                     DTSUMGRP.FTRptCode_COUNT
                 FROM TRPTAdjPriceTmp DATA WITH(NOLOCK)
@@ -157,8 +157,7 @@ class mRptAdjPrice extends CI_Model {
                         FTPdtCode AS FTPdtCode_SUB,
                         FTPunCode AS FTPunCode_SUB
                     FROM TRPTAdjPriceTmp WITH(NOLOCK)
-                    WHERE 1=1
-                    AND FTComName = '$tComName'
+                    WHERE FTComName = '$tComName'
                     AND FTRptCode = '$tRptCode'
                     AND FTUsrSession = '$tUsrSession'
                     GROUP BY FTPdtCode, FTPunCode
@@ -272,12 +271,14 @@ class mRptAdjPrice extends CI_Model {
         $tRptCode = $paDataWhere['tRptCode'];
         $tUsrSession = $paDataWhere['tUsrSessionID'];
 
+        // ORDER BY DATA.FTPdtCode ASC, DATA.FTPunCode ASC, DATA.FTXphDocType ASC, DATA.FDXphDStart ASC, DATA.FDXphDStop ASC
+
         $tSQL = "   
             UPDATE TRPTAdjPriceTmp
                 SET TRPTAdjPriceTmp.FNRowPartID = B.PartID
                 FROM (
                     SELECT
-                        ROW_NUMBER() OVER(PARTITION BY TMP.FTPdtCode, TMP.FTPunCode ORDER BY TMP.FTPdtCode DESC, TMP.FTPunCode DESC, TMP.FTBarCode DESC, TMP.FDXphDocDate DESC) AS PartID ,
+                        ROW_NUMBER() OVER(PARTITION BY TMP.FTPdtCode, TMP.FTPunCode ORDER BY TMP.FTPdtCode ASC, TMP.FTPunCode ASC, TMP.FTXphDocType, TMP.FDXphDStart ASC, TMP.FDXphDStop ASC) AS PartID ,
                         TMP.FTRptRowSeq
                     FROM TRPTAdjPriceTmp TMP WITH(NOLOCK)
                     WHERE TMP.FTComName = '$tComName'

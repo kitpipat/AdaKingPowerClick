@@ -256,7 +256,8 @@ class cRptAdjPrice extends MX_Controller
             'tRptAdjWahTo' => language('report/report/report', 'tRptAdjWahTo'),
             'tRptAll' => language('report/report/report', 'tRptAll'),
             'tRptTaxPointByCstDocDateFrom' => language('report/report/report', 'tRptTaxPointByCstDocDateFrom'),
-            'tRptTaxPointByCstDocDateTo'   => language('report/report/report', 'tRptTaxPointByCstDocDateTo')
+            'tRptTaxPointByCstDocDateTo'   => language('report/report/report', 'tRptTaxPointByCstDocDateTo'),
+            'tRptPriceType' => language('report/report/report', 'tRptPriceType'),
         ];
 
         $this->tSysBchCode = SYS_BCH_CODE;
@@ -611,29 +612,31 @@ class cRptAdjPrice extends MX_Controller
             ->build();
 
         $aCells = [
-            WriterEntityFactory::createCell('รหัสสินค้า'),
+            WriterEntityFactory::createCell($this->aText['tRptPdtCode']),
             WriterEntityFactory::createCell(NULL),
-            WriterEntityFactory::createCell('ชื่อสินค้า'),
-            WriterEntityFactory::createCell(NULL),
-            WriterEntityFactory::createCell(NULL),
-            WriterEntityFactory::createCell('หน่วยสินค้า'),
-            WriterEntityFactory::createCell(NULL),
-            WriterEntityFactory::createCell('วันที่เริ่ม'),
-            WriterEntityFactory::createCell(NULL),
-            WriterEntityFactory::createCell('วันที่หมดอายุ'),
-            WriterEntityFactory::createCell(NULL),
-            WriterEntityFactory::createCell('เวลาเริ่ม'),
-            WriterEntityFactory::createCell(NULL),
-            WriterEntityFactory::createCell('เวลาหมดอายุ'),
-            WriterEntityFactory::createCell(NULL),
-            WriterEntityFactory::createCell('อ้างอิงเอกสาร'),
+            WriterEntityFactory::createCell($this->aText['tRptPdtName']),
             WriterEntityFactory::createCell(NULL),
             WriterEntityFactory::createCell(NULL),
-            WriterEntityFactory::createCell('วันที่เอกสาร'),
+            WriterEntityFactory::createCell($this->aText['tRptPdtUnit']),
             WriterEntityFactory::createCell(NULL),
-            WriterEntityFactory::createCell('ราคา'),
+            WriterEntityFactory::createCell($this->aText['tRptPriceType']),
             WriterEntityFactory::createCell(NULL),
-            WriterEntityFactory::createCell('กลุ่มราคาที่มีผล'),
+            WriterEntityFactory::createCell($this->aText['tRptStartDate']),
+            WriterEntityFactory::createCell(NULL),
+            WriterEntityFactory::createCell($this->aText['tRptExpiredDate']),
+            WriterEntityFactory::createCell(NULL),
+            WriterEntityFactory::createCell($this->aText['tRptStartTime']),
+            WriterEntityFactory::createCell(NULL),
+            WriterEntityFactory::createCell($this->aText['tRptExpiredTime']),
+            WriterEntityFactory::createCell(NULL),
+            WriterEntityFactory::createCell($this->aText['tRptDocRef']),
+            WriterEntityFactory::createCell(NULL),
+            WriterEntityFactory::createCell(NULL),
+            WriterEntityFactory::createCell($this->aText['tRptDateDocument']),
+            WriterEntityFactory::createCell(NULL),
+            WriterEntityFactory::createCell($this->aText['tRpt_Price']),
+            WriterEntityFactory::createCell(NULL),
+            WriterEntityFactory::createCell($this->aText['tRptEffectivePriceGroup']),
             WriterEntityFactory::createCell(NULL)
         ];
 
@@ -678,6 +681,13 @@ class cRptAdjPrice extends MX_Controller
                 }else{
                     $tFTPdtName = $tFTPdtName;
                 }
+                switch($aValue["FTXphDocType"]){
+                    case '2':
+                        $tPriceType = "Price Off";
+                        break;
+                    default:
+                        $tPriceType = "BasePrice";
+                }
 
                 $values = [
                     WriterEntityFactory::createCell($tFTPdtCode),
@@ -686,6 +696,8 @@ class cRptAdjPrice extends MX_Controller
                     WriterEntityFactory::createCell(NULL),
                     WriterEntityFactory::createCell(NULL),
                     WriterEntityFactory::createCell($tFTPunName),
+                    WriterEntityFactory::createCell(NULL),
+                    WriterEntityFactory::createCell($tPriceType),
                     WriterEntityFactory::createCell(NULL),
                     WriterEntityFactory::createCell(empty($aValue["FDXphDStart"]) ? '' : date("d/m/Y", strtotime($aValue["FDXphDStart"]))),
                     WriterEntityFactory::createCell(NULL),
@@ -878,16 +890,21 @@ class cRptAdjPrice extends MX_Controller
                 WriterEntityFactory::createCell(NULL),
                 WriterEntityFactory::createCell(NULL),
                 WriterEntityFactory::createCell(NULL),
+                WriterEntityFactory::createCell(NULL),
+                WriterEntityFactory::createCell(NULL),
+                WriterEntityFactory::createCell(NULL),
+                WriterEntityFactory::createCell(NULL),
+                WriterEntityFactory::createCell(NULL),
+                WriterEntityFactory::createCell(NULL),
+                WriterEntityFactory::createCell(NULL),
                 WriterEntityFactory::createCell($this->aText['tRptTaxPointByCstDocDateFrom'] . ' ' . date('d/m/Y', strtotime($this->aRptFilter['tDocDateFrom'])) . ' ' . $this->aText['tRptTaxPointByCstDocDateTo'] . ' ' . date('d/m/Y', strtotime($this->aRptFilter['tDocDateTo']))),
-                WriterEntityFactory::createCell(NULL),
-                WriterEntityFactory::createCell(NULL),
-                WriterEntityFactory::createCell(NULL),
-                WriterEntityFactory::createCell(NULL),
             ];
             $aMulltiRow[] = WriterEntityFactory::createRow($aCells);
         }
 
         $aCells = [
+            WriterEntityFactory::createCell(NULL),
+            WriterEntityFactory::createCell(NULL),
             WriterEntityFactory::createCell(NULL),
             WriterEntityFactory::createCell(NULL),
             WriterEntityFactory::createCell(NULL),
@@ -930,6 +947,12 @@ class cRptAdjPrice extends MX_Controller
         $oStyleFilter = (new StyleBuilder())
             ->setFontBold()
             ->build();
+
+        $aCells = [
+            WriterEntityFactory::createCell(NULL),
+        ];
+        $aMulltiRow[] = WriterEntityFactory::createRow($aCells, $oStyleFilter);
+
         $aCells = [
             WriterEntityFactory::createCell($this->aText['tRptConditionInReport']),
             WriterEntityFactory::createCell(NULL),

@@ -1,6 +1,6 @@
 <?php 
     if (@$_SESSION['tSesUsername'] == false) {
-        redirect('login', 'refresh');
+        redirect('logout', 'refresh');
         exit();
     }
 ?>

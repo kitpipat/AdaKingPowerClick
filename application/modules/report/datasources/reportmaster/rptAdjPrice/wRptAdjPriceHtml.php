@@ -97,6 +97,7 @@
                             <th nowrap class="text-left xCNRptColumnHeader" style="width:15%;"><?php echo $aDataTextRef['tRptPdtName'];?></th>
                             <th nowrap class="text-left xCNRptColumnHeader" style="width:10%;"><?php echo $aDataTextRef['tRptPdtUnit'];?></th>
                             <!-- <th nowrap class="text-left xCNRptColumnHeader" style="width:10%;"><?php echo $aDataTextRef['tRptBarCode'];?></th> -->
+                            <th nowrap class="text-center xCNRptColumnHeader"><?php echo $aDataTextRef['tRptPriceType'];?></th>
                             <th nowrap class="text-center xCNRptColumnHeader" style="width:5%;"><?php echo $aDataTextRef['tRptStartDate'];?></th>
                             <th nowrap class="text-center xCNRptColumnHeader" style="width:5%;"><?php echo $aDataTextRef['tRptExpiredDate'];?></th>
                             <th nowrap class="text-center xCNRptColumnHeader" style="width:5%;"><?php echo $aDataTextRef['tRptStartTime'];?></th>
@@ -111,26 +112,34 @@
 
                         <?php if(isset($aDataReport['aRptData']) && !empty($aDataReport['aRptData'])) { ?>
                             <?php foreach ($aDataReport['aRptData'] as $nKey => $aValue) {
-                              $aMo = explode(" ",$aValue["FDXphDStop"]);
-                              $aMs = explode("-",$aMo[0]);
-                              $tRptFDXthDocDateStop   = $aMs[2]."/".$aMs[1]."/".$aMs[0];
-                              ?>
+                                $aMo = explode(" ",$aValue["FDXphDStop"]);
+                                $aMs = explode("-",$aMo[0]);
+                                $tRptFDXthDocDateStop   = $aMs[2]."/".$aMs[1]."/".$aMs[0];
+                                switch($aValue["FTXphDocType"]){
+                                    case '2':
+                                        $tPriceType = "Price Off";
+                                        break;
+                                    default:
+                                        $tPriceType = "BasePrice";
+                                }
+                            ?>
 
                                 <?php if($aValue['FNRowPartID'] == 1) {
-                                    echo "<tr><td class='xCNRptGrouPing' colspan='11' style='border-top: dashed 1px #333 !important;'></td></tr>";
+                                    echo "<tr><td class='xCNRptGrouPing' colspan='12' style='border-top: dashed 1px #333 !important;'></td></tr>";
                                 } ?>
 
                                 <tr>
                                     <?php if($aValue['FNRowPartID'] == 1) { ?>
-                                    <td nowrap class="text-left xCNRptDetail"><?php echo $aValue['FTPdtCode']; ?></td>
-                                    <td nowrap class="text-left xCNRptDetail"><?php echo ($aValue["FTPdtName"] == '') ? 'ไม่พบชื่อ' : $aValue["FTPdtName"]; ?></td>
-                                    <td nowrap class="text-left xCNRptDetail"><?php echo $aValue["FTPunName"]; ?></td>
+                                        <td nowrap class="text-left xCNRptDetail"><?php echo $aValue['FTPdtCode']; ?></td>
+                                        <td nowrap class="text-left xCNRptDetail"><?php echo ($aValue["FTPdtName"] == '') ? 'ไม่พบชื่อ' : $aValue["FTPdtName"]; ?></td>
+                                        <td nowrap class="text-left xCNRptDetail"><?php echo $aValue["FTPunName"]; ?></td>
                                     <?php }else{ ?>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
                                     <?php } ?>
                                     <!-- <td nowrap class="text-left xCNRptDetail"><?php // echo $aValue["FTBarCode"]; ?></td> -->
+                                    <td nowrap class="text-center xCNRptDetail"><?php echo $tPriceType; ?></td>
                                     <td nowrap class="text-center xCNRptDetail"><?php echo empty($aValue["FDXphDStart"])?'':date("d/m/Y", strtotime($aValue["FDXphDStart"])); ?></td>
                                     <td nowrap class="text-center xCNRptDetail"><?php echo empty($aValue["FDXphDStop"])?'':$tRptFDXthDocDateStop;  ?></td>
                                     <td nowrap class="text-center xCNRptDetail"><?php echo $aValue["FTXphTStart"]; ?></td>
