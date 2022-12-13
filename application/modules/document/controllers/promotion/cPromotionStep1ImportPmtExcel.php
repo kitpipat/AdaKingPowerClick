@@ -75,32 +75,31 @@ class cPromotionStep1ImportPmtExcel extends MX_Controller
                 foreach($aProductDataSheet as $nIndex => $aProduct){
                     if($nIndex == 0){continue;} // ข้ามแถวที่ 1 หัวตารางไป
 
-                    if( !empty($aProduct[0]) && !empty($aProduct[1]) && !empty($aProduct[2]) ){
+                    if( !empty($aProduct[0]) && !empty($aProduct[1]) ){ /*&& !empty($aProduct[2])*/
                         $aGetDataPdtParams = [
-                            'tPdtCode' => $aProduct[0],
-                            'tPunCode' => $aProduct[1],
-                            'tBarCode' => $aProduct[2],
-                            'nLngID' => $nLangEdit,
-                            'tUserSessionID' => $tUserSessionID,
-                            'tPmtGroupNameTmpOld' => $tPmtGroupNameTmpOld
-
+                            'tPdtCode'              => $aProduct[0],
+                            'tPunCode'              => $aProduct[1],
+                            'tBarCode'              => $aProduct[2],
+                            'nLngID'                => $nLangEdit,
+                            'tUserSessionID'        => $tUserSessionID,
+                            'tPmtGroupNameTmpOld'   => $tPmtGroupNameTmpOld
                         ];
                         $aDataProduct = $this->mPromotionStep1ImportPmtExcel->FSaMGetDataPdt($aGetDataPdtParams);
                         
                         if(!empty($aDataProduct)){
                             $aPmtPdtDtToTempParams = [
-                                'tPmtGroupNameTmpOld' => $tPmtGroupNameTmpOld,
-                                'tBchCodeLogin' => $tBchCodeLogin,
-                                'tUserSessionID' => $tUserSessionID,
-                                'tUserSessionDate' => $tUserSessionDate,
-                                'tDocNo' => 'PMTDOCTEMP',
-                                'tPmtGroupTypeTmp' => $tPmtGroupTypeTmp,
-                                'tPmtGroupListTypeTmp' => $tPmtGroupListTypeTmp,
-                                'tPdtCode' => $aDataProduct['FTPdtCode'],
-                                'tPdtName' => $aDataProduct['FTPdtName'],
-                                'tPunCode' => $aDataProduct['FTPunCode'],
-                                'tPunName' => $aDataProduct['FTPunName'],
-                                'tBarCode' => $aDataProduct['FTBarCode']
+                                'tPmtGroupNameTmpOld'   => $tPmtGroupNameTmpOld,
+                                'tBchCodeLogin'         => $tBchCodeLogin,
+                                'tUserSessionID'        => $tUserSessionID,
+                                'tUserSessionDate'      => $tUserSessionDate,
+                                'tDocNo'                => 'PMTDOCTEMP',
+                                'tPmtGroupTypeTmp'      => $tPmtGroupTypeTmp,
+                                'tPmtGroupListTypeTmp'  => $tPmtGroupListTypeTmp,
+                                'tPdtCode'              => $aDataProduct['FTPdtCode'],
+                                'tPdtName'              => $aDataProduct['FTPdtName'],
+                                'tPunCode'              => $aDataProduct['FTPunCode'],
+                                'tPunName'              => $aDataProduct['FTPunName'],
+                                'tBarCode'              => $aDataProduct['FTBarCode']
                             ];
                             $this->mPromotionStep1PmtPdtDt->FSaMPmtPdtDtToTemp($aPmtPdtDtToTempParams);    
                         }
@@ -123,30 +122,34 @@ class cPromotionStep1ImportPmtExcel extends MX_Controller
                 foreach($aBrandDataSheet as $nIndex => $aBrand){
                     if($nIndex == 0){continue;} // ข้ามแถวที่ 1 หัวตารางไป
 
-                    if( !empty($aBrand[0]) && !empty($aBrand[1]) ){
+                    $tBrandCode = trim($aBrand[0]);
+                    // $tModelCode = trim($aBrand[1]);
+                    if( !empty($tBrandCode) /*&& !empty($aBrand[1])*/ ){
 
                         $aGetDataBrandParams = [
-                            'tBrandCode' => $aBrand[0],
-                            'tModelCode' => $aBrand[1],
-                            'nLngID' => $nLangEdit,
-                            'tUserSessionID' => $tUserSessionID,
-                            'tPmtGroupNameTmpOld' => $tPmtGroupNameTmpOld
+                            'tBrandCode'            => (isset($tBrandCode) && !empty($tBrandCode) ? $tBrandCode : ''),
+                            // 'tModelCode'            => (isset($tModelCode) && !empty($tModelCode) ? $tModelCode : ''),
+                            'nLngID'                => $nLangEdit,
+                            'tUserSessionID'        => $tUserSessionID,
+                            'tPmtGroupNameTmpOld'   => $tPmtGroupNameTmpOld
                         ];
                         $aDataBrand = $this->mPromotionStep1ImportPmtExcel->FSaMGetDataBrand($aGetDataBrandParams);
                         
                         if( isset($aDataBrand['FTPbnCode']) && isset($aDataBrand['FTPbnName']) ){ /*&& isset($aDataBrand['FTPmoCode']) && isset($aDataBrand['FTPmoName'])*/
                             $aPmtBrandDtToTempParams = [
-                                'tPmtGroupNameTmpOld' => $tPmtGroupNameTmpOld,
-                                'tBchCodeLogin' => $tBchCodeLogin,
-                                'tUserSessionID' => $tUserSessionID,
-                                'tUserSessionDate' => $tUserSessionDate,
-                                'tDocNo' => 'PMTDOCTEMP',
-                                'tPmtGroupTypeTmp' => $tPmtGroupTypeTmp,
-                                'tPmtGroupListTypeTmp' => $tPmtGroupListTypeTmp,
-                                'tBrandCode' => $aDataBrand['FTPbnCode'],
-                                'tBrandName' => $aDataBrand['FTPbnName'],
-                                'tModelCode' => (isset($aDataBrand['FTPmoCode']) ? $aDataBrand['FTPmoCode'] : NULL ),
-                                'tModelName' => (isset($aDataBrand['FTPmoName']) ? $aDataBrand['FTPmoName'] : NULL )
+                                'tPmtGroupNameTmpOld'   => $tPmtGroupNameTmpOld,
+                                'tBchCodeLogin'         => $tBchCodeLogin,
+                                'tUserSessionID'        => $tUserSessionID,
+                                'tUserSessionDate'      => $tUserSessionDate,
+                                'tDocNo'                => 'PMTDOCTEMP',
+                                'tPmtGroupTypeTmp'      => $tPmtGroupTypeTmp,
+                                'tPmtGroupListTypeTmp'  => $tPmtGroupListTypeTmp,
+                                'tBrandCode'            => $aDataBrand['FTPbnCode'],
+                                'tBrandName'            => $aDataBrand['FTPbnName'],
+                                'tModelCode'            => NULL,
+                                'tModelName'            => NULL
+                                // 'tModelCode'            => (isset($aDataBrand['FTPmoCode']) ? $aDataBrand['FTPmoCode'] : NULL ),
+                                // 'tModelName'            => (isset($aDataBrand['FTPmoName']) ? $aDataBrand['FTPmoName'] : NULL )
                             ];
                             $this->mPromotionStep1PmtBrandDt->FSaMPmtBrandDtToTemp($aPmtBrandDtToTempParams);    
                         }
@@ -154,6 +157,50 @@ class cPromotionStep1ImportPmtExcel extends MX_Controller
                 }
             }
             /*===== End Brand Process ==================================================*/
+
+            /*===== Begin Model Process ================================================*/
+            if($tPmtGroupListTypeTmp == "4"){ // Model
+                $oExcelSheet        = $oLoadExcel->getSheetByName('Model');
+                $aModelDataSheet    = $oExcelSheet->toArray();
+
+                $aClearPmtPdtDtInTmpParams = [
+                    'tPmtGroupNameTmpOld'   => $tPmtGroupNameTmpOld,
+                    'tUserSessionID'        => $tUserSessionID
+                ];
+                $this->mPromotionStep1PmtDt->FSbClearPmtDtInTmp($aClearPmtPdtDtInTmpParams);
+
+                foreach($aModelDataSheet as $nIndex => $aModel){
+                    if($nIndex == 0){continue;} // ข้ามแถวที่ 1 หัวตารางไป
+
+                    $tModelCode = trim($aModel[0]);
+                    if( !empty($tModelCode) ){
+
+                        $aGetDataModelParams = [
+                            'tModelCode'            => (isset($tModelCode) && !empty($tModelCode) ? $tModelCode : ''),
+                            'nLngID'                => $nLangEdit,
+                            'tUserSessionID'        => $tUserSessionID,
+                            'tPmtGroupNameTmpOld'   => $tPmtGroupNameTmpOld
+                        ];
+                        $aDataModel = $this->mPromotionStep1ImportPmtExcel->FSaMPMTGetDataModel($aGetDataModelParams);
+                        
+                        if( isset($aDataModel['FTPmoCode']) && isset($aDataModel['FTPmoName']) ){
+                            $aPmtModelDtToTempParams = [
+                                'tPmtGroupNameTmpOld'   => $tPmtGroupNameTmpOld,
+                                'tBchCodeLogin'         => $tBchCodeLogin,
+                                'tUserSessionID'        => $tUserSessionID,
+                                'tUserSessionDate'      => $tUserSessionDate,
+                                'tDocNo'                => 'PMTDOCTEMP',
+                                'tPmtGroupTypeTmp'      => $tPmtGroupTypeTmp,
+                                'tPmtGroupListTypeTmp'  => $tPmtGroupListTypeTmp,
+                                'tModelCode'            => $aDataModel['FTPmoCode'],
+                                'tModelName'            => $aDataModel['FTPmoName']
+                            ];
+                            $this->mPromotionStep1PmtBrandDt->FSaMPMTModelDtToTemp($aPmtModelDtToTempParams);    
+                        }
+                    }
+                }
+            }
+            /*===== End Model Process ==================================================*/
 
             
             if ($this->db->trans_status() === FALSE) {

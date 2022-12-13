@@ -277,4 +277,36 @@ class mPromotionStep1PmtBrandDt extends CI_Model
 
         return $oQuery->result_array();
     }
+
+    // Create By : Napat(Jame) 12/12/2022
+    public function FSaMPMTModelDtToTemp($paParams = [])
+    {
+        $tPmtGroupNameTmpOld    = $paParams['tPmtGroupNameTmpOld'];
+        $tBchCodeLogin          = $paParams['tBchCodeLogin'];
+        $tUserSessionID         = $paParams['tUserSessionID'];
+        $tUserSessionDate       = $paParams['tUserSessionDate'];
+
+        $this->db->set('FTBchCode', $tBchCodeLogin);
+        $this->db->set('FTPmhDocNo', $paParams['tDocNo']);
+        $this->db->set('FNPmdSeq', "(SELECT (ISNULL(MAX(FNPmdSeq), 0) + 1) AS FNPmdSeq FROM TCNTPdtPmtDT_Tmp WITH(NOLOCK) WHERE FTSessionID = '$tUserSessionID' AND FTBchCode = '$tBchCodeLogin')", false);
+        $this->db->set('FTPmdStaType', $paParams['tPmtGroupTypeTmp']); // ประเภทกลุ่ม 1:กลุ่มร่วมรายการ 2:กลุ่มยกเว้น
+        $this->db->set('FTPmdStaListType', $paParams['tPmtGroupListTypeTmp']);
+        $this->db->set('FTPmdGrpName', $tPmtGroupNameTmpOld); // ชื่อกลุ่มจัดรายการ
+        $this->db->set('FTPmdRefCode', $paParams['tModelCode']); // รหัสยี่ห้อ
+        $this->db->set('FTPmdRefName', $paParams['tModelName']); // ชื่อยี่ห้อ
+        $this->db->set('FDCreateOn', $tUserSessionDate);
+        $this->db->set('FTSessionID', $tUserSessionID);
+        $this->db->insert('TCNTPdtPmtDT_Tmp');
+
+        $aStatus = [
+            'rtCode' => '905',
+            'rtDesc' => 'Insert PmtBrandDt Fail.',
+        ];
+
+        if ($this->db->affected_rows() > 0) {
+            $aStatus['rtCode'] = '1';
+            $aStatus['rtDesc'] = 'Insert PmtBrandDt Success';
+        }
+        return $aStatus;
+    }
 }

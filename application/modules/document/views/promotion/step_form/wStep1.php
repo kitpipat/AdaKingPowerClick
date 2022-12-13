@@ -97,7 +97,7 @@
                     <div class="col-md-6">
                         <!-- Import Excel -->
                         <label class="xCNLabelFrm"><?php echo language('document/promotion/promotion', 'tPMTImportForExcel'); ?></label> 
-                        <a href="<?php echo base_url('application/modules/document/assets/src/promotion/Promotion_Import_Template.xlsx'); ?>"><u><?php echo language('document/promotion/promotion', 'Template download.'); ?></u></a>
+                        <a href="<?php echo base_url('application/modules/document/assets/src/promotion/Promotion_Import_Template.xlsx?v=1.0.1'); ?>"><u><?php echo language('document/promotion/promotion', 'Template download.'); ?></u></a>
                         <div class="form-group pull-left">
                             <div class="input-group">
                                 <input 

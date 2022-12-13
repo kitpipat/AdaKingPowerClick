@@ -13,14 +13,14 @@ class mPromotionStep1ImportPmtExcel extends CI_Model
      */
     public function FSaMGetDataPdt($paParams = []){
 
-        $tPdtCode = trim($paParams['tPdtCode']);
-        $tPunCode = trim($paParams['tPunCode']);
-        $tBarCode = trim($paParams['tBarCode']);
-        $nLngID = $paParams['nLngID'];
-        $tUserSessionID = $paParams['tUserSessionID'];
-        $tPmtGroupNameTmpOld = $paParams['tPmtGroupNameTmpOld'];
+        $tPdtCode               = trim($paParams['tPdtCode']);
+        $tPunCode               = trim($paParams['tPunCode']);
+        $tBarCode               = trim($paParams['tBarCode']);
+        $nLngID                 = $paParams['nLngID'];
+        $tUserSessionID         = $paParams['tUserSessionID'];
+        $tPmtGroupNameTmpOld    = $paParams['tPmtGroupNameTmpOld'];
 
-        $tSQL = "   SELECT
+        $tSQL = "   SELECT DISTINCT
                         PDT.FTPdtCode,
                         PDTL.FTPdtName,
                         PKS.FTPunCode,
@@ -31,7 +31,9 @@ class mPromotionStep1ImportPmtExcel extends CI_Model
                     INNER JOIN TCNMPdtBar BAR WITH(NOLOCK) ON PDT.FTPdtCode = BAR.FTPdtCode AND BAR.FTPunCode = PKS.FTPunCode
                     LEFT JOIN TCNMPdtUnit_L UNTL WITH(NOLOCK) ON UNTL.FTPunCode = PKS.FTPunCode AND UNTL.FNLngID = $nLngID
                     LEFT JOIN TCNMPdt_L PDTL WITH(NOLOCK) ON PDT.FTPdtCode = PDTL.FTPdtCode AND PDTL.FNLngID = $nLngID
-                    WHERE PDT.FTPdtCode NOT IN ( 
+                    LEFT JOIN TCNTPdtPmtDT_Tmp TMP WITH(NOLOCK) ON PDT.FTPdtCode = TMP.FTPmdRefCode AND PKS.FTPunCode = TMP.FTPmdSubRef AND BAR.FTBarCode = TMP.FTPmdBarCode AND TMP.FTPmdGrpName = '$tPmtGroupNameTmpOld' AND TMP.FTSessionID = '$tUserSessionID'
+                    WHERE TMP.FTPmdRefCode IS NULL
+                        /*PDT.FTPdtCode NOT IN ( 
                             SELECT FTPmdRefCode 
                             FROM TCNTPdtPmtDT_Tmp WITH(NOLOCK) 
                             WHERE FTPmdRefCode = '$tPdtCode' 
@@ -39,18 +41,18 @@ class mPromotionStep1ImportPmtExcel extends CI_Model
                               AND FTPmdBarCode = '$tBarCode' 
                               AND FTPmdGrpName = '$tPmtGroupNameTmpOld' 
                               AND FTSessionID = '$tUserSessionID'
-                        ) 
+                        ) */
                     AND BAR.FTBarStaUse = '1' ";
         
-        if($tPdtCode!= ""){
-            $tSQL .= "AND PDT.FTPdtCode = '$tPdtCode' ";
+        if(!empty($tPdtCode)){
+            $tSQL .= " AND PDT.FTPdtCode = '$tPdtCode' ";
         }
 
-        if($tBarCode!= ""){
-            $tSQL .= "AND BAR.FTBarCode = '$tBarCode'";
+        if(!empty($tBarCode)){
+            $tSQL .= " AND BAR.FTBarCode = '$tBarCode'";
         }
         
-        $tSQL .= " ORDER BY FTPdtCode ASC";
+        $tSQL .= " ORDER BY FTPdtCode ASC ";
         
         $oQuery = $this->db->query($tSQL);
 
@@ -66,11 +68,11 @@ class mPromotionStep1ImportPmtExcel extends CI_Model
      * Return Type : array
      */
     public function FSaMGetDataBrand($paParams = []){
-        $tBrandCode = $paParams['tBrandCode'];
-        $tModelCode = $paParams['tModelCode'];
-        $nLngID = $paParams['nLngID'];
-        $tUserSessionID = $paParams['tUserSessionID'];
-        $tPmtGroupNameTmpOld = $paParams['tPmtGroupNameTmpOld'];
+        $tBrandCode             = $paParams['tBrandCode'];
+        // $tModelCode             = $paParams['tModelCode'];
+        $nLngID                 = $paParams['nLngID'];
+        $tUserSessionID         = $paParams['tUserSessionID'];
+        $tPmtGroupNameTmpOld    = $paParams['tPmtGroupNameTmpOld'];
         // $tPmtGroupTypeTmp = $paParams['tPmtGroupTypeTmp'];
 
         $tSQL = "   SELECT
@@ -91,24 +93,25 @@ class mPromotionStep1ImportPmtExcel extends CI_Model
         $oQuery = $this->db->query($tSQL);
         $aBrand = $oQuery->row_array();
 
-        $tSQL = "   SELECT
-                        MODL.FTPmoCode,
-                        MODL.FTPmoName
-                    FROM TCNMPdtModel_L MODL WITH(NOLOCK)
-                    WHERE MODL.FTPmoCode = '$tModelCode'
-                      AND MODL.FNLngID = $nLngID
-                      AND MODL.FTPmoCode NOT IN (
-                        SELECT FTPmdSubRef 
-                        FROM TCNTPdtPmtDT_Tmp WITH(NOLOCK) 
-                        WHERE FTPmdRefCode = '$tBrandCode' 
-                          AND FTPmdSubRef = '$tModelCode'
-                          AND FTPmdGrpName = '$tPmtGroupNameTmpOld'
-                          AND FTSessionID = '$tUserSessionID'
-              )
-        ";
-        // echo $tSQL;exit;
-        $oQuery = $this->db->query($tSQL);
-        $aModel = $oQuery->row_array();
+        // $tSQL = "   SELECT
+        //                 MODL.FTPmoCode,
+        //                 MODL.FTPmoName
+        //             FROM TCNMPdtModel_L MODL WITH(NOLOCK)
+        //             WHERE MODL.FTPmoCode = '$tModelCode'
+        //               AND MODL.FNLngID = $nLngID
+        //               AND MODL.FTPmoCode NOT IN (
+        //                 SELECT FTPmdSubRef 
+        //                 FROM TCNTPdtPmtDT_Tmp WITH(NOLOCK) 
+        //                 WHERE FTPmdRefCode = '$tBrandCode' 
+        //                   AND FTPmdSubRef = '$tModelCode'
+        //                   AND FTPmdGrpName = '$tPmtGroupNameTmpOld'
+        //                   AND FTSessionID = '$tUserSessionID'
+        //       )
+        // ";
+        // // echo $tSQL;exit;
+        // $oQuery = $this->db->query($tSQL);
+        // $aModel = $oQuery->row_array();
+        $aModel = array();
 
         return array_merge(empty($aBrand)?[]:$aBrand, empty($aModel)?[]:$aModel);
     }
@@ -1332,4 +1335,30 @@ class mPromotionStep1ImportPmtExcel extends CI_Model
     /*===== End Option3-กลุ่มรับ(กรณีแต้ม) =============================================*/
 
     /*===== End Create Promotion By Import ============================================ */
+
+    // Create By : Napat(Jame) 12/12/2022
+    public function FSaMPMTGetDataModel($paParams){
+        $tModelCode             = $paParams['tModelCode'];
+        $nLngID                 = $paParams['nLngID'];
+        $tUserSessionID         = $paParams['tUserSessionID'];
+        $tPmtGroupNameTmpOld    = $paParams['tPmtGroupNameTmpOld'];
+
+        $tSQL = "   SELECT
+                        MODL.FTPmoCode,
+                        MODL.FTPmoName
+                    FROM TCNMPdtModel_L MODL WITH(NOLOCK)
+                    WHERE MODL.FTPmoCode = '$tModelCode'
+                      AND MODL.FNLngID = $nLngID
+                      AND MODL.FTPmoCode NOT IN (
+                        SELECT FTPmdRefCode 
+                        FROM TCNTPdtPmtDT_Tmp WITH(NOLOCK) 
+                        WHERE FTPmdRefCode = '$tModelCode'
+                          AND FTPmdGrpName = '$tPmtGroupNameTmpOld'
+                          AND FTSessionID = '$tUserSessionID'
+                      ) ";
+        $oQuery = $this->db->query($tSQL);
+        $aModel = $oQuery->row_array();
+        return $aModel;
+    }
+
 }

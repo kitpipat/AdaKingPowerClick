@@ -1141,6 +1141,9 @@
                             if(tPmtGroupListTypeTmp == "2"){ // Brand
                                 JSxPromotionStep1GetPmtBrandDtInTmp(1, false)    
                             }
+                            if(tPmtGroupListTypeTmp == "4"){ // Model
+                                JSxPromotionStep1GetPmtBrandDtInTmp(1, false)    
+                            }
                         }else{
                             JCNxCloseLoading();
                         }
