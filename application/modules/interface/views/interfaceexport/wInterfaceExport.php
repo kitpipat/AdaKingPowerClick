@@ -1369,7 +1369,7 @@
 									</td>
 								</tr>
 
-								<!-- <tr>
+								<tr>
 									<td align="center">14</td>
 									<td align="center">
 										<input type="hidden"  name="ocmIFXExportName[]"  value="<?php echo $aDataMasterImport[14]['FTApiCode'] ?>" >
@@ -1385,12 +1385,12 @@
 												);
 												echo FCNtHShwCondition($aPackData);
 
-												$aPackData = array(
-													'tConditionType' => 'Warehouse',
-													// 'tWahType'		 => '6', // คลัง VD
-													'tApiPK'		 => $aDataMasterImport[14]['FTApiCode']
-												);
-												echo FCNtHShwCondition($aPackData); 
+												// $aPackData = array(
+												// 	'tConditionType' => 'Warehouse',
+												// 	// 'tWahType'		 => '6', // คลัง VD
+												// 	'tApiPK'		 => $aDataMasterImport[14]['FTApiCode']
+												// );
+												// echo FCNtHShwCondition($aPackData); 
 
 												$aPackData = array(
 													'tConditionType' => 'Pos',
@@ -1399,18 +1399,25 @@
 												);
 												echo FCNtHShwCondition($aPackData);
 
+												// $aPackData = array(
+												// 	'tConditionType' 	=> 'Date',
+												// 	'tConditionFromTo' 	=> false,
+												// 	'tApiPK'		 	=> $aDataMasterImport[14]['FTApiCode']
+												// );
+												// echo FCNtHShwCondition($aPackData); 
+
 												$aPackData = array(
-													'tConditionType' 	=> 'Date',
-													'tConditionFromTo' 	=> true,
-													'tApiPK'		 	=> $aDataMasterImport[14]['FTApiCode']
+													'tConditionType' => 'DocType',
+													'tApiPK'		 => $aDataMasterImport[14]['FTApiCode']
 												);
-												echo FCNtHShwCondition($aPackData); 
+												echo FCNtHShwCondition($aPackData);
 
 												$aPackData = array(
 													'tConditionType' 	=> 'Browse',
-													'tConditionFromTo' 	=> true,
+													'tConditionFromTo' 	=> false,
 													'tBrowseTable'		=> 'TPSTSalHD',
 													'tBrowseType'		=> '1',
+													'tBrowseCondition'	=> '',
 													'tApiPK'		 	=> $aDataMasterImport[14]['FTApiCode']
 												);
 												echo FCNtHShwCondition($aPackData);
@@ -1419,7 +1426,7 @@
 										</div>
 										</div>
 									</td>
-								</tr> -->
+								</tr>
 
 							</tbody>
 						</table>
@@ -3161,9 +3168,20 @@
 		let tTFXSaleWahCode  = poReturnInput.tTFXSaleWahCode;
 		let tTFXSalePosCode  = poReturnInput.tTFXSalePosCode;
 		let tTFXSaleType 	 = poReturnInput.tTFXSaleType;
+		let tTFXDocType		 = poReturnInput.tTFXDocType;
 
 		let tTFXSaleDocDateFrom 	= poReturnInput.tTFXSaleDocDateFrom;
 		let tTFXSaleDocDateTo 		= poReturnInput.tTFXSaleDocDateTo;
+
+		
+
+		if( tTFXSaleBchCode === undefined ){ tTFXSaleBchCode = ''; }
+		if( tTFXSaleWahCode === undefined ){ tTFXSaleWahCode = ''; }
+		if( tTFXSalePosCode === undefined ){ tTFXSalePosCode = ''; }
+		if( tTFXSaleType === undefined ){ tTFXSaleType = ''; }
+
+		if( tTFXSaleDocDateFrom === undefined ){ tTFXSaleDocDateFrom = ''; }
+		if( tTFXSaleDocDateTo === undefined ){ tTFXSaleDocDateTo = ''; }
 
 		var tUsrLevel     			= "<?php echo $this->session->userdata("tSesUsrLevel"); ?>";
 		var tSesUsrBchCodeDefault 	= "<?=$this->session->userdata("tSesUsrBchCodeDefault");?>";
@@ -3197,8 +3215,12 @@
 			tWhere += " AND TPSTSalHD.FTPosCode = '"+tTFXSalePosCode+"' ";
 		}
 
-		if( tTFXSaleType != "" ){
-			tWhere += " AND TPSTSalHD.FNXshDocType = "+tTFXSaleType+" ";
+		if( tTFXDocType === undefined ){ // ถ้าไม่มีประเภทเอกสารให้เลือกบนหน้าจอ ให้ยึดจาก พารามิเตอร์ที่ส่งมา
+			if( tTFXSaleType != "" ){ // ถ้ามีพารามิเตอร์ที่ส่งมา
+				tWhere += " AND TPSTSalHD.FNXshDocType = "+tTFXSaleType;
+			}
+		}else{ // ถ้ามีให้เลือกประเภทเอกสารบนหน้าจอส่งออก ให้นำมาใช้งาน
+			tWhere += " AND TPSTSalHD.FNXshDocType = "+tTFXDocType;
 		}
 
 		// var nLangEdits  = '<?php echo $this->session->userdata("tLangEdit");?>';

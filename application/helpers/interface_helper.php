@@ -214,7 +214,7 @@
                 $tConditionFromTo   = $paPackData['tConditionFromTo'];
                 $tBrowseTable       = $paPackData['tBrowseTable'];
                 $tBrowseType        = $paPackData['tBrowseType'];
-                
+                $tBrowseCondition   = $paPackData['tBrowseCondition'];
                 
                 $tReturn .= '<div class="row">';
                 $tReturn .= '    <div class="col-md-2">'.language('interface/interfaceexport/interfaceexport','tITFXFilterDocSal').'</div>';
@@ -258,6 +258,7 @@
                     $tReturn .= '        "tTFXSaleBchCode"   	: $("#oetIFXBchCode'.$tApiPK.'").val(),';
                     $tReturn .= '        "tTFXSaleWahCode"   	: $("#oetIFXWahCode'.$tApiPK.'").val(),';
                     $tReturn .= '        "tTFXSalePosCode"   	: $("#oetIFXPosCode'.$tApiPK.'").val(),';
+                    $tReturn .= '        "tTFXDocType"			: $("#ocmITFXDocType'.$tApiPK.'").val(),';
                     $tReturn .= '        "tTFXSaleType"			: "'.$tBrowseType.'",';
                     $tReturn .= '        "tTFXSaleDocDateFrom"  : $("#oetITFXDateFrom'.$tApiPK.'").val(),';
                     $tReturn .= '        "tTFXSaleDocDateTo"   	: $("#oetITFXDateTo'.$tApiPK.'").val(),';
@@ -274,6 +275,7 @@
                         $tReturn .= '        "tTFXSaleBchCode"   	: $("#oetIFXBchCode'.$tApiPK.'").val(),';
                         $tReturn .= '        "tTFXSaleWahCode"   	: $("#oetIFXWahCode'.$tApiPK.'").val(),';
                         $tReturn .= '        "tTFXSalePosCode"   	: $("#oetIFXPosCode'.$tApiPK.'").val(),';
+                        $tReturn .= '        "tTFXDocType"			: $("#ocmITFXDocType'.$tApiPK.'").val(),';
                         $tReturn .= '        "tTFXSaleType"			: "'.$tBrowseType.'",';
                         $tReturn .= '        "tTFXSaleDocDateFrom"  : $("#oetITFXDateFrom'.$tApiPK.'").val(),';
                         $tReturn .= '        "tTFXSaleDocDateTo"   	: $("#oetITFXDateTo'.$tApiPK.'").val(),';
@@ -286,8 +288,25 @@
 
                     $tReturn .= '</script>';
                 }
-
-
+                break;
+            case 'DocType':
+                $tReturn .= '<div class="row">';
+                $tReturn .= '    <div class="col-md-2">'.language('interface/interfaceexport/interfaceexport','tITFXFilterType').'</div>';
+                $tReturn .= '    <div class="col-md-10">';
+                $tReturn .= '        <div id="odvCondition6" class="row">';
+                $tReturn .= '            <div class="col-lg-5">';
+                $tReturn .= '                <div class="form-group">';
+                $tReturn .= '                    <select class="selectpicker form-control" id="ocmITFXDocType'.$tApiPK.'" name="ocmITFXDocType'.$tApiPK.'">';
+                $tReturn .= '                        <option value="1">'.language('interface/interfacehistory','tITFXFilterTypeSal').'</option>';
+                $tReturn .= '                        <option value="9">'.language('interface/interfacehistory','tITFXFilterTypeRe').'</option>';
+                $tReturn .= '                    </select>';
+                $tReturn .= '                </div>';
+                $tReturn .= '            </div>';
+                $tReturn .= '            <div class="col-lg-1"></div>';
+                $tReturn .= '            <div class="col-lg-5"></div>';
+                $tReturn .= '        </div>';
+                $tReturn .= '    </div>';
+                $tReturn .= '</div>';
                 break;
         }
         return $tReturn;

@@ -216,13 +216,10 @@ class cInterfaceExport extends MX_Controller {
                         'tSALVDDocCodeFrom'       => $this->input->post('oetITFXFromDocCode00042'),
                         'tSALVDDocCodeTo'         => $this->input->post('oetITFXToDocCode00042'),
                         // ส่งออกรายการขาย (E-Tax)
-                        // 'tBchCode00044'           => $this->input->post('oetIFXBchCode00044'),
-                        // 'tWahCode00044'           => $this->input->post('oetIFXWahCode00044'),
-                        // 'tPosCode00044'           => $this->input->post('oetIFXPosCode00044'),
-                        // 'dDateFrom00044'          => $this->input->post('oetITFXDateFrom00044'),
-                        // 'dDateTo00044'            => $this->input->post('oetITFXDateTo00044'),
-                        // 'tCodeFrom00044'          => $this->input->post('oetIFXCodeFrom00044'),
-                        // 'tCodeTo00044'            => $this->input->post('oetIFXCodeTo00044'),
+                        'tBchCode00044'           => $this->input->post('oetIFXBchCode00044'),
+                        'tPosCode00044'           => $this->input->post('oetIFXPosCode00044'),
+                        'tCodeFrom00044'          => $this->input->post('oetIFXCodeFrom00044'),
+                        'tDocType00044'           => $this->input->post('ocmITFXDocType00044'),
 
                         //รหัส MQ
                         'tPasswordMQ'           => $tPassword
@@ -619,40 +616,35 @@ class cInterfaceExport extends MX_Controller {
                     ]
                 ];
                 break;
-            // case '00044':
+            case '00044':
 
-            //     $aMQParams = [
-            //         "queueName"     => "EX_TxnSaleETax",
-            //         "exchangname"   => "",
-            //         "params"        => [
-            //             "ptFunction"    =>  "SaleRef",//ชื่อ Function
-            //             "ptSource"      =>  "AdaStoreBack", //ต้นทาง
-            //             "ptDest"        =>  "MQAdaLink",  //ปลายทาง
-            //             "ptData"        =>  json_encode([
-            //                 'ptBchCode'         => $paPackData['tBchCode00044'],
-            //                 'ptProvider'        => '1',
-            //                 'ptUserCode'        => $paPackData['tSALVDPosCode'],
-            //                 'ptPosCode'         => $paPackData['tPosCode00044'],
-            //                 'ptDocType'         => '1',
-            //                 'ptDocNo'           => $paPackData['dSALVDDateTo'],
-            //                 'ptRefDocType'      => $paPackData['tSALVDDocCodeFrom'],
-            //                 'ptDocRef'          => $paPackData['tSALVDDocCodeTo'],
+                $aDataSearch = array(
+                    'tDocNo'   => $paPackData['tCodeFrom00044']
+                );
+                $aDataSale = $this->mInterfaceExport->FSaMIFXGetDataSale($aDataSearch);
 
-
-            //                 "ptBchCode":"xxxxx"               // รหัสสาขา          
-            //                 ,"ptProvider":"1"                                        // FIX 1= iNET (provider ที่ระบบใช้งาน)
-            //                 ,"ptUserCode":""                                        // รหัสพนักงาน        
-            //                 ,"ptPosCode":""                                        //รหัส POS
-            //                 ,"ptDocType":"1"                                  // 1=ABB 2=FULL TAX 3=CN-ABB 4=CN-FULL 5=DN 6=ใบแจ้งหนี้  7=CLN ใบยกเลิก
-            //         ,"ptDocNo":"CL0000100003190000007" // เลขที่เอกสาร          
-            //                 ,"ptRefDocType":"1"                                // ประเภทเอกสาร  1=ABB 2=FULL TAX 3=CN-ABB 4=CN-FULL 5=DN 6=ใบแจ้งหนี้  (ใช้กรณียกเลิกเอกสาร)
-            //                 ,"ptDocRef":"S0000100003190000007"        //เอกสารอ้างอิง
-
-            //             ])
-            //         ]
-            //     ];
-            //     break;
+                $aMQParams = [
+                    "queueName"     => "EX_TxnSaleETax",
+                    "exchangname"   => "",
+                    "params"        => [
+                        "ptFunction"    =>  "SaleRef",          //ชื่อ Function
+                        "ptSource"      =>  "AdaStoreBack-I",   //ต้นทาง
+                        "ptDest"        =>  "MQAdaLink",        //ปลายทาง
+                        "ptData"        =>  json_encode([
+                            'ptBchCode'         => $aDataSale['FTBchCode'],
+                            'ptProvider'        => '1',
+                            'ptUserCode'        => $aDataSale['FTUsrCode'],
+                            'ptPosCode'         => $aDataSale['FTPosCode'],
+                            'ptDocType'         => $aDataSale['FNXshDocType'],
+                            'ptDocNo'           => $aDataSale['FTXshDocNo'],
+                        ])
+                    ]
+                ];
+                break;
         }
+
+        log_message('info', '[InterfaceExport] FTApiCode: '.$pnFormat);
+        log_message('info', '[InterfaceExport] JSON: '.json_encode($aMQParams));
         // echo "<pre>";
         // print_r($aMQParams);
         // echo "</pre>";

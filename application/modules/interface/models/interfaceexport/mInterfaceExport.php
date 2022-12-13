@@ -186,4 +186,22 @@ class mInterfaceExport extends CI_Model {
 
         }
 
+    // Create By : Napat(Jame) 12/12/2022
+    public function FSaMIFXGetDataSale($paParams){
+
+        // $aDataSearch = array(
+        //     'tBchCode' => $paPackData['tBchCode00044'],
+        //     'tPosCode' => $paPackData['tPosCode00044'],
+        //     'tDocType' => $paPackData['tDocType00044'],
+        //     'tDocNo'   => $paPackData['tCodeFrom00044']
+        // );
+        $tSQL = "   SELECT HD.FTBchCode,HD.FTXshDocNo,HD.FNXshDocType,HD.FTPosCode,HD.FTUsrCode
+                    FROM TPSTSalHD HD WITH(NOLOCK) 
+                    WHERE HD.FTXshDocNo = '".$paParams['tDocNo']."' ";
+
+        $oQuery     = $this->db->query($tSQL);
+        $aResult    = $oQuery->row_array();
+        return $aResult;
+        }
+
 }
