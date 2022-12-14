@@ -1135,14 +1135,104 @@
                     Timeout: 0,
                     success: function (oResult) {
                         if(oResult.nStaEvent == "1"){
-                            if(tPmtGroupListTypeTmp == "1"){ // Product
-                                JSxPromotionStep1GetPmtPdtDtInTmp(1, false);
-                            }
-                            if(tPmtGroupListTypeTmp == "2"){ // Brand
-                                JSxPromotionStep1GetPmtBrandDtInTmp(1, false)    
-                            }
-                            if(tPmtGroupListTypeTmp == "4"){ // Model
-                                JSxPromotionStep1GetPmtBrandDtInTmp(1, false)    
+                            // console.log(oResult);
+                            // var aResult = JSON.parse(oResult);
+                            // console.log(aResult);
+                            var aDataImpFail = oResult.aDataImpFail;
+                            // console.log(aDataImpFail);
+                            if( aDataImpFail.length > 0 ){
+                                JCNxCloseLoading();
+                                var tHtmlRender = "";
+                                var tTitle      = "";
+
+                                switch(aDataImpFail[0]['tHeader']){
+                                    case 'Product':
+                                        tTitle = "สินค้า";
+                                        break;
+                                    case 'Brand':
+                                        tTitle = "ยี่ห้อ";
+                                        break;
+                                    case 'Model':
+                                        tTitle = "รุ่น";
+                                        break;
+                                }
+
+                                tHtmlRender += "<div style='font-size:19px !important;font-weight: bold !important;margin-bottom: 10px;'>พบ"+tTitle+"ที่นำเข้าไม่ได้ "+aDataImpFail.length+" รายการ</div>";
+                                tHtmlRender += '<div class="table-responsive" style="max-height: 362px;">'; //205px = 5 rows, 362px = 10rows
+                                tHtmlRender += '    <table class="table table-striped" style="margin-bottom: 0px;">';
+                                tHtmlRender += '        <thead>';
+                                tHtmlRender += '            <tr>';
+                                tHtmlRender += '                <th nowrap class="text-center" width="5%">ลำดับ</th>';
+                               
+                                switch(aDataImpFail[0]['tHeader']){
+                                    case 'Product':
+                                        tHtmlRender += '        <th nowrap class="text-center" >รหัสสินค้า</th>';
+                                        tHtmlRender += '        <th nowrap class="text-center" >รหัสหน่วยสินค้า</th>';
+                                        tHtmlRender += '        <th nowrap class="text-center" >บาร์โค้ด</th>';
+                                        break;
+                                    case 'Brand':
+                                        tHtmlRender += '        <th nowrap class="text-center" width="60%">รหัสยี่ห้อ</th>';
+                                        break;
+                                    case 'Model':
+                                        tHtmlRender += '        <th nowrap class="text-center" width="60%">รหัสรุ่น</th>';
+                                        break;
+                                }
+
+                                tHtmlRender += '                <th nowrap class="text-center" width="35%">หมายเหตุ</th>';
+                                tHtmlRender += '            </tr>';
+                                tHtmlRender += '        </thead>';
+                                tHtmlRender += '        <tbody>';
+
+                                for($i=0; $i < aDataImpFail.length; $i++){
+                                    tHtmlRender += '        <tr>';
+                                    tHtmlRender += '            <td nowrap class="text-center" style="vertical-align: middle;">' + ($i+1) + '</td>';
+                                    switch(aDataImpFail[0]['tHeader']){
+                                        case 'Product':
+                                            tHtmlRender += '        <td nowrap class="text-left" style="vertical-align: middle;">' + aDataImpFail[$i]['FTPdtCode'] + '</td>';
+                                            tHtmlRender += '        <td nowrap class="text-left" style="vertical-align: middle;">' + aDataImpFail[$i]['FTPunCode'] + '</td>';
+                                            tHtmlRender += '        <td nowrap class="text-left" style="vertical-align: middle;">' + aDataImpFail[$i]['FTBarCode'] + '</td>';
+                                            break;
+                                        case 'Brand':
+                                            tHtmlRender += '        <td nowrap class="text-left" style="vertical-align: middle;">' + aDataImpFail[$i]['FTPbnCode'] + '</td>';
+                                            break;
+                                        case 'Model':
+                                            tHtmlRender += '        <td nowrap class="text-left" style="vertical-align: middle;">' + aDataImpFail[$i]['FTPmoCode'] + '</td>';
+                                            break;
+                                    }
+                                    
+                                    tHtmlRender += '            <td nowrap class="text-left" style="vertical-align: middle;">' + aDataImpFail[$i]['tMsgFail'] + '</td>';
+                                    tHtmlRender += '        </tr>';
+                                }
+                                
+                                tHtmlRender += '        </tbody>';
+                                tHtmlRender += '    </table>';
+                                tHtmlRender += '</div>';
+
+                                if( aDataImpFail[0]['tHeader'] == 'Product' ){
+                                    $('#odvPMTModalAlertImport .modal-dialog').css("width", "70%");
+                                }else{
+                                    $('#odvPMTModalAlertImport .modal-dialog').css("width", "");
+                                }
+                                $('#odvPMTModalAlertImport .modal-body').html(tHtmlRender);
+                                $('#odvPMTModalAlertImport').modal('show');
+
+                                $('#obtPMTConfirmAlertImport').off('click').on('click', function(){
+                                    if(tPmtGroupListTypeTmp == "1"){ // Product
+                                        JSxPromotionStep1GetPmtPdtDtInTmp(1, false);
+                                    }else if(tPmtGroupListTypeTmp == "2"){ // Brand
+                                        JSxPromotionStep1GetPmtBrandDtInTmp(1, false)    
+                                    }else if(tPmtGroupListTypeTmp == "4"){ // Model
+                                        JSxPromotionStep1GetPmtBrandDtInTmp(1, false)    
+                                    }
+                                });
+                            }else{
+                                if(tPmtGroupListTypeTmp == "1"){ // Product
+                                    JSxPromotionStep1GetPmtPdtDtInTmp(1, false);
+                                }else if(tPmtGroupListTypeTmp == "2"){ // Brand
+                                    JSxPromotionStep1GetPmtBrandDtInTmp(1, false)    
+                                }else if(tPmtGroupListTypeTmp == "4"){ // Model
+                                    JSxPromotionStep1GetPmtBrandDtInTmp(1, false)    
+                                }
                             }
                         }else{
                             JCNxCloseLoading();

@@ -20,29 +20,28 @@ class mPromotionStep1ImportPmtExcel extends CI_Model
         $tUserSessionID         = $paParams['tUserSessionID'];
         $tPmtGroupNameTmpOld    = $paParams['tPmtGroupNameTmpOld'];
 
-        $tSQL = "   SELECT DISTINCT
+        $tSQL = "   SELECT TOP 1
                         PDT.FTPdtCode,
                         PDTL.FTPdtName,
                         PKS.FTPunCode,
                         UNTL.FTPunName,
-                        BAR.FTBarCode
+                        BAR.FTBarCode,
+                        CASE 
+                            WHEN PKS.FTPunCode IS NULL Then '1'
+                            WHEN BAR.FTBarCode IS NULL THEN '2'
+                            WHEN BAR.FTBarStaUse != '1' THEN '3' 
+                            WHEN TMP.FTPmdRefCode IS NOT NULL THEN '4'
+                            ELSE 'COMPLETE' 
+                        END AS FTStaComplete
                     FROM TCNMPdt PDT WITH(NOLOCK)
-                    INNER JOIN TCNMPdtPackSize PKS WITH(NOLOCK) ON PDT.FTPdtCode = PKS.FTPdtCode AND PKS.FTPunCode = '$tPunCode'
-                    INNER JOIN TCNMPdtBar BAR WITH(NOLOCK) ON PDT.FTPdtCode = BAR.FTPdtCode AND BAR.FTPunCode = PKS.FTPunCode
+                    LEFT JOIN TCNMPdtPackSize PKS WITH(NOLOCK) ON PDT.FTPdtCode = PKS.FTPdtCode AND PKS.FTPunCode = '$tPunCode'
+                    LEFT JOIN TCNMPdtBar BAR WITH(NOLOCK) ON PDT.FTPdtCode = BAR.FTPdtCode AND BAR.FTPunCode = PKS.FTPunCode
                     LEFT JOIN TCNMPdtUnit_L UNTL WITH(NOLOCK) ON UNTL.FTPunCode = PKS.FTPunCode AND UNTL.FNLngID = $nLngID
                     LEFT JOIN TCNMPdt_L PDTL WITH(NOLOCK) ON PDT.FTPdtCode = PDTL.FTPdtCode AND PDTL.FNLngID = $nLngID
                     LEFT JOIN TCNTPdtPmtDT_Tmp TMP WITH(NOLOCK) ON PDT.FTPdtCode = TMP.FTPmdRefCode AND PKS.FTPunCode = TMP.FTPmdSubRef AND BAR.FTBarCode = TMP.FTPmdBarCode AND TMP.FTPmdGrpName = '$tPmtGroupNameTmpOld' AND TMP.FTSessionID = '$tUserSessionID'
-                    WHERE TMP.FTPmdRefCode IS NULL
-                        /*PDT.FTPdtCode NOT IN ( 
-                            SELECT FTPmdRefCode 
-                            FROM TCNTPdtPmtDT_Tmp WITH(NOLOCK) 
-                            WHERE FTPmdRefCode = '$tPdtCode' 
-                              AND FTPmdSubRef = '$tPunCode' 
-                              AND FTPmdBarCode = '$tBarCode' 
-                              AND FTPmdGrpName = '$tPmtGroupNameTmpOld' 
-                              AND FTSessionID = '$tUserSessionID'
-                        ) */
-                    AND BAR.FTBarStaUse = '1' ";
+                    WHERE 1=1 ";
+                    // TMP.FTPmdRefCode IS NULL
+                    // 
         
         if(!empty($tPdtCode)){
             $tSQL .= " AND PDT.FTPdtCode = '$tPdtCode' ";
@@ -52,7 +51,7 @@ class mPromotionStep1ImportPmtExcel extends CI_Model
             $tSQL .= " AND BAR.FTBarCode = '$tBarCode'";
         }
         
-        $tSQL .= " ORDER BY FTPdtCode ASC ";
+        $tSQL .= " ORDER BY PDT.FTPdtCode ASC, BAR.FTBarStaUse ASC ";
         
         $oQuery = $this->db->query($tSQL);
 

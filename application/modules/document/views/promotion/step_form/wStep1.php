@@ -182,5 +182,25 @@
     </div>
 </div>
 <!-- End Add PDT Promotion Group -->
+
+<div id="odvPMTModalAlertImport" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document" style="width: 70%;">
+        <div class="modal-content">
+            <div class="modal-header xCNModalHead">
+                <label class="xCNTextModalHeard">แจ้งเตือน</label>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 text-left">ระบบจะนำเข้าเฉพาะรายการที่สมบูรณ์</div>
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                        <button id="obtPMTConfirmAlertImport" class="btn xCNBTNPrimery xCNBTNPrimery2Btn" type="button" data-dismiss="modal"><?php echo language('common/main/main', 'tModalConfirm') ?></button>
+                        <button class="btn xCNBTNDefult xCNBTNDefult2Btn" type="button" data-dismiss="modal"><?php echo language('common/main/main', 'tModalCancel') ?></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     
 <?php include_once('script/jStep1.php'); ?>

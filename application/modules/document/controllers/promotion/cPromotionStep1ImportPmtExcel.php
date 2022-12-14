@@ -55,12 +55,12 @@ class cPromotionStep1ImportPmtExcel extends MX_Controller
 
             $this->db->trans_begin();
 
-            $oLoadExcel = PHPExcel_IOFactory::load($aDataFiles['tmp_name']);
+            $oLoadExcel         = PHPExcel_IOFactory::load($aDataFiles['tmp_name']);
+            $oExcelSheet        = null;
+            $aDataImportFail    = array();
 
-            $oExcelSheet = null;
-
-            /*===== Begin Product Process ==============================================*/
             if($tPmtGroupListTypeTmp == "1"){ // Product
+                /*===== Begin Product Process ==============================================*/
                 $oExcelSheet = $oLoadExcel->getSheetByName('Product');
                 $aProductDataSheet = $oExcelSheet->toArray();
                 
@@ -75,18 +75,34 @@ class cPromotionStep1ImportPmtExcel extends MX_Controller
                 foreach($aProductDataSheet as $nIndex => $aProduct){
                     if($nIndex == 0){continue;} // ข้ามแถวที่ 1 หัวตารางไป
 
-                    if( !empty($aProduct[0]) && !empty($aProduct[1]) ){ /*&& !empty($aProduct[2])*/
+                    $tPdtCode = trim($aProduct[0]);
+                    $tPunCode = trim($aProduct[1]);
+                    $tBarCode = trim($aProduct[2]);
+
+                    if( !empty($tPdtCode) && !empty($tPunCode) ){
                         $aGetDataPdtParams = [
-                            'tPdtCode'              => $aProduct[0],
-                            'tPunCode'              => $aProduct[1],
-                            'tBarCode'              => $aProduct[2],
+                            'tPdtCode'              => $tPdtCode,
+                            'tPunCode'              => $tPunCode,
+                            'tBarCode'              => $tBarCode,
                             'nLngID'                => $nLangEdit,
                             'tUserSessionID'        => $tUserSessionID,
                             'tPmtGroupNameTmpOld'   => $tPmtGroupNameTmpOld
                         ];
                         $aDataProduct = $this->mPromotionStep1ImportPmtExcel->FSaMGetDataPdt($aGetDataPdtParams);
-                        
-                        if(!empty($aDataProduct)){
+                        $tStaComplete = $aDataProduct['FTStaComplete'];
+
+                        // ถ้าในเบสมีบาร์โค้ด ก็ใช้บาร์โค้ดในเบส ถ้าไม่มีแล้วใน excel ระบุมา ให้ใช้บาร์โค้ดใน excel ถ้าไม่มีในเบส ไม่มีใน excel ให้แสดง N/A
+                        if( $aDataProduct['FTBarCode'] != "" ){
+                            $tNewBarCode = $aDataProduct['FTBarCode'];
+                        }else{
+                            if($tBarCode != "" ){
+                                $tNewBarCode = $tBarCode;
+                            }else{
+                                $tNewBarCode = "N/A";
+                            }
+                        }
+
+                        if( !empty($aDataProduct) && $tStaComplete == 'COMPLETE' ){
                             $aPmtPdtDtToTempParams = [
                                 'tPmtGroupNameTmpOld'   => $tPmtGroupNameTmpOld,
                                 'tBchCodeLogin'         => $tBchCodeLogin,
@@ -102,14 +118,61 @@ class cPromotionStep1ImportPmtExcel extends MX_Controller
                                 'tBarCode'              => $aDataProduct['FTBarCode']
                             ];
                             $this->mPromotionStep1PmtPdtDt->FSaMPmtPdtDtToTemp($aPmtPdtDtToTempParams);    
+                        }else{
+                            if( strlen($tPdtCode) > 20 ){
+                                $tMsgFail = "รหัสสินค้ายาวเกินกำหนด";
+                            }else if( strlen($tPunCode) > 5 ){
+                                $tMsgFail = "รหัสหน่วยยาวเกินกำหนด";
+                            }else if( strlen($tBarCode) > 20 ){
+                                $tMsgFail = "รหัสบาร์โค้ดยาวเกินกำหนด";
+                            }else if( $tStaComplete == '1' ){
+                                $tMsgFail = "ไม่พบรหัสหน่วยในระบบ";
+                            }else if( $tStaComplete == '2' ){
+                                $tMsgFail = "ไม่พบรหัสบาร์โค้ดในระบบ";
+                            }else if( $tStaComplete == '3' ){
+                                $tMsgFail = "บาร์โค้ดสถานะไม่ใช้งาน";
+                            }else if( $tStaComplete == '4' ){
+                                $tMsgFail = "สินค้านี้มีอยู่แล้วในกลุ่มนี้";
+                            }else{
+                                $tMsgFail = "ไม่พบสินค้าในระบบ";
+                            }
+
+                            $aDataFail = array(
+                                'tHeader'       => 'Product',
+                                'FTPdtCode'     => $tPdtCode,
+                                'FTPunCode'     => $tPunCode,
+                                'FTBarCode'     => $tNewBarCode,
+                                'tMsgFail'      => $tMsgFail
+                            );
+                            array_push($aDataImportFail,$aDataFail);
+                        }
+                    }else{
+                        if( !empty($tPdtCode) && empty($tPunCode) ){
+                            $tMsgFail = "ต้องกำหนดรหัสหน่วย";
+                            $aDataFail = array(
+                                'tHeader'       => 'Product',
+                                'FTPdtCode'     => $tPdtCode,
+                                'FTPunCode'     => ($tPunCode != "" ? $tPunCode : "N/A"),
+                                'FTBarCode'     => ($tBarCode != "" ? $tBarCode : "N/A"),
+                                'tMsgFail'      => $tMsgFail
+                            );
+                            array_push($aDataImportFail,$aDataFail);
+                        }else if( empty($tPdtCode) && !empty($tPunCode) ){
+                            $tMsgFail = "ต้องกำหนดรหัสสินค้า";
+                            $aDataFail = array(
+                                'tHeader'       => 'Product',
+                                'FTPdtCode'     => ($tPdtCode != "" ? $tPdtCode : "N/A"),
+                                'FTPunCode'     => $tPunCode,
+                                'FTBarCode'     => ($tBarCode != "" ? $tBarCode : "N/A"),
+                                'tMsgFail'      => $tMsgFail
+                            );
+                            array_push($aDataImportFail,$aDataFail);
                         }
                     }
                 }
-            }
-            /*===== End Product Process ================================================*/
-
-            /*===== Begin Brand Process ================================================*/
-            if($tPmtGroupListTypeTmp == "2"){ // Brand
+                /*===== End Product Process ================================================*/
+            }else if($tPmtGroupListTypeTmp == "2"){ // Brand
+                /*===== Begin Brand Process ================================================*/
                 $oExcelSheet = $oLoadExcel->getSheetByName('Brand');
                 $aBrandDataSheet = $oExcelSheet->toArray();
 
@@ -152,16 +215,29 @@ class cPromotionStep1ImportPmtExcel extends MX_Controller
                                 // 'tModelName'            => (isset($aDataBrand['FTPmoName']) ? $aDataBrand['FTPmoName'] : NULL )
                             ];
                             $this->mPromotionStep1PmtBrandDt->FSaMPmtBrandDtToTemp($aPmtBrandDtToTempParams);    
+                        }else{
+                            if( strlen($tBrandCode) > 5 ){
+                                $tMsgFail = "รหัสยี่ห้อยาวเกินกำหนด";
+                            }else{
+                                $tMsgFail = "ไม่พบรหัสยี่ห้อในระบบ";
+                            }
+
+                            $aDataFail = array(
+                                'tHeader'   => 'Brand',
+                                'FTPbnCode' => $tBrandCode,
+                                'tMsgFail'  => $tMsgFail
+                            );
+                            array_push($aDataImportFail,$aDataFail);
                         }
                     }
                 }
-            }
-            /*===== End Brand Process ==================================================*/
-
-            /*===== Begin Model Process ================================================*/
-            if($tPmtGroupListTypeTmp == "4"){ // Model
+                /*===== End Brand Process ==================================================*/
+            }else if($tPmtGroupListTypeTmp == "4"){ // Model
+                 /*===== Begin Model Process ================================================*/
                 $oExcelSheet        = $oLoadExcel->getSheetByName('Model');
                 $aModelDataSheet    = $oExcelSheet->toArray();
+
+                // echo "<pre>"; print_r($aModelDataSheet); echo "</pre>"; exit;
 
                 $aClearPmtPdtDtInTmpParams = [
                     'tPmtGroupNameTmpOld'   => $tPmtGroupNameTmpOld,
@@ -174,7 +250,6 @@ class cPromotionStep1ImportPmtExcel extends MX_Controller
 
                     $tModelCode = trim($aModel[0]);
                     if( !empty($tModelCode) ){
-
                         $aGetDataModelParams = [
                             'tModelCode'            => (isset($tModelCode) && !empty($tModelCode) ? $tModelCode : ''),
                             'nLngID'                => $nLangEdit,
@@ -196,11 +271,30 @@ class cPromotionStep1ImportPmtExcel extends MX_Controller
                                 'tModelName'            => $aDataModel['FTPmoName']
                             ];
                             $this->mPromotionStep1PmtBrandDt->FSaMPMTModelDtToTemp($aPmtModelDtToTempParams);    
+                        }else{
+                            if( strlen($tModelCode) > 5 ){
+                                $tMsgFail = "รหัสรุ่นยาวเกินกำหนด";
+                            }else{
+                                $tMsgFail = "ไม่พบรหัสรุ่นในระบบ";
+                            }
+
+                            $aDataFail = array(
+                                'tHeader'   => 'Model',
+                                'FTPmoCode' => $tModelCode,
+                                'tMsgFail'  => $tMsgFail
+                            );
+                            array_push($aDataImportFail,$aDataFail);
                         }
                     }
                 }
+                /*===== End Model Process ==================================================*/
+            }else{
+                // กรณีนำเข้าไฟล์ที่ยังไม่รองรับ
             }
-            /*===== End Model Process ==================================================*/
+            
+
+            // echo "<pre>"; print_r($aDataImportFail); echo "</pre>"; exit;
+            $aReturn['aDataImpFail'] = $aDataImportFail;
 
             
             if ($this->db->trans_status() === FALSE) {
