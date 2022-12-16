@@ -167,15 +167,15 @@ class mCommon extends CI_Model
     }
 
 
-    // $aImportParams
-    public function FCNaMCMMListDataPrintBarCode($paPackData, $aImportParams){
+    // Last Update : Napat(Jame) 15/12/2022 ปรับแก้ Query เป็นการดึงรายการบาร์โค้ดมาจาก Tmp Imp
+    public function FCNaMCMMListDataPrintBarCode($aImportParams){ /*$paPackData, */
 
         // settings parameters
         // $aImportParams          = json_decode($paImportParams);
-        $tBarCode               = trim($paPackData[0]);
-        $nQty                   = trim($paPackData[1]);
-        $tStaImport             = trim($paPackData[2]);
-        $tImpDesc               = trim($paPackData[3]);
+        // $tBarCode               = trim($paPackData[0]);
+        // $nQty                   = trim($paPackData[1]);
+        // $tStaImport             = trim($paPackData[2]);
+        // $tImpDesc               = trim($paPackData[3]);
 
         // echo "<pre>"; print_r($aImportParams); exit;
         $tLblCode               = trim($aImportParams['tLblCode']);
@@ -288,7 +288,7 @@ class mCommon extends CI_Model
                                 GETDATE() AS FDPrnDate,
                                 ISNULL(PCL.FTClrName,'') + ' ' + ISNULL(PSZ.FTPszName,'') AS FTPdtContentUnit,
                                 '' AS FTPlbCode,
-                                '$nQty' AS FNPlbQty,
+                                IMP.FNPlbQty AS FNPlbQty,
                                 ISNULL(PBNL.FTPbnName,'N/A') AS FTPbnDesc,
                                 'ดูที่ผลิตภัณฑ์' AS FTPdtTime, 
                                 'ดูที่ผลิตภัณฑ์' AS FTPdtMfg,
@@ -296,8 +296,8 @@ class mCommon extends CI_Model
                                 PDG.FTPdgRegNo AS FTPdtRefNo,
                                 ISNULL(PSZ.FTPszName,'N/A') AS FTPdtValue,
                                 '1' AS FTPlbStaSelect,
-                                '$tStaImport' AS FTPlbStaImport,
-                                '$tImpDesc' AS FTPlbImpDesc,
+                                '1' AS FTPlbStaImport,
+                                '' AS FTPlbImpDesc,
                                 PRI.FTPghDocType AS FTPlbPriType,
                                 ".$tPlbUrl." AS FTPlbUrl,
 
@@ -326,6 +326,7 @@ class mCommon extends CI_Model
                             INNER JOIN TCNMPdt Pdt WITH(NOLOCK) ON  PDT.FTPdtCode = AdpDT.FTPdtCode
                             INNER JOIN TCNMPdtPackSize PPS WITH(NOLOCK) ON PPS.FTPdtCode = PDT.FTPdtCode
                             INNER JOIN TCNMPdtBar BAR WITH(NOLOCK) ON BAR.FTPdtCode = PPS.FTPdtCode AND BAR.FTPunCode = PPS.FTPunCode
+                            INNER JOIN TCNTPrnLabelImpTmp IMP WITH(NOLOCK) ON IMP.FTBarCode = BAR.FTBarCode AND IMP.FTComName = '$tFullHost'
                             LEFT JOIN TCNMPdtUnit_L PUL WITH(NOLOCK) ON PUL.FTPunCode = PPS.FTPunCode AND PUL.FNLngID = ".$nLangUnit."
                             LEFT JOIN TCNMPdt_L PDTL WITH(NOLOCK) ON PDTL.FTPdtCode = PDT.FTPdtCode AND PDTL.FNLngID = ".$nLangPdtName."
                             INNER JOIN ( 
@@ -350,7 +351,8 @@ class mCommon extends CI_Model
                             LEFT JOIN TCNMPdtColor_L PCL WITH(NOLOCK) ON PCL.FTClrCode = PPS.FTClrCode AND PCL.FNLngID = ".$nLangPdtName."
                             LEFT JOIN TCNMPdtGrp  PGP WITH(NOLOCK) ON PGP.FTPgpChain = PDT.FTPgpChain
                             LEFT JOIN TCNMPdtGrp_L PGPL WITH(NOLOCK) ON PGPL.FTPgpChain = PDT.FTPgpChain AND PGPL.FNLngID = ".$nLngID."
-                            WHERE AdpHD.FTXphStaApv = '1' AND BAR.FTBarCode = '$tBarCode' AND BAR.FTBarStaUse = '1' AND Pdt.FTPdtStaActive = '1' "; 
+                            WHERE AdpHD.FTXphStaApv = '1' AND BAR.FTBarStaUse = '1' AND Pdt.FTPdtStaActive = '1' "; 
+                            // AND BAR.FTBarCode = '$tBarCode'
 
         switch($tPrnBarSheet){
             case 'Normal':
@@ -364,19 +366,46 @@ class mCommon extends CI_Model
 
         // Create By : Napat(Jame) 02/11/2022
         // สร้าง Tmp เพื่อเก็บรหัสบาร์โค้ดที่ user import เข้ามาทั้งหมด
-        $tSQL = " IF OBJECT_ID(N'TCNTPrnLabelImpTmp') IS NULL BEGIN CREATE TABLE TCNTPrnLabelImpTmp (FTComName varchar(255),FTBarCode varchar(255)) END ";
-        $this->db->query($tSQL);
+        // $tSQL = " IF OBJECT_ID(N'TCNTPrnLabelImpTmp') IS NULL BEGIN CREATE TABLE TCNTPrnLabelImpTmp (FTComName varchar(255),FTBarCode varchar(255)) END ";
+        // $this->db->query($tSQL);
 
         // Create By : Napat(Jame) 02/11/2022
         // เอาบาร์โค้ดจาก excel ลง tmp
-        $tSQL = " INSERT INTO TCNTPrnLabelImpTmp (FTComName,FTBarCode) VALUES ('".$tFullHost."','".$tBarCode."') ";
+        // $tSQL = " INSERT INTO TCNTPrnLabelImpTmp (FTComName,FTBarCode) VALUES ('".$tFullHost."','".$tBarCode."') ";
+        // $this->db->query($tSQL);
+
+    }
+
+    // Create By : Napat(Jame) 15/12/2022
+    public function FCNaMCMMPrintBarInsertDatatoTmp($paPackData){
+        $tFullHost      = FCNoGetCookieVal('tSesSessionID');
+        
+        $tMultiValue = "";
+        for ($i = 1; $i < FCNnHSizeOf($paPackData); $i++) {
+            $tBarCode       = trim($paPackData[$i][0]);
+            $nQty           = trim($paPackData[$i][1]);
+            $tMultiValue    .= "('$tFullHost','$tBarCode','$nQty'),";
+        }
+        $tMultiValue = substr($tMultiValue, 0, -1);
+        // echo $tMultiValue; exit;
+
+        // สร้าง Tmp เพื่อเก็บรหัสบาร์โค้ดที่ user import เข้ามาทั้งหมด
+        $tSQL = " IF OBJECT_ID(N'TCNTPrnLabelImpTmp') IS NULL BEGIN CREATE TABLE TCNTPrnLabelImpTmp (FTComName varchar(255),FTBarCode varchar(255),FNPlbQty bigint,FTRmkFail varchar(255)) END ";
+        $this->db->query($tSQL);
+
+        // เคลียร์ Tmp ก่อน Insert
+        $tSQL = " DELETE FROM TCNTPrnLabelImpTmp WHERE FTComName = '$tFullHost' ";
+        $this->db->query($tSQL);
+
+        // เอาบาร์โค้ดจาก Excel ลง Tmp
+        $tSQL = " INSERT INTO TCNTPrnLabelImpTmp (FTComName,FTBarCode,FNPlbQty) VALUES ".$tMultiValue;
         $this->db->query($tSQL);
 
     }
 
     // Create By : Napat(Jame) 01/11/2022 เอารหัสบาร์โค้ดที่ถูกดีดออกจาก process การ import ข้อมูล
     // Last Update : Napat(Jame) 02/11/2022 join เคส หาสาเหตุที่นำเข้าไม่ได้
-    public function FCNaMCMMPrintBarGetDataNotIn($ptBarCodeIn){
+    public function FCNaMCMMPrintBarGetDataNotIn(){
         // $tIP        = $this->input->ip_address();
         // $tFullHost  = gethostbyaddr($tIP);
         $tFullHost      = FCNoGetCookieVal('tSesSessionID');
@@ -425,26 +454,26 @@ class mCommon extends CI_Model
 
 
 
-    public function FCNaMCMMListDataPrintBarCodeCheckValidate()
-    {
-        // $tIP = $this->input->ip_address();
-        // $tFullHost = gethostbyaddr($tIP);
-        $tFullHost      = FCNoGetCookieVal('tSesSessionID');
+    // public function FCNaMCMMListDataPrintBarCodeCheckValidate()
+    // {
+    //     // $tIP = $this->input->ip_address();
+    //     // $tFullHost = gethostbyaddr($tIP);
+    //     $tFullHost      = FCNoGetCookieVal('tSesSessionID');
 
-        $tSQL = "UPDATE TCNTPrnLabelTmp
-        SET FTPlbStaImport = 2,FTPlbStaSelect = null,FTPlbImpDesc =  '[2]ไม่พบสินค้า'
-        WHERE FTPdtCode  IS NULL AND FTComName = '$tFullHost' ";
+    //     $tSQL = "UPDATE TCNTPrnLabelTmp
+    //     SET FTPlbStaImport = 2,FTPlbStaSelect = null,FTPlbImpDesc =  '[2]ไม่พบสินค้า'
+    //     WHERE FTPdtCode  IS NULL AND FTComName = '$tFullHost' ";
 
-        $oQuerySelect = $this->db->query($tSQL);
+    //     $oQuerySelect = $this->db->query($tSQL);
 
-        // if ($oQuerySelect->num_rows() > 0) {
-        //     $oResult = $oQuerySelect->result_array();
-        // } else {
-        //     $oResult = array();
-        // }
+    //     // if ($oQuerySelect->num_rows() > 0) {
+    //     //     $oResult = $oQuerySelect->result_array();
+    //     // } else {
+    //     //     $oResult = array();
+    //     // }
 
-        // return  $oResult;
-    }
+    //     // return  $oResult;
+    // }
 
     // Create By : Napat(Jame) 22/06/2022
     public function FCNaMWahChkStk($paParams){

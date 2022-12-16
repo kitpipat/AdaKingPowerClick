@@ -2059,7 +2059,10 @@ function JSxWirteImportFile(evt) {
 
                 $('#obtConfirmDeleteBeforeInsert').off();
                 $('#obtConfirmDeleteBeforeInsert').on("click", function() {
-                    JSxProcessImportExcel(aJSONData, tNameModule, tTypeModule, tFlagClearTmp, tImportDocumentNo, tImportFrmBchCode, tImportSplVatRate, tImportSplVatCode, aImportParams);
+                    JCNxOpenLoading();
+                    setTimeout(function() {
+                        JSxProcessImportExcel(aJSONData, tNameModule, tTypeModule, tFlagClearTmp, tImportDocumentNo, tImportFrmBchCode, tImportSplVatRate, tImportSplVatCode, aImportParams);
+                    }, 1000);
                 });
             } else {
                 JSxProcessImportExcel(aJSONData, tNameModule, tTypeModule, tFlagClearTmp, tImportDocumentNo, tImportFrmBchCode, tImportSplVatRate, tImportSplVatCode, aImportParams);
@@ -2114,6 +2117,7 @@ function JSxProcessImportExcel(aJSONData, tNameModule, tTypeModule, tFlagClearTm
             },
             async: false,
             success: function(aResult) {
+                JCNxCloseLoading();
                 // console.log(aResult);
                 if ($('#ohdImportTypeModule').val().toString() == "master") {
                     //ถ้าเป็นหน้าจอมาสเตอร์ จะโหลด HTML มา

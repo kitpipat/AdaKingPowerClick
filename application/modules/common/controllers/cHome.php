@@ -671,15 +671,22 @@ class cHome extends MX_Controller
                 // FCNnMasTmpChkCodeDupInDBSpecial($aValidateData);
             }
         } else if( $tNameModule == 'printbarcode' ){
-            $this->mCommon->FCNaMCMMClearImportExcelInTmp($aWhereData); // สั่งเคลียร์ tmp ก่อน
-            $tBarCodeIn = "'";
-            for ($i = 1; $i < $nPackData; $i++) {
-                $tBarCodeIn .= $aPackData[$i][0];
-                if( ($i+1) != $nPackData ){ $tBarCodeIn .= "','"; }
-                $this->mCommon->FCNaMCMMListDataPrintBarCode($aPackData[$i], $aImportParams);
-            }
-            $tBarCodeIn .= "'";
-            $aImpBarCut = $this->mCommon->FCNaMCMMPrintBarGetDataNotIn($tBarCodeIn);
+
+            // Last Update : Napat(Jame) 15/12/2022 เปลี่ยนวิธีการ นำเข้าไฟล์ Excel โดยทดสอบกับไฟล์ลูกค้า จำนวน 471 rows
+            // จาก loop insert ทีละ record ใช้เวลา 1.4 นาที
+            // เปลี่ยนเป็น loop ต่อ string แล้ว insert ครั้งเดียว และ move จาก Tmp รอง ไป Tmp หลัก ใช้เวลา 2.77 วินาที
+
+            // 1. สั่งเคลียร์ tmp หลักก่อน
+            $this->mCommon->FCNaMCMMClearImportExcelInTmp($aWhereData); 
+
+            // 2. เคลียร์ tmp รอง และ insert ดาต้าจาก excel ลง tmp รอง
+            $this->mCommon->FCNaMCMMPrintBarInsertDatatoTmp($aPackData);
+          
+            // 3. นำข้อมูลจาก Tmp รอง มา insert ลง Tmp หลัก
+            $this->mCommon->FCNaMCMMListDataPrintBarCode($aImportParams);
+
+            // 4. ตรวจสอบว่ามีสินค้าตัวไหน นำเข้าไม่ได้บ้าง และนำไปแสดงบนหน้าจอ
+            $aImpBarCut = $this->mCommon->FCNaMCMMPrintBarGetDataNotIn();
             $aReturnData = array(
                 'aImpBarCut' => $aImpBarCut,
             );
@@ -1541,7 +1548,7 @@ class cHome extends MX_Controller
                 break;
             case "printbarcode":
 
-                $this->mCommon->FCNaMCMMListDataPrintBarCodeCheckValidate();
+                // $this->mCommon->FCNaMCMMListDataPrintBarCodeCheckValidate();
                 //validate ข้อมูลอ้างอิงมีจริงไหม _ FTPdtCode
                 // $aValidateData = array(
                 //     'tUserSessionID'    => $this->session->userdata("tSesSessionID"),
