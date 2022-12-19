@@ -141,52 +141,60 @@
         //     }
         // });
 
-        $('#ocbPromotionStep3PointControl').unbind().bind('change', function() {
+        // Last Update : Napat(Jame) 19/12/2022 เพิ่มการตรวจสอบการ เปิด/ปิด input เมื่อ Alert Fail ให้ปิด input ไว้เหมือนเดิม
+        // $('#ocbPromotionStep3PointControl').unbind().bind('change', function(event) {
+        $('#ocbPromotionStep3PointControl').off('change').on('change', function() {
+
+            var bIsChecked  = $(this).is(':checked');
+            var bCurChecked = $(this).is(':checked');
+
             if (JSbPromotionStep3GetCouponPointEmptyChecked()) {
+                bCurChecked = true;
                 $(this).prop('checked', true);
-                $(this).trigger("change");
                 var tWarningMessage = '<?php echo language('document/promotion/promotion', 'tWarMsg8'); ?>'; // กรุณาเลือกรายการ เงื่อนไขกลุ่มรับ, เงื่อนไข-สิทธิประโยชน์คูปอง, เงื่อนไข-สิทธิประโยชน์แต้ม อย่างน้อย 1 เงื่อนไข
                 FSvCMNSetMsgWarningDialog(tWarningMessage);
-            } else if (JSbPromotionPmhStaLimitCstIsAll()) {
-                $(this).prop('checked', false);
-                // setTimeout(function() { $(this).trigger("change"); }, 500);
-                var tWarningMessage = '<?php echo language('document/promotion/promotion', 'tWarMsg7'); ?>'; // ใช้งานได้เฉพาะ คิดทั้งหมด/คิดต่อสมาชิก เป็นต่อสมาชิกเท่านั้น
-                FSvCMNSetMsgWarningDialog(tWarningMessage);
-            } else {
-                var bIsChecked = $(this).is(':checked');
-                if (bIsChecked) {
-                    $('#ocmPromotionStep3PgtStaPoint').prop('disabled', false);
-                    $('#ocmPromotionStep3PgtStaPoint').selectpicker("refresh");
-                    $('#ocmPromotionStep3PgtStaPntCalType').prop('disabled', false);
-                    $('#ocmPromotionStep3PgtStaPntCalType').selectpicker("refresh");
-                    $('#oetPromotionStep3PgtPntBuy').prop('disabled', false);
-                    $('#oetPromotionStep3PgtPntGet').prop('disabled', false);
-                    $('#obtPromotionBrowseSpl').prop('disabled', false);
-                    $('#oetPromotionStep3DateStart').prop('disabled', false);
-                    $('#obtPmtDateStart').prop('disabled', false);
-                    $('#oetPromotionStep3DateEnd').prop('disabled', false);
-                    $('#obtPmtDateEnd').prop('disabled', false);
-                    // ให้ไปเพิ่มรายใหม่
-                    JSvPromotionStep3InsertOrUpdatePointToTemp();
-                } else {
-                    $('#ocmPromotionStep3PgtStaPoint').prop('disabled', true);
-                    $('#ocmPromotionStep3PgtStaPoint').val('2').selectpicker("refresh");
-                    $('#ocmPromotionStep3PgtStaPntCalType').prop('disabled', true);
-                    $('#ocmPromotionStep3PgtStaPntCalType').val('1').selectpicker("refresh");
-                    $('#oetPromotionStep3PgtPntBuy').val("").prop('disabled', true);
-                    $('#oetPromotionStep3PgtPntGet').val("").prop('disabled', true);
-                    $('#oetPromotionSplCode').val("")
-                    $('#oetPromotionSplName').val("")
-                    $('#obtPromotionBrowseSpl').prop('disabled', true);
-                    $('#oetPromotionStep3DateStart').val("").prop('disabled', true);
-                    $('#obtPmtDateStart').prop('disabled', true);
-                    $('#oetPromotionStep3DateEnd').val("").prop('disabled', true);
-                    $('#obtPmtDateEnd').prop('disabled', true);
-                    // Remove CG Table Tmp
-                    JSvPromotionStep3DeletePointInTemp();
-                }
             }
 
+            if (bIsChecked) {
+                if (JSbPromotionPmhStaLimitCstIsAll()) {
+                    bCurChecked = false;
+                    $(this).prop('checked', false);
+                    var tWarningMessage = '<?php echo language('document/promotion/promotion', 'tWarMsg7'); ?>'; // ใช้งานได้เฉพาะ คิดทั้งหมด/คิดต่อสมาชิก เป็นต่อสมาชิกเท่านั้น
+                    FSvCMNSetMsgWarningDialog(tWarningMessage);
+                }
+            }
+            
+            if (bCurChecked) {
+                $('#ocmPromotionStep3PgtStaPoint').prop('disabled', false);
+                $('#ocmPromotionStep3PgtStaPoint').selectpicker("refresh");
+                $('#ocmPromotionStep3PgtStaPntCalType').prop('disabled', false);
+                $('#ocmPromotionStep3PgtStaPntCalType').selectpicker("refresh");
+                $('#oetPromotionStep3PgtPntBuy').prop('disabled', false);
+                $('#oetPromotionStep3PgtPntGet').prop('disabled', false);
+                $('#obtPromotionBrowseSpl').prop('disabled', false);
+                $('#oetPromotionStep3DateStart').prop('disabled', false);
+                $('#obtPmtDateStart').prop('disabled', false);
+                $('#oetPromotionStep3DateEnd').prop('disabled', false);
+                $('#obtPmtDateEnd').prop('disabled', false);
+                // ให้ไปเพิ่มรายใหม่
+                JSvPromotionStep3InsertOrUpdatePointToTemp();
+            } else {
+                $('#ocmPromotionStep3PgtStaPoint').prop('disabled', true);
+                $('#ocmPromotionStep3PgtStaPoint').val('2').selectpicker("refresh");
+                $('#ocmPromotionStep3PgtStaPntCalType').prop('disabled', true);
+                $('#ocmPromotionStep3PgtStaPntCalType').val('1').selectpicker("refresh");
+                $('#oetPromotionStep3PgtPntBuy').val("").prop('disabled', true);
+                $('#oetPromotionStep3PgtPntGet').val("").prop('disabled', true);
+                $('#oetPromotionSplCode').val("")
+                $('#oetPromotionSplName').val("")
+                $('#obtPromotionBrowseSpl').prop('disabled', true);
+                $('#oetPromotionStep3DateStart').val("").prop('disabled', true);
+                $('#obtPmtDateStart').prop('disabled', true);
+                $('#oetPromotionStep3DateEnd').val("").prop('disabled', true);
+                $('#obtPmtDateEnd').prop('disabled', true);
+                // Remove CG Table Tmp
+                JSvPromotionStep3DeletePointInTemp();
+            }
 
         });
         /*===== End ocbPromotionStep3PointControl เงื่อนไข - สิทธิประโยชน์แต้ม ===============*/

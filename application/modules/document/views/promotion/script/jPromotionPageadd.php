@@ -524,9 +524,16 @@
             if (JSbPromotionPmhStaLimitCstIsAll()) {
                 var bPointControlIsChecked = $("#ocbPromotionStep3PointControl").is(":checked");
                 if (bPointControlIsChecked) {
-                    $("#ocbPromotionStep3PointControl")
-                        .attr('checked', false)
-                        .trigger('change').attr('disabled', true);
+                    $("#ocbPromotionStep3PointControl").prop('checked', false).trigger('change'); //.attr('disabled', true)
+
+                    var bGroup  = $('#ocbPromotionStep3GroupGetControl').is(":checked"); // เงื่อนไขกลุ่มรับ
+                    var bCoupon = $('#ocbPromotionStep3CouponControl').is(":checked"); // เงื่อนไข - สิทธิประโยชน์คูปอง
+
+                    // ถ้าไม่เลือก เงื่อนไขกลุ่มรับ, เงื่อนไข-สิทธิประโยชน์คูปอง อย่างน้อย 1 เงื่อนไข จะไม่สามารถเปลี่ยน checkbox คิดทั้งหมด / คิดต่อสมาชิก ได้
+                    if( bGroup === false && bCoupon === false ){ 
+                        $('#ocmPromotionPmhStaLimitCst').val('2');
+                        $('#ocmPromotionPmhStaLimitCst').selectpicker('refresh');
+                    }
                 }
             } else {
                 $("#ocbPromotionStep3PointControl").attr('disabled', false);
