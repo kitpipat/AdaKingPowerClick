@@ -141,7 +141,7 @@
 <script>
     $(document).ready(function() {
         if ($('#otbPBPdtTemp tbody tr td').hasClass('xCNTextNotfoundDataPdtTable') != true) { //มีสินค้าในตาราง
-            $('#odvDataPromotion .xCNBtnDateTime').prop('disabled', true);
+            $('#odvDataPromotion .xWPRNDisabledOnPdt').prop('disabled', true);
             $('#odvDataPromotion .xCNDatePicker').prop('disabled', true);
             $('#odvDataPromotion #ocbPrnBarStaStartDate').prop('disabled', true);
             $('#odvDataPromotion #ocbPrnBarSheet').prop('disabled', true);
@@ -149,7 +149,7 @@
             $('#oetShowDataTableProduct').prop('disabled', true);
             $('.xWDisBtnMQ').prop('disabled', false);
         } else {
-            $('#odvDataPromotion .xCNBtnDateTime').prop('disabled', false);
+            $('#odvDataPromotion .xWPRNDisabledOnPdt').prop('disabled', false);
             $('#odvDataPromotion .xCNDatePicker').prop('disabled', false);
             $('#odvDataPromotion #ocbPrnBarStaStartDate').prop('disabled', false);
             $('#odvDataPromotion #ocbPrnBarSheet').prop('disabled', false);

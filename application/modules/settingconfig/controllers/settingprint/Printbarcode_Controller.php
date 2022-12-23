@@ -76,7 +76,7 @@ class Printbarcode_Controller extends MX_Controller
         //Lang ภาษา
         // $nLangResort    = FCNoGetCookieVal("tLangID");
         $nLangEdit      = FCNoGetCookieVal("tLangEdit");
-
+        
 
         $aDataWhere = array(
             'tPrnBarSheet'       => $this->input->post('tPrnBarSheet'),
@@ -151,6 +151,8 @@ class Printbarcode_Controller extends MX_Controller
 
         //Lang ภาษา
         $nLangEdit      = FCNoGetCookieVal("tLangEdit");
+        $oSortBy        = get_cookie('AdaBarPrintSort');
+        $aSortBy        = json_decode($oSortBy, TRUE);
 
         if( $tLblVerGroup == 'KPC' ){
             // KPC
@@ -185,6 +187,7 @@ class Printbarcode_Controller extends MX_Controller
             'tSearchAll'        => $tSearchAll,
             'tSesAgnCode'       => FCNoGetCookieVal("tSesUsrAgnCode"),
             'bSeleteImport'     => $bSeleteImport,
+            'tSortBy'           => $aSortBy['tSortCode'],
         );
         $aResList = $this->Printbarcode_Model->FSaMPriBarListSearch($aData, $aShwColums);
 

@@ -362,31 +362,46 @@ class Printbarcode_Model extends CI_Model
         // return null;
         $aRowLen    = FCNaHCallLenData($paData['nRow'], $paData['nPage']);
         $nLngID     = $paData['FNLngID'];
+        $tSortBy    = $paData['tSortBy'];
 
         $tSesAgnCode = $paData['tSesAgnCode'];
-        $tSQL = "   SELECT c.* FROM ( SELECT ROW_NUMBER() OVER(ORDER BY FTPlbImpDesc DESC,FTPdtCode ASC) AS rtRowID, * FROM (
-                        SELECT  
-                            PLT.FTPdtCode, 
-                            PLT.FTPdtName, 
-                            PLT.FTPdtContentUnit, 
-                            PLT.FTBarCode,
-                            PLT.FTPdtRefNo,
-                            PLT.FCPdtPrice,
-                            PLT.FNPlbQty,
-                            PLT.FTPlbStaSelect,
-                            PLT.FTPlbStaImport, 
-                            PLT.FTPlbImpDesc,
-                            PLT.FTPbnDesc,
-                            PLT.FTPlbPriType 
-                        FROM TCNTPrnLabelTmp PLT WITH(NOLOCK) 
-                        WHERE PLT.FTComName =  '$tFullHost' ";
+        $tSQL = "   SELECT c.* FROM ( 
+                        SELECT 
+                            ROW_NUMBER() OVER(ORDER BY $tSortBy) AS rtRowID, * 
+                        FROM (
+                            SELECT  
+                                PLT.FTPdtCode, 
+                                PLT.FTPdtName, 
+                                PLT.FTPdtContentUnit, 
+                                PLT.FTBarCode,
+                                PLT.FTPdtRefNo,
+                                PLT.FCPdtPrice,
+                                PLT.FNPlbQty,
+                                PLT.FTPlbStaSelect,
+                                PLT.FTPlbStaImport, 
+                                PLT.FTPlbImpDesc,
+                                PLT.FTPbnDesc,
+                                PLT.FTPlbPriType,
+                                PDT.FTPgpChain,
+                                PDT.FTPtyCode,
+                                PDT.FTPbnCode,
+                                PDT.FTPmoCode,
+                                CAT.FTPdtCat1,
+                                CAT.FTPdtCat2,
+                                CAT.FTPdtCat3,
+                                CAT.FTPdtCat4,
+                                CAT.FTPdtCat5
+                            FROM TCNTPrnLabelTmp PLT WITH(NOLOCK) 
+                            INNER JOIN TCNMPdt PDT WITH(NOLOCK) ON PDT.FTPdtCode = PLT.FTPdtCode
+                            LEFT JOIN TCNMPdtCategory CAT WITH(NOLOCK) ON CAT.FTPdtCode = PDT.FTPdtCode
+                            WHERE PLT.FTComName =  '$tFullHost' ";
 
         $tSearchList = $paData['tSearchAll'];
         if ($tSearchList != '') {
             $tSQL .= " AND (PLT.FTPdtCode LIKE '%$tSearchList%'";
             $tSQL .= " OR PLT.FTPdtName LIKE '%$tSearchList%')";
         }
-        $tSQL .= ") Base) AS c WHERE c.rtRowID > $aRowLen[0] AND c.rtRowID <= $aRowLen[1]";
+        $tSQL .= " ) Base) AS c WHERE c.rtRowID > $aRowLen[0] AND c.rtRowID <= $aRowLen[1] ";
 
         $oQuery = $this->db->query($tSQL);
         if ($oQuery->num_rows() > 0) {
@@ -969,6 +984,21 @@ class Printbarcode_Model extends CI_Model
         // $tIP = $this->input->ip_address();
         // $tFullHost = gethostbyaddr($tIP);
         $tFullHost      = FCNoGetCookieVal('tSesSessionID');
+        $oSortBy        = get_cookie('AdaBarPrintSort');
+        $aSortBy        = json_decode($oSortBy, TRUE);
+        $tSortBy        = $aSortBy['tSortCode'];
+
+        $tSortBy = str_replace("FTPdtCode","PDT.FTPdtCode",$tSortBy);
+        $tSortBy = str_replace("FTPgpChain","PDT.FTPgpChain",$tSortBy);
+        $tSortBy = str_replace("FTPtyCode","PDT.FTPtyCode",$tSortBy);
+        $tSortBy = str_replace("FTPbnCode","PDT.FTPbnCode",$tSortBy);
+        $tSortBy = str_replace("FTPmoCode","PDT.FTPmoCode",$tSortBy);
+
+        $tSortBy = str_replace("FTPdtCat1","CAT.FTPdtCat1",$tSortBy);
+        $tSortBy = str_replace("FTPdtCat2","CAT.FTPdtCat2",$tSortBy);
+        $tSortBy = str_replace("FTPdtCat3","CAT.FTPdtCat3",$tSortBy);
+        $tSortBy = str_replace("FTPdtCat4","CAT.FTPdtCat4",$tSortBy);
+        $tSortBy = str_replace("FTPdtCat5","CAT.FTPdtCat5",$tSortBy);
 
         // เคลียร์ tmp ก่อน insert
         $this->db->where('FTPlbPriType', $pnPrnType);
@@ -976,12 +1006,15 @@ class Printbarcode_Model extends CI_Model
         $this->db->delete('TCNTPrnLabelHDTmp');
 
         $tSQL = "   SELECT 
-                        FTComName,FTPlbPriType,0 AS FNPage,0 AS FNSeq,
-                        FTBarCode,FTPdtName,FTPdtContentUnit,FNPlbQty,'1' AS FTPlbStaSelect
-                    FROM TCNTPrnLabelTmp WITH(NOLOCK)
-                    WHERE FTComName =  '$tFullHost' 
-                      AND FTPlbPriType = '".$pnPrnType."' 
-                      AND FTPlbStaSelect = '1'
+                        PLT.FTComName,PLT.FTPlbPriType,0 AS FNPage,0 AS FNSeq,
+                        PLT.FTBarCode,PLT.FTPdtName,PLT.FTPdtContentUnit,PLT.FNPlbQty,'1' AS FTPlbStaSelect
+                    FROM TCNTPrnLabelTmp PLT WITH(NOLOCK)
+                    INNER JOIN TCNMPdt PDT WITH(NOLOCK) ON PDT.FTPdtCode = PLT.FTPdtCode
+                    LEFT JOIN TCNMPdtCategory CAT WITH(NOLOCK) ON CAT.FTPdtCode = PDT.FTPdtCode
+                    WHERE PLT.FTComName =  '$tFullHost' 
+                      AND PLT.FTPlbPriType = '".$pnPrnType."' 
+                      AND PLT.FTPlbStaSelect = '1'
+                    ORDER BY $tSortBy
                 ";
 
         $oQuery = $this->db->query($tSQL);

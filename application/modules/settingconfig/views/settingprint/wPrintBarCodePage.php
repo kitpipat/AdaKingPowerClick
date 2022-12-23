@@ -71,7 +71,7 @@
                                                     <div class="input-group">
                                                         <input type="text" id="oetPrnBarEffectiveDate" name="oetPrnBarEffectiveDate" class="form-control xCNDatePicker xCNInputMaskDate" value="<?=date('Y-m-d')?>" placeholder="YYYY-MM-DD" readonly>
                                                         <span class="input-group-btn">
-                                                            <button id="obtPrnBarEffectiveDate" type="button" class="btn xCNBtnDateTime">
+                                                            <button id="obtPrnBarEffectiveDate" type="button" class="btn xCNBtnDateTime xWPRNDisabledOnPdt">
                                                                 <img src="<?= base_url() . '/application/modules/common/assets/images/icons/icons8-Calendar-100.png' ?>">
                                                             </button>
                                                         </span>
@@ -89,7 +89,7 @@
                                             <div class="input-group">
                                                 <input type="text" id="oetPrnBarXthDocDateFrom" readonly class="form-control xCNDatePicker   xCNInputMaskDate" name="oetPrnBarXthDocDateFrom" value="" placeholder="YYYY-MM-DD">
                                                 <span class="input-group-btn">
-                                                    <button id="obtPrnBarXthDocDateFrom" type="button" class="btn xCNBtnDateTime">
+                                                    <button id="obtPrnBarXthDocDateFrom" type="button" class="btn xCNBtnDateTime xWPRNDisabledOnPdt">
                                                         <img src="<?= base_url() . '/application/modules/common/assets/images/icons/icons8-Calendar-100.png' ?>">
                                                     </button>
                                                 </span>
@@ -100,7 +100,7 @@
                                             <div class="input-group">
                                                 <input type="text" id="oetPrnBarXthDocDateTo" readonly class="form-control xCNDatePicker   xCNInputMaskDate" name="oetPrnBarXthDocDateTo" value="" placeholder="YYYY-MM-DD">
                                                 <span class="input-group-btn">
-                                                    <button id="obtPrnBarXthDocDateTo" type="button" class="btn xCNBtnDateTime">
+                                                    <button id="obtPrnBarXthDocDateTo" type="button" class="btn xCNBtnDateTime xWPRNDisabledOnPdt">
                                                         <img src="<?= base_url() . '/application/modules/common/assets/images/icons/icons8-Calendar-100.png' ?>">
                                                     </button>
                                                 </span>
@@ -116,7 +116,7 @@
                                                 <input type='text' class='form-control xCNHide xWRptAllInput' id='oetPrnBarBrowseRptNoFromCode' name='oetPrnBarBrowseRptNoFromCode'>
                                                 <input type="text" class="form-control  xCNInputMaskDate " readonly id="oetPrnBarBrowseRptNoFromName" name="oetPrnBarBrowseRptNoFromName" value="" placeholder="ทั้งหมด">
                                                 <span class="input-group-btn">
-                                                    <button id="obtPrnBarBrowseRptNoFrom" type="button" class="btn xCNBtnDateTime ">
+                                                    <button id="obtPrnBarBrowseRptNoFrom" type="button" class="btn xCNBtnDateTime xWPRNDisabledOnPdt ">
                                                         <img class="xCNIconFind"> </button>
                                                 </span>
                                             </div>
@@ -127,7 +127,7 @@
                                                 <input type='text' class='form-control xCNHide xWRptAllInput' id='oetPrnBarBrowseRptNoToCode' name='oetPrnBarBrowseRptNoToCode'>
                                                 <input type="text" class="form-control  xCNInputMaskDate " readonly id="oetPrnBarBrowseRptNoToName" name="oetPrnBarBrowseRptNoToName" value="" placeholder="ทั้งหมด">
                                                 <span class="input-group-btn">
-                                                    <button id="obtPrnBarBrowseRptNoTo" type="button" class="btn xCNBtnDateTime ">
+                                                    <button id="obtPrnBarBrowseRptNoTo" type="button" class="btn xCNBtnDateTime xWPRNDisabledOnPdt ">
                                                         <img class="xCNIconFind"> </button>
                                                 </span>
                                             </div>
@@ -143,7 +143,7 @@
                                                 <input type='text' class='form-control xCNHide xWRptAllInput' id='oetPrnBarBrowsePdtFromCode' name='oetPrnBarBrowsePdtFromCode'>
                                                 <input type="text" class="form-control  xCNInputMaskDate " readonly id="oetPrnBarBrowsePdtFromName" name="oetPrnBarBrowsePdtFromName" value="" placeholder="ทั้งหมด">
                                                 <span class="input-group-btn">
-                                                    <button id="obtPrnBarBrowsePdtFrom" type="button" class="btn xCNBtnDateTime ">
+                                                    <button id="obtPrnBarBrowsePdtFrom" type="button" class="btn xCNBtnDateTime xWPRNDisabledOnPdt ">
                                                         <img class="xCNIconFind"> </button>
                                                 </span>
                                             </div>
@@ -154,7 +154,7 @@
                                                 <input type='text' class='form-control xCNHide xWRptAllInput' id='oetPrnBarBrowsePdtToCode' name='oetPrnBarBrowsePdtToCode'>
                                                 <input type="text" class="form-control  xCNInputMaskDate " readonly id="oetPrnBarBrowsePdtToName" name="oetPrnBarBrowsePdtToName" value="" placeholder="ทั้งหมด">
                                                 <span class="input-group-btn">
-                                                    <button id="obtPrnBarBrowsePdtTo" type="button" class="btn xCNBtnDateTime">
+                                                    <button id="obtPrnBarBrowsePdtTo" type="button" class="btn xCNBtnDateTime xWPRNDisabledOnPdt">
                                                         <img class="xCNIconFind"> </button>
                                                 </span>
                                             </div>
@@ -169,7 +169,7 @@
                                                 <input type='text' class='form-control xCNHide xWRptAllInput' id='oetPrnBarBrowsePdtGrpFromCode' name='oetPrnBarBrowsePdtGrpFromCode'>
                                                 <input type="text" class="form-control  xCNInputMaskDate " readonly id="oetPrnBarBrowsePdtGrpFromName" name="oetPrnBarBrowsePdtGrpFromName" value="" placeholder="ทั้งหมด">
                                                 <span class="input-group-btn">
-                                                    <button id="obtPrnBarBrowsePdtGrpFrom" type="button" class="btn xCNBtnDateTime">
+                                                    <button id="obtPrnBarBrowsePdtGrpFrom" type="button" class="btn xCNBtnDateTime xWPRNDisabledOnPdt">
                                                         <img class="xCNIconFind"> </button>
                                                 </span>
                                             </div>
@@ -180,7 +180,7 @@
                                                 <input type='text' class='form-control xCNHide xWRptAllInput' id='oetPrnBarBrowsePdtGrpToCode' name='oetPrnBarBrowsePdtGrpToCode'>
                                                 <input type="text" class="form-control  xCNInputMaskDate " readonly id="oetPrnBarBrowsePdtGrpToName" name="oetPrnBarBrowsePdtGrpToName" value="" placeholder="ทั้งหมด">
                                                 <span class="input-group-btn">
-                                                    <button id="obtPrnBarBrowsePdtGrpTo" type="button" class="btn xCNBtnDateTime ">
+                                                    <button id="obtPrnBarBrowsePdtGrpTo" type="button" class="btn xCNBtnDateTime xWPRNDisabledOnPdt ">
                                                         <img class="xCNIconFind"> </button>
                                                 </span>
                                             </div>
@@ -195,7 +195,7 @@
                                                 <input type='text' class='form-control xCNHide xWRptAllInput' id='oetPrnBarBrowsePdtTypeFromCode' name='oetPrnBarBrowsePdtTypeFromCode'>
                                                 <input type="text" class="form-control  xCNInputMaskDate " readonly id="oetPrnBarBrowsePdtTypeFromName" name="oetPrnBarBrowsePdtTypeFromName" value="" placeholder="ทั้งหมด">
                                                 <span class="input-group-btn">
-                                                    <button id="obtPrnBarBrowsePdtTypeFrom" type="button" class="btn xCNBtnDateTime ">
+                                                    <button id="obtPrnBarBrowsePdtTypeFrom" type="button" class="btn xCNBtnDateTime xWPRNDisabledOnPdt ">
                                                         <img class="xCNIconFind"> </button>
                                                     </button>
                                                 </span>
@@ -207,7 +207,7 @@
                                                 <input type='text' class='form-control xCNHide xWRptAllInput' id='oetPrnBarBrowsePdtTypeToCode' name='oetPrnBarBrowsePdtTypeToCode'>
                                                 <input type="text" class="form-control  xCNInputMaskDate " readonly id="oetPrnBarBrowsePdtTypeToName" name="oetPrnBarBrowsePdtTypeToName" value="" placeholder="ทั้งหมด">
                                                 <span class="input-group-btn">
-                                                    <button id="obtPrnBarBrowsePdtTypeTo" type="button" class="btn xCNBtnDateTime ">
+                                                    <button id="obtPrnBarBrowsePdtTypeTo" type="button" class="btn xCNBtnDateTime xWPRNDisabledOnPdt ">
                                                         <img class="xCNIconFind"> </button>
                                                 </span>
                                             </div>
@@ -222,7 +222,7 @@
                                                 <input type='text' class='form-control xCNHide xWRptAllInput' id='oetPrnBarBrowsePdtBrandFromCode' name='oetPrnBarBrowsePdtBrandFromCode'>
                                                 <input type="text" class="form-control  xCNInputMaskDate " readonly id="oetPrnBarBrowsePdtBrandFromName" name="oetPrnBarBrowsePdtBrandFromName" value="" placeholder="ทั้งหมด">
                                                 <span class="input-group-btn">
-                                                    <button id="obtPrnBarBrowsePdtBrandFrom" type="button" class="btn xCNBtnDateTime ">
+                                                    <button id="obtPrnBarBrowsePdtBrandFrom" type="button" class="btn xCNBtnDateTime xWPRNDisabledOnPdt ">
                                                         <img class="xCNIconFind"> </button>
                                                 </span>
                                             </div>
@@ -233,7 +233,7 @@
                                                 <input type='text' class='form-control xCNHide xWRptAllInput' id='oetPrnBarBrowsePdtBrandToCode' name='oetPrnBarBrowsePdtBrandToCode'>
                                                 <input type="text" class="form-control  xCNInputMaskDate " readonly id="oetPrnBarBrowsePdtBrandToName" name="oetPrnBarBrowsePdtBrandToName" value="" placeholder="ทั้งหมด">
                                                 <span class="input-group-btn">
-                                                    <button id="obtPrnBarBrowsePdtBrandTo" type="button" class="btn xCNBtnDateTime ">
+                                                    <button id="obtPrnBarBrowsePdtBrandTo" type="button" class="btn xCNBtnDateTime xWPRNDisabledOnPdt ">
                                                         <img class="xCNIconFind"> </button>
                                                 </span>
                                             </div>
@@ -248,7 +248,7 @@
                                                 <input type='text' class='form-control xCNHide xWRptAllInput' id='oetPrnBarBrowsePdtModelFromCode' name='oetPrnBarBrowsePdtModelFromCode'>
                                                 <input type="text" class="form-control  xCNInputMaskDate " readonly id="oetPrnBarBrowsePdtModelFromName" name="oetPrnBarBrowsePdtModelFromName" value="" placeholder="ทั้งหมด">
                                                 <span class="input-group-btn">
-                                                    <button id="obtPrnBarBrowsePdtModelFrom" type="button" class="btn xCNBtnDateTime ">
+                                                    <button id="obtPrnBarBrowsePdtModelFrom" type="button" class="btn xCNBtnDateTime xWPRNDisabledOnPdt ">
                                                         <img class="xCNIconFind"> </button>
                                                 </span>
                                             </div>
@@ -259,7 +259,7 @@
                                                 <input type='text' class='form-control xCNHide xWRptAllInput' id='oetPrnBarBrowsePdtModelToCode' name='oetPrnBarBrowsePdtModelToCode'>
                                                 <input type="text" class="form-control  xCNInputMaskDate " readonly id="oetPrnBarBrowsePdtModelToName" name="oetPrnBarBrowsePdtModelToName" value="" placeholder="ทั้งหมด">
                                                 <span class="input-group-btn">
-                                                    <button id="obtPrnBarBrowsePdtModelTo" type="button" class="btn xCNBtnDateTime ">
+                                                    <button id="obtPrnBarBrowsePdtModelTo" type="button" class="btn xCNBtnDateTime xWPRNDisabledOnPdt ">
                                                         <img class="xCNIconFind"> </button>
                                                 </span>
                                             </div>
@@ -278,7 +278,7 @@
                                         <input type='text' class='form-control xCNHide xWRptAllInput' id='oetPrnBarPdtDepartCode' name='oetPrnBarPdtDepartCode'>
                                         <input type="text" class="form-control  xCNInputMaskDate " id="oetPrnBarPdtDepartName" readonly name="oetPrnBarPdtDepartName" value="" placeholder="ทั้งหมด">
                                         <span class="input-group-btn">
-                                            <button id="obtPrnBarPdtDepartBrows" type="button" class="btn xCNBtnDateTime ">
+                                            <button id="obtPrnBarPdtDepartBrows" type="button" class="btn xCNBtnDateTime xWPRNDisabledOnPdt ">
                                                 <img class="xCNIconFind"> </button>
                                         </span>
                                     </div>
@@ -289,7 +289,7 @@
                                         <input type='text' class='form-control xCNHide xWRptAllInput' id='oetPrnBarPdtClassCode' name='oetPrnBarPdtClassCode'>
                                         <input type="text" class="form-control  xCNInputMaskDate " id="oetPrnBarPdtClassName" readonly name="oetPrnBarPdtClassName" value="" placeholder="ทั้งหมด">
                                         <span class="input-group-btn">
-                                            <button id="obtPrnBarPdtClassBrows" type="button" class="btn xCNBtnDateTime ">
+                                            <button id="obtPrnBarPdtClassBrows" type="button" class="btn xCNBtnDateTime xWPRNDisabledOnPdt ">
                                                 <img class="xCNIconFind"> </button>
                                         </span>
                                     </div>
@@ -300,7 +300,7 @@
                                         <input type='text' class='form-control xCNHide xWRptAllInput' id='oetPrnBarPdtSubClassCode' name='oetPrnBarPdtSubClassCode'>
                                         <input type="text" class="form-control  xCNInputMaskDate " id="oetPrnBarPdtSubClassName" readonly name="oetPrnBarPdtSubClassName" value="" placeholder="ทั้งหมด">
                                         <span class="input-group-btn">
-                                            <button id="obtPrnBarPdtSubClassBrows" type="button" class="btn xCNBtnDateTime ">
+                                            <button id="obtPrnBarPdtSubClassBrows" type="button" class="btn xCNBtnDateTime xWPRNDisabledOnPdt ">
                                                 <img class="xCNIconFind"> </button>
                                         </span>
                                     </div>
@@ -311,7 +311,7 @@
                                         <input type='text' class='form-control xCNHide xWRptAllInput' id='oetPrnBarPdtGroupCode' name='oetPrnBarPdtGroupCode'>
                                         <input type="text" class="form-control  xCNInputMaskDate " id="oetPrnBarPdtGroupName" readonly name="oetPrnBarPdtGroupName" value="" placeholder="ทั้งหมด">
                                         <span class="input-group-btn">
-                                            <button id="obtPrnBarPdtGroupBrows" type="button" class="btn xCNBtnDateTime ">
+                                            <button id="obtPrnBarPdtGroupBrows" type="button" class="btn xCNBtnDateTime xWPRNDisabledOnPdt ">
                                                 <img class="xCNIconFind"> </button>
                                         </span>
                                     </div>
@@ -322,7 +322,7 @@
                                         <input type='text' class='form-control xCNHide xWRptAllInput' id='oetPrnBarPdtComLinesCode' name='oetPrnBarPdtComLinesCode'>
                                         <input type="text" class="form-control  xCNInputMaskDate " id="oetPrnBarPdtComLinesName" readonly name="oetPrnBarPdtComLinesName" value="" placeholder="ทั้งหมด">
                                         <span class="input-group-btn">
-                                            <button id="obtPrnBarPdtComLinesBrows" type="button" class="btn xCNBtnDateTime ">
+                                            <button id="obtPrnBarPdtComLinesBrows" type="button" class="btn xCNBtnDateTime xWPRNDisabledOnPdt ">
                                                 <img class="xCNIconFind"> </button>
                                         </span>
                                     </div>
@@ -338,7 +338,7 @@
                                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                             <div class="row">
                                                 <button type="button" id="odvEventImportFilePRT" class="btn xCNBTNImportFile"><?= language('common/main/main', 'tImport') ?></button>
-                                        
+                                                <button id="obtPrnBarSortData" type="button" class="btn xCNBtnDateTime"><i class="fa fa-sort-alpha-asc" aria-hidden="true" style="font-size: 19px;padding-top: 4px !important;padding-bottom: 3px !important;"></i></button>
                                             </div>
                                         </div>
                                         <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8  text-right">
@@ -347,6 +347,11 @@
                                                 <button onclick="JSxPriBarMoveDataIntoTable()" id="oetShowDataTableProduct" class="btn xCNBTNPrimery" type="button"><?php echo language('product/settingprinter/settingprinter', 'tPRNButtonMoveProduct') ?></button>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top:10px;">
+                                    <div class="row">
+                                        <span id="ospPRNSortByShw" class="text-danger" style="font-weight: bold;"></span>
                                     </div>
                                 </div>
                             </div>
@@ -510,6 +515,51 @@
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 text-left">ระบบจะนำเข้าเฉพาะรายการสินค้าที่สมบูรณ์</div>
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                         <button id="obtPRNConfirmAlertImport" class="btn xCNBTNPrimery xCNBTNPrimery2Btn" type="button" data-dismiss="modal"><?php echo language('common/main/main', 'tModalConfirm') ?></button>
+                        <button class="btn xCNBTNDefult xCNBTNDefult2Btn" type="button" data-dismiss="modal"><?php echo language('common/main/main', 'tModalCancel') ?></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="odvPRNModalSortData" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header xCNModalHead">
+                <label class="xCNTextModalHeard">เรียงลำดับ</label>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8"></div>
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 text-right">
+                        <button id="obtPRNModalAddSort" class="xCNBTNPrimeryPlus" type="button">+</button>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 10px;">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                       <form id="ofmPRNModalSortData">
+                            <div class="table-responsive" style="background-color: white;max-height: 362px;">
+                                <table class="table" id="otbPRNModalSortTable">
+                                    <thead class="xCNPanelHeadColor">
+                                        <tr>
+                                            <th class="xCNTextBold xCNTextDetail1 text-center" colspan="2" style="width: 90%;color:white !important;vertical-align: middle;">คอลัมน์</th>
+                                            <th class="xCNTextBold xCNTextDetail1 text-center" style="width: 10%;color:white !important;vertical-align: middle;">ลบ</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </form>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 text-left"></div>
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                        <button id="obtPRNConfirmSortData" class="btn xCNBTNPrimery xCNBTNPrimery2Btn" type="button"><?php echo language('common/main/main', 'tModalConfirm') ?></button>
                         <button class="btn xCNBTNDefult xCNBTNDefult2Btn" type="button" data-dismiss="modal"><?php echo language('common/main/main', 'tModalCancel') ?></button>
                     </div>
                 </div>
@@ -2502,4 +2552,334 @@
             // JSvPriBarCallDataTable(1);
         }, 50);
     }
+
+    // Create By : Napat(Jame) 21/12/2022
+    $('#obtPrnBarSortData').off('click').on('click', function(){
+        var oGetCookie = $.cookie('AdaBarPrintSort');
+        if( oGetCookie === undefined ){
+            // Default FTPdtCode ASC
+            var aGetCookie = {
+                'tSortVal'  : 'FTPdtCode',
+                'tSortCode' : 'FTPdtCode ASC',
+                'tSortName' : 'สินค้า'
+            };
+            JSxPRNModalSortCreateCookie(aGetCookie['tSortVal'],aGetCookie['tSortCode'],aGetCookie['tSortName']);
+        }else{
+            var aGetCookie = JSON.parse(oGetCookie);
+        }
+        // console.log(aDataRender);
+        
+        // var aSortName = aGetCookie['tSortName'].split(', ');
+        var tSortData = aGetCookie['tSortVal'];
+        JSxPRNModalSortRenderData(tSortData,tSortData,'All');
+    });
+
+    // Create By : Napat(Jame) 21/12/2022
+    $('#obtPRNModalAddSort').off('click').on('click', function(){
+        var tDupData  = "";
+        var tSortData = "FTPdtCode,FTPgpChain,FTPtyCode,FTPbnCode,FTPmoCode,FTPdtCat1,FTPdtCat2,FTPdtCat3,FTPdtCat4,FTPdtCat5";
+        $('.xWPRNModalSortOption').each(function() {
+            var tIDSelect = $(this).attr('id');
+            if( tIDSelect !== undefined ){
+                let tDupValue = $('#'+tIDSelect).val();
+                // console.log(tDupValue);
+                tDupData += tDupValue + ", ";
+                tSortData = tSortData.replace(tDupValue, "");
+            }
+        });
+        var aSortData = tSortData.split(',');
+        // console.log('tSortData',tSortData,'tDupData',tDupData);
+        // console.log(aSortData);
+        var aSortDataNew = aSortData.filter(function(v){return v!==''});
+        // console.log(aSortDataNew);
+        
+        if( aSortDataNew.length > 0 ){
+            JSxPRNModalSortRenderData(aSortDataNew[0], tDupData,'ADD');
+        }else{
+            alert('ถึงขีดจำกัด ไม่สามารถเพิ่มได้');
+        }
+    });
+
+    // Create By : Napat(Jame) 22/12/2022
+    function JSxPRNModalSortRenderData(ptSortData,ptDupData,ptType){
+        var aSortCode = ptSortData.split(', ');
+        var tRenderHtml = "";
+        for(var i=0;i<aSortCode.length;i++){
+            // console.log( 'aSortCode',aSortCode[i],'aSortName',aSortName[i] );
+            
+            let tSortCode      = aSortCode[i];
+            // let tSortName      = aSortName[i];
+            var nSeq           = 0;
+            let tTitle         = "แล้วตามด้วย";
+            let tDuplicateSort = ptDupData.replace(tSortCode, ""); //.replace(/ /g, "").replace(/,/g, "")
+            
+            if( ptType == "All" ){
+                nSeq = i + 1;
+            }else{
+                nSeq = $('.xWPRNModalSortTR').length + 1;
+            }
+
+            // console.log('ตัวเอง',tSortCode,'คนอื่น',tDuplicateSort);
+
+            let tPdtCodeSelected = "",tPgpChainSelected = "",tPtyCodeSelected = "",tPbnCodeSelected = "",tPmoCodeSelected = ""
+            ,tPdtCat1Selected = "",tPdtCat2Selected = "",tPdtCat3Selected = "",tPdtCat4Selected = "",tPdtCat5Selected = "";
+
+            if( nSeq == 1 ){ tTitle = "เรียงลำดับตาม"; }
+
+            switch(tSortCode){
+                case 'FTPdtCode':
+                    tPdtCodeSelected = "selected";
+                    break;
+                case 'FTPgpChain':
+                    tPgpChainSelected = "selected";
+                    break;
+                case 'FTPtyCode':
+                    tPtyCodeSelected = "selected";
+                    break;
+                case 'FTPbnCode':
+                    tPbnCodeSelected = "selected";
+                    break;
+                case 'FTPmoCode':
+                    tPmoCodeSelected = "selected";
+                    break;
+                case 'FTPdtCat1':
+                    tPdtCat1Selected = "selected";
+                    break;
+                case 'FTPdtCat2':
+                    tPdtCat2Selected = "selected";
+                    break;
+                case 'FTPdtCat3':
+                    tPdtCat3Selected = "selected";
+                    break;
+                case 'FTPdtCat4':
+                    tPdtCat4Selected = "selected";
+                    break;
+                case 'FTPdtCat5':
+                    tPdtCat5Selected = "selected";
+                    break;    
+            }
+
+            if( tDuplicateSort.includes("FTPdtCode") ){
+                tPdtCodeSelected += " disabled";
+            }
+            if( tDuplicateSort.includes("FTPgpChain") ){
+                tPgpChainSelected += " disabled";
+            }
+            if( tDuplicateSort.includes("FTPtyCode") ){
+                tPtyCodeSelected += " disabled";
+            }
+            if( tDuplicateSort.includes("FTPbnCode") ){
+                tPbnCodeSelected += " disabled";
+            }
+            if( tDuplicateSort.includes("FTPmoCode") ){
+                tPmoCodeSelected += " disabled";
+            }
+            if( tDuplicateSort.includes("FTPdtCat1") ){
+                tPdtCat1Selected += " disabled";
+            }
+            if( tDuplicateSort.includes("FTPdtCat2") ){
+                tPdtCat2Selected += " disabled";
+            }
+            if( tDuplicateSort.includes("FTPdtCat3") ){
+                tPdtCat3Selected += " disabled";
+            }
+            if( tDuplicateSort.includes("FTPdtCat4") ){
+                tPdtCat4Selected += " disabled";
+            }
+            if( tDuplicateSort.includes("FTPdtCat5") ){
+                tPdtCat5Selected += " disabled";
+            }
+
+            tRenderHtml += '<tr id="otrPRNModalSortTR-'+nSeq+'" class="xWPRNModalSortTR" data-seq="'+nSeq+'">';
+            tRenderHtml += '    <td class="text-left" style="width: 20%;vertical-align: middle;"><span id="ospPRNModalSortTitle-'+nSeq+'">'+tTitle+'</span></td>';
+            tRenderHtml += '    <td class="text-left" style="width: 70%">';
+            tRenderHtml += '        <select class="form-control selectpicker xWPRNModalSortOption" name="ocbPRNSortBy-'+nSeq+'" id="ocbPRNSortBy-'+nSeq+'" data-size="5" data-container="body" data-old="'+tSortCode+'" onchange="JSxPRNModalSortEvent(this)">';
+            tRenderHtml += '            <option value="FTPdtCode" '+tPdtCodeSelected+'>สินค้า</option>';
+            tRenderHtml += '            <option value="FTPgpChain" '+tPgpChainSelected+'>กลุ่ม</option>';
+            tRenderHtml += '            <option value="FTPtyCode" '+tPtyCodeSelected+'>ประเภท</option>';
+            tRenderHtml += '            <option value="FTPbnCode" '+tPbnCodeSelected+'>ยี่ห้อ</option>';
+            tRenderHtml += '            <option value="FTPmoCode" '+tPmoCodeSelected+'>รุ่น</option>';
+            tRenderHtml += '            <option value="FTPdtCat1" '+tPdtCat1Selected+'>หมวด 1</option>';
+            tRenderHtml += '            <option value="FTPdtCat2" '+tPdtCat2Selected+'>หมวด 2</option>';
+            tRenderHtml += '            <option value="FTPdtCat3" '+tPdtCat3Selected+'>หมวด 3</option>';
+            tRenderHtml += '            <option value="FTPdtCat4" '+tPdtCat4Selected+'>หมวด 4</option>';
+            tRenderHtml += '            <option value="FTPdtCat5" '+tPdtCat5Selected+'>หมวด 5</option>';
+            tRenderHtml += '        </select>';
+            tRenderHtml += '    </td>';
+            tRenderHtml += '    <td class="text-center" style="width: 10%;vertical-align: middle;">';
+            tRenderHtml += '       <img class="xCNIconTable xCNIconDelete xWPRNModalSortDel" data-seq="'+nSeq+'" onclick="JSxPRNModalSortDel(this)">';
+            tRenderHtml += '    </td>';
+            tRenderHtml += '</tr>';
+        }
+
+        if( ptType == "All" ){
+            $('#odvPRNModalSortData tbody').html(tRenderHtml);
+            $('.selectpicker').selectpicker();
+            $('#odvPRNModalSortData').modal('show');
+        }else{
+            $('#odvPRNModalSortData tbody').append(tRenderHtml);
+            $('.selectpicker').selectpicker();
+
+            var oThis = $('#ocbPRNSortBy-'+nSeq);
+            JSxPRNModalSortEvent(oThis);
+        }
+    }
+
+    // Create By : Napat(Jame) 21/12/2022
+    // $('.xWPRNModalSortDel').off('click').on('click', function(){
+    function JSxPRNModalSortDel(poObj){
+        var nSortSeq = $(poObj).attr('data-seq');
+        var oThis    = $('#ocbPRNSortBy-'+nSortSeq);
+        var tIDTRDel = '#otrPRNModalSortTR-'+nSortSeq;
+        $(tIDTRDel).remove();
+        JSxPRNModalSortEvent(oThis);
+
+        // ให้ row 1 เป็น เรียงลำดับตาม
+        if( $('.xWPRNModalSortTR').length > 0 ){
+            var nSeqSortTop = $('.xWPRNModalSortTR')[0].attr('data-seq');
+            $('#ospPRNModalSortTitle-'+nSeqSortTop).text('เรียงลำดับตาม');
+        }
+    }
+    // });
+
+    // Create By : Napat(Jame) 21/12/2022
+    $('#obtPRNConfirmSortData').off('click').on('click', function(){
+        var nChkAmtSort = $('.xWPRNModalSortTR').length;
+        if( nChkAmtSort > 0 ){
+            // console.log( $('#ofmPRNModalSortData').serializeArray() );
+            var aSortData   = $('#ofmPRNModalSortData').serializeArray();
+            var tSortVal    = "";
+            var tSortCode   = "";
+            var tSortName   = "";
+            for(var i=0;i<aSortData.length;i++){
+                // var aResult  = aSortData[i]['value'].split('|');
+                let tValue = aSortData[i]['value'];
+                let tName  = "";
+                switch(tValue){
+                    case 'FTPdtCode':
+                        tName = "สินค้า";
+                        break;
+                    case 'FTPgpChain':
+                        tName = "กลุ่ม";
+                        break;
+                    case 'FTPtyCode':
+                        tName = "ประเภท";
+                        break;
+                    case 'FTPbnCode':
+                        tName = "ยี่ห้อ";
+                        break;
+                    case 'FTPmoCode':
+                        tName = "รุ่น";
+                        break;
+                    case 'FTPdtCat1':
+                        tName = "หมวด 1";
+                        break;
+                    case 'FTPdtCat2':
+                        tName = "หมวด 2";
+                        break;
+                    case 'FTPdtCat3':
+                        tName = "หมวด 3";
+                        break;
+                    case 'FTPdtCat4':
+                        tName = "หมวด 4";
+                        break;
+                    case 'FTPdtCat5':
+                        tName = "หมวด 5";
+                        break;    
+                }
+
+                tSortVal    += tValue + ", ";
+                tSortCode   += tValue + " ASC, ";
+                tSortName   += tName + ", ";
+            }
+            // console.log('tSortCode',tSortCode,'tSortName',tSortName);
+            tSortVal  = tSortVal.substring(0, (tSortVal.length-2));
+            tSortCode = tSortCode.substring(0, (tSortCode.length-2));
+            tSortName = tSortName.substring(0, (tSortName.length-2));
+            // console.log('tSortCode',tSortCode,'tSortName',tSortName);
+
+            // var aPackData = {
+            //     'tSortVal'  : tSortVal,
+            //     'tSortCode' : tSortCode,
+            //     'tSortName' : tSortName
+            // };
+            // // console.log(aPackData);
+            // var oPackData = JSON.stringify(aPackData);
+            // // console.log(oPackData);
+            // $.cookie("AdaBarPrintSort", oPackData, { expires : 3650 });
+            JSxPRNModalSortCreateCookie(tSortVal,tSortCode,tSortName);
+            $('#odvPRNModalSortData').modal('hide');
+            JSxPRNRenderTextSort();
+
+            if( $('.xWProductList').length > 0 ){
+                JSvPriBarCallDataTable(1);
+            }
+
+        }else{
+            alert('ต้องมีอย่างน้อย 1 รายการ');
+        }
+    });
+
+    function JSxPRNModalSortCreateCookie(tSortVal,tSortCode,tSortName){
+        var aPackData = {
+            'tSortVal'  : tSortVal,
+            'tSortCode' : tSortCode,
+            'tSortName' : tSortName
+        };
+        var oPackData = JSON.stringify(aPackData);
+        $.cookie("AdaBarPrintSort", oPackData, { expires : 36500 });
+    }
+
+    // Create By : Napat(Jame) 21/12/2022
+    function JSxPRNModalSortEvent(poObj){
+        // console.log( $('.xWPRNModalSortOption') );
+        var tThisID     = $(poObj).attr('id');
+        var tThisValue  = $(poObj).val();
+        var tThisOldVal = $(poObj).attr('data-old');
+        // console.log('tThisID',tThisID,'tThisValue',tThisValue,'tThisOldVal',tThisOldVal);
+        $('#'+tThisID).attr('data-old', tThisValue);
+
+        // ค้นหา select box และทำการ เปิด/ปิด ตัวซ้ำ
+        $('.xWPRNModalSortOption').each(function() {
+            var tIDSelect = $(this).attr('id');
+            if( tIDSelect !== undefined && tThisID != tIDSelect ){
+                var tDisalbed = '#'+tIDSelect+' option[value='+tThisValue+']';
+                var tEnabled  = '#'+tIDSelect+' option[value='+tThisOldVal+']';
+                if( tThisValue == tThisOldVal ){
+                    // กรณีลบรายการ
+                    $(tEnabled).attr('disabled', false);
+                }else{
+                    // กรณีเปลี่ยนรายการ
+                    $(tEnabled).attr('disabled', false);
+                    $(tDisalbed).attr('disabled', true);
+                }
+                // console.log('tEnabled',tEnabled);
+                // console.log('tDisalbed',tDisalbed);
+                $('#'+tIDSelect).selectpicker('refresh');
+            }
+        });
+
+    }
+
+    // Render ตอนโหลดหน้าจอครั้งแรก 1 ครั้ง
+    JSxPRNRenderTextSort();
+
+    // Create By : Napat(Jame) 22/12/2022
+    function JSxPRNRenderTextSort(){
+        var oGetCookie = $.cookie('AdaBarPrintSort');
+        if( oGetCookie === undefined ){
+            // Default FTPdtCode ASC
+            var aGetCookie = {
+                'tSortVal'  : 'FTPdtCode',
+                'tSortCode' : 'FTPdtCode ASC',
+                'tSortName' : 'สินค้า'
+            };
+            JSxPRNModalSortCreateCookie(aGetCookie['tSortVal'],aGetCookie['tSortCode'],aGetCookie['tSortName']);
+        }else{
+            var aGetCookie = JSON.parse(oGetCookie);
+        }
+        $('#ospPRNSortByShw').text('เรียงลำดับ (น้อย-มาก) : '+aGetCookie['tSortName']);
+    }
+    
+
 </script>
