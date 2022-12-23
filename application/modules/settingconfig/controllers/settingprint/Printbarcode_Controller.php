@@ -152,8 +152,13 @@ class Printbarcode_Controller extends MX_Controller
         //Lang ภาษา
         $nLangEdit      = FCNoGetCookieVal("tLangEdit");
         $oSortBy        = get_cookie('AdaBarPrintSort');
-        $aSortBy        = json_decode($oSortBy, TRUE);
-
+        if( $oSortBy === NULL ){
+            $tSortBy = "FTPdtCode ASC";
+        }else{
+            $aSortBy = json_decode($oSortBy, TRUE);
+            $tSortBy = $aSortBy['tSortCode'];
+        }
+        
         if( $tLblVerGroup == 'KPC' ){
             // KPC
             $aShwColums = array(
@@ -187,7 +192,7 @@ class Printbarcode_Controller extends MX_Controller
             'tSearchAll'        => $tSearchAll,
             'tSesAgnCode'       => FCNoGetCookieVal("tSesUsrAgnCode"),
             'bSeleteImport'     => $bSeleteImport,
-            'tSortBy'           => $aSortBy['tSortCode'],
+            'tSortBy'           => $tSortBy,
         );
         $aResList = $this->Printbarcode_Model->FSaMPriBarListSearch($aData, $aShwColums);
 

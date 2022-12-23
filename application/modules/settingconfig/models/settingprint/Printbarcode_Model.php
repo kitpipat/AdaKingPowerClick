@@ -985,8 +985,12 @@ class Printbarcode_Model extends CI_Model
         // $tFullHost = gethostbyaddr($tIP);
         $tFullHost      = FCNoGetCookieVal('tSesSessionID');
         $oSortBy        = get_cookie('AdaBarPrintSort');
-        $aSortBy        = json_decode($oSortBy, TRUE);
-        $tSortBy        = $aSortBy['tSortCode'];
+        if( $oSortBy === NULL ){
+            $tSortBy = "FTPdtCode ASC";
+        }else{
+            $aSortBy = json_decode($oSortBy, TRUE);
+            $tSortBy = $aSortBy['tSortCode'];
+        }
 
         $tSortBy = str_replace("FTPdtCode","PDT.FTPdtCode",$tSortBy);
         $tSortBy = str_replace("FTPgpChain","PDT.FTPgpChain",$tSortBy);

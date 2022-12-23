@@ -2561,9 +2561,9 @@
             var aGetCookie = {
                 'tSortVal'  : 'FTPdtCode',
                 'tSortCode' : 'FTPdtCode ASC',
-                'tSortName' : 'สินค้า'
+                'tSortName' : 'รหัสสินค้า'
             };
-            JSxPRNModalSortCreateCookie(aGetCookie['tSortVal'],aGetCookie['tSortCode'],aGetCookie['tSortName']);
+            // JSxPRNModalSortCreateCookie(aGetCookie['tSortVal'],aGetCookie['tSortCode'],aGetCookie['tSortName']);
         }else{
             var aGetCookie = JSON.parse(oGetCookie);
         }
@@ -2694,16 +2694,16 @@
             tRenderHtml += '    <td class="text-left" style="width: 20%;vertical-align: middle;"><span id="ospPRNModalSortTitle-'+nSeq+'">'+tTitle+'</span></td>';
             tRenderHtml += '    <td class="text-left" style="width: 70%">';
             tRenderHtml += '        <select class="form-control selectpicker xWPRNModalSortOption" name="ocbPRNSortBy-'+nSeq+'" id="ocbPRNSortBy-'+nSeq+'" data-size="5" data-container="body" data-old="'+tSortCode+'" onchange="JSxPRNModalSortEvent(this)">';
-            tRenderHtml += '            <option value="FTPdtCode" '+tPdtCodeSelected+'>สินค้า</option>';
-            tRenderHtml += '            <option value="FTPgpChain" '+tPgpChainSelected+'>กลุ่ม</option>';
-            tRenderHtml += '            <option value="FTPtyCode" '+tPtyCodeSelected+'>ประเภท</option>';
-            tRenderHtml += '            <option value="FTPbnCode" '+tPbnCodeSelected+'>ยี่ห้อ</option>';
-            tRenderHtml += '            <option value="FTPmoCode" '+tPmoCodeSelected+'>รุ่น</option>';
-            tRenderHtml += '            <option value="FTPdtCat1" '+tPdtCat1Selected+'>หมวด 1</option>';
-            tRenderHtml += '            <option value="FTPdtCat2" '+tPdtCat2Selected+'>หมวด 2</option>';
-            tRenderHtml += '            <option value="FTPdtCat3" '+tPdtCat3Selected+'>หมวด 3</option>';
-            tRenderHtml += '            <option value="FTPdtCat4" '+tPdtCat4Selected+'>หมวด 4</option>';
-            tRenderHtml += '            <option value="FTPdtCat5" '+tPdtCat5Selected+'>หมวด 5</option>';
+            tRenderHtml += '            <option value="FTPdtCode" '+tPdtCodeSelected+'>รหัสสินค้า</option>';
+            tRenderHtml += '            <option value="FTPgpChain" '+tPgpChainSelected+'>รหัสกลุ่ม</option>';
+            tRenderHtml += '            <option value="FTPtyCode" '+tPtyCodeSelected+'>รหัสประเภท</option>';
+            tRenderHtml += '            <option value="FTPbnCode" '+tPbnCodeSelected+'>รหัสยี่ห้อ</option>';
+            tRenderHtml += '            <option value="FTPmoCode" '+tPmoCodeSelected+'>รหัสรุ่น</option>';
+            tRenderHtml += '            <option value="FTPdtCat1" '+tPdtCat1Selected+'>รหัสหมวด 1</option>';
+            tRenderHtml += '            <option value="FTPdtCat2" '+tPdtCat2Selected+'>รหัสหมวด 2</option>';
+            tRenderHtml += '            <option value="FTPdtCat3" '+tPdtCat3Selected+'>รหัสหมวด 3</option>';
+            tRenderHtml += '            <option value="FTPdtCat4" '+tPdtCat4Selected+'>รหัสหมวด 4</option>';
+            tRenderHtml += '            <option value="FTPdtCat5" '+tPdtCat5Selected+'>รหัสหมวด 5</option>';
             tRenderHtml += '        </select>';
             tRenderHtml += '    </td>';
             tRenderHtml += '    <td class="text-center" style="width: 10%;vertical-align: middle;">';
@@ -2757,34 +2757,34 @@
                 let tName  = "";
                 switch(tValue){
                     case 'FTPdtCode':
-                        tName = "สินค้า";
+                        tName = "รหัสสินค้า";
                         break;
                     case 'FTPgpChain':
-                        tName = "กลุ่ม";
+                        tName = "รหัสกลุ่ม";
                         break;
                     case 'FTPtyCode':
-                        tName = "ประเภท";
+                        tName = "รหัสประเภท";
                         break;
                     case 'FTPbnCode':
-                        tName = "ยี่ห้อ";
+                        tName = "รหัสยี่ห้อ";
                         break;
                     case 'FTPmoCode':
-                        tName = "รุ่น";
+                        tName = "รหัสรุ่น";
                         break;
                     case 'FTPdtCat1':
-                        tName = "หมวด 1";
+                        tName = "รหัสหมวด 1";
                         break;
                     case 'FTPdtCat2':
-                        tName = "หมวด 2";
+                        tName = "รหัสหมวด 2";
                         break;
                     case 'FTPdtCat3':
-                        tName = "หมวด 3";
+                        tName = "รหัสหมวด 3";
                         break;
                     case 'FTPdtCat4':
-                        tName = "หมวด 4";
+                        tName = "รหัสหมวด 4";
                         break;
                     case 'FTPdtCat5':
-                        tName = "หมวด 5";
+                        tName = "รหัสหมวด 5";
                         break;    
                 }
 
@@ -2872,9 +2872,9 @@
             var aGetCookie = {
                 'tSortVal'  : 'FTPdtCode',
                 'tSortCode' : 'FTPdtCode ASC',
-                'tSortName' : 'สินค้า'
+                'tSortName' : 'รหัสสินค้า'
             };
-            JSxPRNModalSortCreateCookie(aGetCookie['tSortVal'],aGetCookie['tSortCode'],aGetCookie['tSortName']);
+            // JSxPRNModalSortCreateCookie(aGetCookie['tSortVal'],aGetCookie['tSortCode'],aGetCookie['tSortName']);
         }else{
             var aGetCookie = JSON.parse(oGetCookie);
         }
