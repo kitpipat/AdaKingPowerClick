@@ -87,7 +87,7 @@ $nTotalPage     = $aDataReport["aPagination"]["nTotalPage"];
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <div class="text-right">
-                        <label class="xCNRptDataPrint"><?php echo $aDataTextRef['tRptDatePrint'] . ' ' . date('d/m/Y') . ' ' . $aDataTextRef['tRptDateExport'] . ' ' . date('H:i:s'); ?></label>
+                        <label class="xCNRptDataPrint"><?php echo $aDataTextRef['tRptDatePrint'] . ' ' . date('d/m/Y') . ' ' . $aDataTextRef['tRptTimePrint'] . ' ' . date('H:i:s'); ?></label>
                     </div>
                 </div>
             </div>
@@ -229,8 +229,17 @@ $nTotalPage     = $aDataReport["aPagination"]["nTotalPage"];
                                         <td class="text-right xCNRptDetail"><?php echo number_format($aValue["FCXshGrand"], $nOptDecimalShow); ?></td>
                                     <?php } ?>
 
-                                    <!-- Type 6 ยอดขายไม่รวมภาษี -->
+                                    <!-- Type 6 ยอดขายจากการใช้ใบคืน	 -->
                                     <?php if ($aValue["FTXihValType"] == '6') { ?>
+                                        <td class="text-left xCNRptDetail">
+                                            <?php echo $aValue["FTRcvName"]; ?>
+                                        </td>
+                                        <td class="text-right xCNRptDetail"></td>
+                                        <td class="text-right xCNRptDetail"><?php echo number_format($aValue["FCXshGrand"], $nOptDecimalShow); ?></td>
+                                    <?php } ?>
+
+                                    <!-- Type 7 ยอดขายไม่รวมภาษี -->
+                                    <?php if ($aValue["FTXihValType"] == '7') { ?>
                                         <td class="text-left xCNRptDetail"><b>
                                                 <?php
                                                 if ($aValue['FTXihValType'] != '') {
@@ -252,8 +261,8 @@ $nTotalPage     = $aDataReport["aPagination"]["nTotalPage"];
                                     <?php } ?>
 
 
-                                    <!-- Type 6 ยอดขายไม่รวมภาษี -->
-                                    <?php if ($aValue["FTXihValType"] == '7') { ?>
+                                    <!-- Type 8 ยอดขายไม่รวมภาษี -->
+                                    <?php if ($aValue["FTXihValType"] == '8') { ?>
                                         <td class="text-left xCNRptDetail" style='border-bottom: dashed 1px #333 !important;'><b>
                                                 <?php
                                                 if ($aValue['FTXihValType'] != '') {

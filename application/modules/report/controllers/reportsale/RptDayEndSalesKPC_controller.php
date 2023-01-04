@@ -608,40 +608,35 @@ class RptDayEndSalesKPC_controller extends MX_Controller
                 $nRcvUseAmt = "";
                 $tBankName  = "";
                 switch ($aValue['FTXihValType']) {
-                    case '1':
-                        $tValType   =  $this->aText['tRptEndDaySale'];
-                        // $nRcvUseAmt  =  '';
-                        break;
-                    case '2':
-                        $tValType  =  $this->aText['tRptEndDayDiscount'];
-                        // $nRcvUseAmt  =  '';
-                        break;
+                    // case '1':
+                    //     $tValType   =  $this->aText['tRptEndDaySale'];
+                    //     break;
+                    // case '2':
+                    //     $tValType  =  $this->aText['tRptEndDayDiscount'];
+                    //     break;
                     case '3':
                         $tValType  =  $this->aText['tRptEndDayRound'];
                         $cSalRound = $aValue['FCXshGrand'];
-                        // $nRcvUseAmt  =  '';
                         break;
-                    case '4':
-                        $tValType  =  $this->aText['tRptEndDayTotalSale'];
-                        // $nRcvUseAmt  =  '';
-                        break;
+                    // case '4':
+                    //     $tValType  =  $this->aText['tRptEndDayTotalSale'];
+                    //     break;
                     case '5':
                         if ($aValue['FTRcvCode'] != '') {
                             $tBankName  =  '(' . $aValue["FTRcvRefNo1"] . ') ' . $aValue["FTRcvRefNo2"];
                             $nRcvUseAmt  =  FCNnGetNumeric($aValue['FNRcvUseAmt']);
                         } else {
                             $tValType  =  $aValue['FTRcvName'];
-                            // $nRcvUseAmt  =  '';
                         }
                         break;
-                    case '6':
-                        $tValType  =  $this->aText['tRptSalesdonotIncludetax'];
-                        // $nRcvUseAmt  =  '';
-                        break;
-                    case '7':
-                        $tValType  =  $this->aText['tRptEndDaySaleTax'];
-                        // $nRcvUseAmt  =  '';
-                        break;
+                    // case '6':
+                    //     $tValType  =  $this->aText['tRptSalesdonotIncludetax'];
+                    //     break;
+                    // case '7':
+                    //     $tValType  =  $this->aText['tRptEndDaySaleTax'];
+                    //     break;
+                    default:
+                        $tValType  =  $aValue['FTRcvName'];
                 }
                 if ($aValue['FTXihValType'] == '4') {
                     $tGrand_Footer      = $aValue["FCXshGrand"];
