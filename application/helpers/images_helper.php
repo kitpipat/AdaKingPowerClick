@@ -424,15 +424,15 @@ function FCNxHAddColorObj($paData){
 	$ci->db->where_in('FTImgTable', $paData['tImgTable']);
 	$ci->db->where_in('FTImgRefID', $paData['tImgRefID']);
 	$ci->db->delete($paData['tTableInsert']);
-	if ($ci->db->affected_rows() > 0) {
-		if (file_exists('application/modules/' . $paData['tModuleName'] . '/assets/systemimg/' . $paData['tImgFolder'])) {
-			$files    = glob('application/modules/' . $paData['tModuleName'] . '/assets/systemimg/' . $paData['tImgFolder'] . "/" . $paData['tImgRefID'] . "/*"); // get all file names
-			foreach ($files as $file) { // iterate files
-				if (is_file($file))
-					unlink($file); // delete file
-			}
-		}
-	}
+	// if ($ci->db->affected_rows() > 0) {
+	// 	if (file_exists('application/modules/' . $paData['tModuleName'] . '/assets/systemimg/' . $paData['tImgFolder'])) {
+	// 		$files    = glob('application/modules/' . $paData['tModuleName'] . '/assets/systemimg/' . $paData['tImgFolder'] . "/" . $paData['tImgRefID'] . "/*"); // get all file names
+	// 		foreach ($files as $file) { // iterate files
+	// 			if (is_file($file))
+	// 				unlink($file); // delete file
+	// 		}
+	// 	}
+	// }
 	//Add Master
 	$ci->db->insert($paData['tTableInsert'], array(
 		'FTImgRefID'        => $paData['tImgRefID'],
