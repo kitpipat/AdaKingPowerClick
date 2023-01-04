@@ -2356,4 +2356,7 @@ $lang['tRptTitleSalesDailyByCashierKPC'] = "รายงาน - ยอดขา
 $lang['tRptChnFrom'] = "จากช่องทางการขาย";
 $lang['tRptChnTo'] = "ถึงช่องทางการขาย";
 
-$lang['tRptPriceType'] = "ประเภทราคา";
+$lang['tRptPriceType']          = "ประเภทราคา";
+
+$lang['tRptPriceType1']         = "BasePrice";
+$lang['tRptPriceType2']         = "Price Off";

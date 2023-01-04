@@ -20,7 +20,7 @@ class mRptAdjPrice extends CI_Model {
         // สาขา
         $tBchCodeSelect = ($paDataFilter['bBchStaSelectAll']) ? '' : FCNtAddSingleQuote($paDataFilter['tBchCodeSelect']);
 
-        $tCallStore = "{CALL SP_RPTxAdjPrice(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+        $tCallStore = "{CALL SP_RPTxAdjPrice(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
         $aDataStore = array(
             'pnLngID' => $nLangID, 
             'pnComName' => $tComName,
@@ -46,6 +46,8 @@ class mRptAdjPrice extends CI_Model {
 
             'ptEffectiveDateF' => $paDataFilter['tEffectiveDateFrom'],
             'ptEffectiveDateT' => $paDataFilter['tEffectiveDateTo'],
+
+            'ptPriceType' => $paDataFilter['tPriceType'],
             
             'FTResult' => 0
         );

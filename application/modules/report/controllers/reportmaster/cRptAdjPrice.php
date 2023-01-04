@@ -258,6 +258,8 @@ class cRptAdjPrice extends MX_Controller
             'tRptTaxPointByCstDocDateFrom' => language('report/report/report', 'tRptTaxPointByCstDocDateFrom'),
             'tRptTaxPointByCstDocDateTo'   => language('report/report/report', 'tRptTaxPointByCstDocDateTo'),
             'tRptPriceType' => language('report/report/report', 'tRptPriceType'),
+            'tRptPriceType1' => language('report/report/report', 'tRptPriceType1'),
+            'tRptPriceType2' => language('report/report/report', 'tRptPriceType2'),
         ];
 
         $this->tSysBchCode = SYS_BCH_CODE;
@@ -320,7 +322,10 @@ class cRptAdjPrice extends MX_Controller
 
             // วันที่มีผล
             'tEffectiveDateFrom' => !empty($this->input->post('oetRptEffectiveDateFrom')) ? $this->input->post('oetRptEffectiveDateFrom') : "",
-            'tEffectiveDateTo' => !empty($this->input->post('oetRptEffectiveDateTo')) ? $this->input->post('oetRptEffectiveDateTo') : ""
+            'tEffectiveDateTo' => !empty($this->input->post('oetRptEffectiveDateTo')) ? $this->input->post('oetRptEffectiveDateTo') : "",
+
+            // ประเภทราคา
+            'tPriceType' => !empty($this->input->post('ocmRptPriceType')) ? $this->input->post('ocmRptPriceType') : "",
         ];
 
         // ดึงข้อมูลบริษัทฯ
@@ -983,20 +988,58 @@ class cRptAdjPrice extends MX_Controller
             $aMulltiRow[] = WriterEntityFactory::createRow($aCells);
         }
 
-        if ((isset($this->aRptFilter['tCstCodeFrom']) && !empty($this->aRptFilter['tCstCodeFrom'])) && (isset($this->aRptFilter['tCstCodeTo']) && !empty($this->aRptFilter['tCstCodeTo']))) {
+        // ===== ฟิวเตอร์ข้อมูล วันที่มีผล ===========================================
+        if (isset($this->aRptFilter['tEffectiveDateFrom']) && !empty($this->aRptFilter['tEffectiveDateFrom']) && isset($this->aRptFilter['tEffectiveDateTo']) && !empty($this->aRptFilter['tEffectiveDateTo'])) {
+            $dEffectiveDateFrom = date('d/m/Y',strtotime($this->aRptFilter['tEffectiveDateFrom']));
+            $dEffectiveDateTo   = date('d/m/Y',strtotime($this->aRptFilter['tEffectiveDateTo']));
             $aCells = [
-                WriterEntityFactory::createCell($this->aText['tRptCstFrom'] . ' : ' . $this->aRptFilter['tCstCodeFrom'] . ' ' . $this->aText['tRptCstTo'] . ' : ' . $this->aRptFilter['tCstCodeTo']),
-                WriterEntityFactory::createCell(NULL),
-                WriterEntityFactory::createCell(NULL),
-                WriterEntityFactory::createCell(NULL),
-                WriterEntityFactory::createCell(NULL),
-                WriterEntityFactory::createCell(NULL),
-                WriterEntityFactory::createCell(NULL),
-                WriterEntityFactory::createCell(NULL),
-                WriterEntityFactory::createCell(NULL),
+                WriterEntityFactory::createCell($this->aText['tRptEffectiveDateFrom'] . ' : ' . $dEffectiveDateFrom . ' ' . $this->aText['tRptEffectiveDateTo'] . ' : ' . $dEffectiveDateTo ),
             ];
             $aMulltiRow[] = WriterEntityFactory::createRow($aCells);
         }
+
+        // ===== ฟิวเตอร์ข้อมูล สินค้า ===========================================
+        if (isset($this->aRptFilter['tRptPdtCodeFrom']) && !empty($this->aRptFilter['tRptPdtCodeFrom']) && isset($this->aRptFilter['tRptPdtCodeTo']) && !empty($this->aRptFilter['tRptPdtCodeTo'])) {
+            $aCells = [
+                WriterEntityFactory::createCell($this->aText['tPdtCodeFrom'] . ' : ' . $this->aRptFilter['tRptPdtNameFrom'] . ' ' . $this->aText['tPdtCodeTo'] . ' : ' . $this->aRptFilter['tRptPdtNameTo'] ),
+            ];
+            $aMulltiRow[] = WriterEntityFactory::createRow($aCells);
+        }
+
+        // ===== ฟิวเตอร์ข้อมูล หน่วยสินค้า =======================================
+        if (isset($this->aRptFilter['tRptPdtUnitCodeFrom']) && !empty($this->aRptFilter['tRptPdtUnitCodeFrom']) && isset($this->aRptFilter['tRptPdtUnitCodeTo']) && !empty($this->aRptFilter['tRptPdtUnitCodeTo'])) {
+            $aCells = [
+                WriterEntityFactory::createCell($this->aText['tRptPdtUnitFrom'] . ' : ' . $this->aRptFilter['tRptPdtUnitNameFrom'] . ' ' . $this->aText['tRptPdtUnitTo'] . ' : ' . $this->aRptFilter['tRptPdtUnitNameTo'] ),
+            ];
+            $aMulltiRow[] = WriterEntityFactory::createRow($aCells);
+        }
+
+        // ===== ฟิวเตอร์ข้อมูล กลุ่มราคาที่มีผล ===================================
+        if (isset($this->aRptFilter['tRptEffectivePriceGroupCodeFrom']) && !empty($this->aRptFilter['tRptEffectivePriceGroupCodeFrom']) && isset($this->aRptFilter['tRptEffectivePriceGroupCodeTo']) && !empty($this->aRptFilter['tRptEffectivePriceGroupCodeTo'])) {
+            $aCells = [
+                WriterEntityFactory::createCell($this->aText['tRptEffectivePriceGroupFrom'] . ' : ' . $this->aRptFilter['tRptEffectivePriceGroupNameFrom'] . ' ' . $this->aText['tRptEffectivePriceGroupTo'] . ' : ' . $this->aRptFilter['tRptEffectivePriceGroupNameTo'] ),
+            ];
+            $aMulltiRow[] = WriterEntityFactory::createRow($aCells);
+        }
+
+        // ===== ฟิวเตอร์ข้อมูล ประเภทราคา ===================================
+        if (isset($this->aRptFilter['tPriceType']) ) {
+            switch($this->aRptFilter['tPriceType']){
+                case '1':
+                    $tPriceTypeName = $this->aText['tRptPriceType1'];
+                    break;
+                case '2':
+                    $tPriceTypeName = $this->aText['tRptPriceType2'];
+                    break;
+                default:
+                $tPriceTypeName = $this->aText['tRptAll'];
+            }
+            $aCells = [
+                WriterEntityFactory::createCell($this->aText['tRptPriceType'] . ' : ' . $tPriceTypeName ),
+            ];
+            $aMulltiRow[] = WriterEntityFactory::createRow($aCells);
+        }
+
 
         return $aMulltiRow;
     }

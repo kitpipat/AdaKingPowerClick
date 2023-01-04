@@ -173,13 +173,11 @@
             <?php endif; ?>
 
             <?php if((isset($aDataFilter['tEffectiveDateFrom']) && !empty($aDataFilter['tEffectiveDateFrom'])) && (isset($aDataFilter['tEffectiveDateTo']) && !empty($aDataFilter['tEffectiveDateTo']))): ?>
-                <!-- ===== ฟิวเตอร์ข้อมูล วันที่มีผล ======================ชชชชชชชชชชชชช==== -->
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <div class="text-left">
-                            <label class="xCNRptFilterHead"><?php echo $aDataTextRef['tRptEffectiveDateFrom']?></label>   <label><?=date('d/m/Y',strtotime($aDataFilter['tEffectiveDateFrom']));?>  </label>&nbsp;
-                            <label class="xCNRptFilterHead"><?php echo $aDataTextRef['tRptEffectiveDateTo']?></label>     <label><?=date('d/m/Y',strtotime($aDataFilter['tEffectiveDateTo']));?>    </label>
-                        </div>
+                <!-- ===== ฟิวเตอร์ข้อมูล วันที่มีผล =========================================== -->
+                <div class="xCNRptFilterBox">
+                    <div class="text-left xCNRptFilter">
+                        <label class="xCNRptLabel xCNRptDisplayBlock"><span class="xCNRptFilterHead"><?php echo $aDataTextRef['tRptEffectiveDateFrom'].' : </span>'.date('d/m/Y',strtotime($aDataFilter['tEffectiveDateFrom']));?></label>
+                        <label class="xCNRptLabel xCNRptDisplayBlock"><span class="xCNRptFilterHead"><?php echo $aDataTextRef['tRptEffectiveDateTo'].' : </span>'.date('d/m/Y',strtotime($aDataFilter['tEffectiveDateTo']));?></label>
                     </div>
                 </div>
             <?php endif;?>
@@ -213,6 +211,27 @@
                     </div>
                 </div>
             <?php } ;?>
+
+            <?php if( isset($aDataFilter['tPriceType']) ) { ?>
+                <!-- ===== ฟิวเตอร์ข้อมูล ประเภทราคา =================================== -->
+                <?php
+                    switch($aDataFilter['tPriceType']){
+                        case '1':
+                            $tPriceTypeName = $aDataTextRef['tRptPriceType1'];
+                            break;
+                        case '2':
+                            $tPriceTypeName = $aDataTextRef['tRptPriceType2'];
+                            break;
+                        default:
+                        $tPriceTypeName = $aDataTextRef['tRptAll'];
+                    }
+                ?>
+                <div class="xCNRptFilterBox">
+                    <div class="text-left xCNRptFilter">
+                        <label class="xCNRptLabel xCNRptDisplayBlock"><span class="xCNRptFilterHead"><?php echo $aDataTextRef['tRptPriceType'].' : </span>'.$tPriceTypeName;?></label>
+                    </div>
+                </div>
+            <?php } ?>
 
         </div>
         <div class="xCNFooterPageRpt">

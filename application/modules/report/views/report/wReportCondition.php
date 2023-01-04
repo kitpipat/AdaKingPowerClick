@@ -2687,6 +2687,24 @@ if (FCNnHSizeOf($aCheckFltGroup) == 0) {
                                     }
                                     break;
                                 }
+                                case '204': { // ประเภทราคา
+                                    if ($aRptFilValue['FTRptFltStaFrm'] == '1') {
+                                        $tCoditionReportFrom    .= "
+                                            <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
+                                                <div class=''>
+                                                    <div class='input-group xCNNewUISelect' style='width:100%'>
+                                                        <select class='selectpicker xCNNewUISelectoption' id='ocmRptPriceType' name='ocmRptPriceType'>
+                                                            <option value=''>" . language('report/report/report', 'tRptAll') . "</option>
+                                                            <option value='1'>" . language('report/report/report', 'tRptPriceType1') . "</option>
+                                                            <option value='2'>" . language('report/report/report', 'tRptPriceType2') . "</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ";
+                                    }
+                                    break;
+                                }
                             }
                             ?>
 
