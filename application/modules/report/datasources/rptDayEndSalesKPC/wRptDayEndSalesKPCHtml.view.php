@@ -131,7 +131,7 @@ $nTotalPage     = $aDataReport["aPagination"]["nTotalPage"];
                                         <?php    }
                                         }
                                         ?>
-                                        <td class="text-right xCNRptDetail"><?php echo number_format($aValue["FCXshGrand"], $nOptDecimalShow); ?></td>
+                                        <td class="text-right xCNRptDetail"><b><?php echo number_format($aValue["FCXshGrand"], $nOptDecimalShow); ?></b></td>
                                     <?php } ?>
 
                                     <!-- Type 2 คือส่วนลด -->
@@ -153,7 +153,7 @@ $nTotalPage     = $aDataReport["aPagination"]["nTotalPage"];
                                         <?php    }
                                         }
                                         ?>
-                                        <td class="text-right xCNRptDetail"><?php echo number_format($aValue["FCXshGrand"], $nOptDecimalShow); ?></td>
+                                        <td class="text-right xCNRptDetail"><b><?php echo number_format($aValue["FCXshGrand"], $nOptDecimalShow); ?></b></td>
                                     <?php } ?>
 
                                     <!-- Type 2 คือปัดเศษ -->
@@ -177,7 +177,7 @@ $nTotalPage     = $aDataReport["aPagination"]["nTotalPage"];
                                         <?php    }
                                         }
                                         ?>
-                                        <td class="text-right xCNRptDetail"><?php echo number_format($aValue["FCXshGrand"], $nOptDecimalShow); ?></td>
+                                        <td class="text-right xCNRptDetail"><b><?php echo number_format($aValue["FCXshGrand"], $nOptDecimalShow); ?></b></td>
                                     <?php } ?>
 
                                     <!-- Type 2 ยอดขายรวม -->
@@ -199,11 +199,11 @@ $nTotalPage     = $aDataReport["aPagination"]["nTotalPage"];
                                         <?php    }
                                         }
                                         ?>
-                                        <td class="text-right xCNRptDetail"><?php echo number_format($aValue["FCXshGrand"], $nOptDecimalShow); ?></td>
+                                        <td class="text-right xCNRptDetail"><b><?php echo number_format($aValue["FCXshGrand"], $nOptDecimalShow); ?></b></td>
                                     <?php } ?>
 
 
-                                    <!-- Type 5 คือประเภทเงิน -->
+                                    <!-- Type 5 ประเภทการชำระเงิน -->
                                     <?php if ($aValue["FTXihValType"] == '5') { ?>
                                         <td class="text-left xCNRptDetail">
                                             <?php
@@ -229,7 +229,7 @@ $nTotalPage     = $aDataReport["aPagination"]["nTotalPage"];
                                         <td class="text-right xCNRptDetail"><?php echo number_format($aValue["FCXshGrand"], $nOptDecimalShow); ?></td>
                                     <?php } ?>
 
-                                    <!-- Type 6 ยอดขายจากการใช้ใบคืน	 -->
+                                    <!-- Type 6 ยอด void (ภายในวัน)	 -->
                                     <?php if ($aValue["FTXihValType"] == '6') { ?>
                                         <td class="text-left xCNRptDetail">
                                             <?php echo $aValue["FTRcvName"]; ?>
@@ -257,7 +257,7 @@ $nTotalPage     = $aDataReport["aPagination"]["nTotalPage"];
                                         <?php    }
                                         }
                                         ?>
-                                        <td class="text-right xCNRptDetail"><?php echo number_format($aValue["FCXshGrand"], $nOptDecimalShow); ?></td>
+                                        <td class="text-right xCNRptDetail"><b><?php echo number_format($aValue["FCXshGrand"], $nOptDecimalShow); ?></b></td>
                                     <?php } ?>
 
 
@@ -280,7 +280,7 @@ $nTotalPage     = $aDataReport["aPagination"]["nTotalPage"];
                                         <?php    }
                                         }
                                         ?>
-                                        <td class="text-right xCNRptDetail" style='border-bottom: dashed 1px #333 !important;'><?php echo number_format($aValue["FCXshGrand"], $nOptDecimalShow); ?></td>
+                                        <td class="text-right xCNRptDetail" style='border-bottom: dashed 1px #333 !important;'><b><?php echo number_format($aValue["FCXshGrand"], $nOptDecimalShow); ?></b></td>
                                     <?php } ?>
 
 
