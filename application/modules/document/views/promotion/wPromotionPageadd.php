@@ -483,18 +483,28 @@ $bIsAlwPmtDisAvg = $tAlwPmtDisAvgConfig == "1";
 								<div class="form-group">
 									<label class="xCNLabelFrm"><?php echo language('document/promotion/promotion', 'tLabel5'); ?></label>
 									<?php
-									$aIsAlwFuncInRoleParams = [
-										"tUfrGrpRef" => "050",
-										"tUfrRef" => "KB106",
-										"tGhdApp" => "SB"
-									];
-									$bIsAlwFuncInRoleBruteForced = FCNbIsAlwFuncInRole($aIsAlwFuncInRoleParams);
+										$aIsAlwFuncInRoleParams = [
+											"tUfrGrpRef" 	=> "050",
+											"tUfrRef" 		=> "KB106",
+											"tGhdApp" 		=> "SB"
+										];
+										$bIsAlwFuncInRoleBruteForced = FCNbIsAlwFuncInRole($aIsAlwFuncInRoleParams);
+
+										$aIsAlwFuncInRoleParams = [
+											"tUfrGrpRef" 	=> "050",
+											"tUfrRef" 		=> "KB107",
+											"tGhdApp" 		=> "SB"
+										];
+										$bIsAlwFuncInRoleMemberPrice = FCNbIsAlwFuncInRole($aIsAlwFuncInRoleParams);
 									?>
 									<select class="selectpicker form-control" id="ocmPromotionPmhStaGrpPriority" name="ocmPromotionPmhStaGrpPriority" <?php echo ($bIsApvOrCancel) ? 'disabled' : ''; ?>>
 										<option value='0' <?php echo ($tPmhStaGrpPriority == "0") ? 'selected' : ''; ?>><?php echo language('document/promotion/promotion', 'Price Group'); ?></option>
 										<option value='1' <?php echo ($tPmhStaGrpPriority == "1") ? 'selected' : ''; ?>><?php echo language('document/promotion/promotion', 'The Best'); ?></option>
 										<?php if ($bIsAlwFuncInRoleBruteForced) { ?>
 											<option value='2' <?php echo ($tPmhStaGrpPriority == "2") ? 'selected' : ''; ?>><?php echo language('document/promotion/promotion', 'Brute Forced'); ?></option>
+										<?php } ?>
+										<?php if ($bIsAlwFuncInRoleMemberPrice) { ?>
+											<option value='3' <?php echo ($tPmhStaGrpPriority == "3") ? 'selected' : ''; ?>><?php echo language('document/promotion/promotion', 'Member Price'); ?></option>
 										<?php } ?>
 									</select>
 								</div>
